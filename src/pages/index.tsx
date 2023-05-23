@@ -21,6 +21,9 @@ const Home: NextPage = () => {
       <div>
         meow
       </div>
+      <div>
+        meow 2
+      </div>
     </>
   );
 };
