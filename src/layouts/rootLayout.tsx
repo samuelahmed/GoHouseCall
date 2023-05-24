@@ -1,14 +1,20 @@
-// import Navbar from './navbar';
+import { Header } from "./header";
+
 // import Footer from './footer';
 
 //This is the main layout for the app
 //It will be used to wrap all the pages
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
-      {/* <Navbar /> */}
-      <main className="bg-yellow-500">{children}</main>
+      <Header />
+
+      <main className="">{children}</main>
       {/* <Footer /> */}
     </>
   );
