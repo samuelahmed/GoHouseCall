@@ -1,24 +1,10 @@
 // import Navbar from './navbar';
 // import Footer from './footer';
 
+//This is the main layout for the app
+//It will be used to wrap all the pages
 
-// export default function RootLayout({
-  //   children,
-  // }: {
-  //   children: React.ReactNode;
-  // }) {
-  //   return (
-  //     <html lang="en">
-  //       <body className="bg-yellow-300">{children}</body>
-  //     </html>
-  //   );
-  // }
-
-
-
- 
 export default function Layout({ children }: { children: React.ReactNode }) {
-
 
   return (
     <>
