@@ -11,8 +11,8 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Create T3 App</title>
-        <meta name="House Call" content="Connecting patients and caregivers" />
+        <title>House Call</title>
+        <meta name="description" content="Connecting patients and caregivers" />
         <link
           // rel="iscon" not sure what this is
           href="/faviconLarge.png"
