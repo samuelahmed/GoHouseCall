@@ -4,8 +4,7 @@
 //This is the main layout for the app
 //It will be used to wrap all the pages
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* <Navbar /> */}
