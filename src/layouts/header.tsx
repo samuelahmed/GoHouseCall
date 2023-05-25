@@ -23,7 +23,6 @@ export function Header() {
           }}
         >
           <Image
-            //setup this way to avoid browser warning
             src="/faviconLarge.png"
             alt="HC Logo"
             width={0}
