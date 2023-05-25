@@ -22,7 +22,15 @@ export function Header() {
             void router.push("/");
           }}
         >
-          <Image src="/faviconLarge.png" alt="HC Logo" width={30} height={30} />
+          <Image
+            //setup this way to avoid browser warning
+            src="/faviconLarge.png"
+            alt="HC Logo"
+            width={0}
+            height={0}
+            sizes="30px"
+            style={{ width: "30px", height: "auto" }}
+          />
           <text className="font-robotoSlab">House Call</text>
         </div>
         <div className="flex w-full items-center  justify-center px-4 text-olive1">
