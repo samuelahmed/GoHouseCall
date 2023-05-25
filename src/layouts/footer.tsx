@@ -1,12 +1,21 @@
+import { Button } from "~/components/ui/button";
 
 export function Footer() {
   return (
-    <footer className=" h-10 bg-gray4 text-olive12">
+    <footer className=" h-12 bg-gray4 text-olive12">
       <div className="flex h-full w-full items-center justify-end py-4">
-        <div className="px-4">About</div>
-        <div className="px-4">Contact</div>
-        <div className="px-4">Terms</div>
-        <div className="px-4">Privacy</div>
+        <Button variant="ghost" size="sm">
+          Contact
+        </Button>
+        <Button variant="ghost" size="sm">
+          About
+        </Button>
+        <Button variant="ghost" size="sm">
+          Terms
+        </Button>
+        <Button variant="ghost" size="sm">
+          Privacy
+        </Button>
       </div>
     </footer>
   );
