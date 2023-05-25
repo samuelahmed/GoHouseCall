@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession} from "next-auth/react";
 // import { api } from "~/utils/api";
+import { Button } from "~/components/ui/button";
 
 const SignInOutTrigger: React.FC = () => {
 
@@ -16,12 +17,14 @@ const SignInOutTrigger: React.FC = () => {
     // <div className="flex flex-col items-center justify-center ">
     //   <p className="text-center ">
     //   </p>
-      <button
-        className=""
+    // <Button variant="destructive">Destructive</Button>
+      <Button
+        className="text-olive1"
+        variant='ghost'
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}
-      </button>
+      </Button>
     // </div>
   );
 };
