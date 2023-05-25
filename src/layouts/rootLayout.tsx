@@ -14,7 +14,7 @@ export default function RootLayout({
       </Head>
       <div className="font-roboto">
         <Header />
-        <main className="">{children}</main>
+        <main>{children}</main>
         <Footer />
       </div>
     </>

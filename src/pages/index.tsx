@@ -11,9 +11,9 @@ const Home: NextPage = () => {
         <title>House Call</title>
         <meta name="description" content="Connecting patients and caregivers" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center ">
+      <div className="flex min-h-screen flex-col items-center justify-center ">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-      </main>
+      </div>
     </>
   );
 };

@@ -1,6 +1,9 @@
 import { Button } from "~/components/ui/button";
+import { useRouter } from "next/router";
 
 export function Footer() {
+  const router = useRouter();
+
   return (
     <footer className="h-12 bg-gray4 text-olive12">
       <div className="flex h-full w-full items-center justify-end px-4 py-4">
@@ -13,7 +16,13 @@ export function Footer() {
         <Button variant="ghost" size="sm">
           Terms
         </Button>
-        <Button variant="ghost" size="sm">
+        <Button
+          onClick={() => {
+            void router.push("/privacy");
+          }}
+          variant="ghost"
+          size="sm"
+        >
           Privacy
         </Button>
       </div>
