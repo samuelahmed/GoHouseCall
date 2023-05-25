@@ -1,10 +1,6 @@
 import { Header } from "./header";
 import { Footer } from "./footer";
-
-// import Footer from './footer';
-
-//This is the main layout for the app
-//It will be used to wrap all the pages
+import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -13,10 +9,14 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <Header />
-
-      <main className="">{children}</main>
-      <Footer />
+      <Head>
+        <link rel="icon" href="/faviconLarge.png" />
+      </Head>
+      <div className="font-roboto">
+        <Header />
+        <main className="">{children}</main>
+        <Footer />
+      </div>
     </>
   );
 }

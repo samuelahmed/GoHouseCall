@@ -2,6 +2,7 @@ import SignInOutTrigger from "~/components/auth/authShowcase";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Input } from "~/components/ui/input";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,29 +10,32 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigationMenu";
-import { Input } from "~/components/ui/input";
 
 export function Header() {
   const router = useRouter();
-
   return (
     <header className="">
       <div className="flex h-14 w-full items-center  bg-blue12 px-1 md:px-4">
         <div
-          className="flex min-w-fit items-center space-x-2 px-4 text-xl text-olive1 hover:cursor-pointer"
+          className="flex min-w-fit items-center space-x-2 px-2 text-xl text-olive1 hover:cursor-pointer"
           onClick={() => {
             void router.push("/");
           }}
         >
-          <Image src="/faviconLarge.png" alt="HC Logo" width={30} height={30} />
-          <text>House Call</text>
+          <Image
+            src="/faviconLarge.png"
+            alt="HC Logo"
+            width={0}
+            height={0}
+            sizes="30px"
+            style={{ width: "30px", height: "auto" }}
+          />
+          <text className="font-robotoSlab">House Call</text>
         </div>
-
         <div className="flex w-full items-center  justify-center px-4 text-olive1">
           <Input placeholder="Search" className="max-w-lg" />
         </div>
-
-        <div className="min-w-fit">
+        <div className="min-w-fit px-2">
           <SignInOutTrigger />
         </div>
       </div>
