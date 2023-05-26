@@ -13,7 +13,12 @@ export function Footer() {
         <Button variant="ghost" size="sm">
           About
         </Button>
-        <Button variant="ghost" size="sm">
+        <Button 
+                  onClick={() => {
+                    void router.push("/terms");
+                  }}
+        
+        variant="ghost" size="sm">
           Terms
         </Button>
         <Button
