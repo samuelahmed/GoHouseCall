@@ -4,7 +4,9 @@ import { Button } from "~/components/ui/button";
 import { AspectRatio } from "~/components/ui/aspectRatio";
 
 export function AboutHouseCall() {
+
   const router = useRouter();
+
   return (
     <div className="px-2">
       <h1 className="text-center text-3xl md:py-4  md:text-4xl">
