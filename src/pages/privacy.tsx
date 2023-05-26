@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { PrivacyPolicy } from "~/components/legal/privacyPolicy";
 
-const Home: NextPage = () => {
+const Privacy: NextPage = () => {
   return (
     <>
       <Head>
@@ -19,4 +19,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Privacy;
