@@ -13,7 +13,7 @@ export default function RootLayout({
         <link rel="icon" href="/faviconLarge.png" />
         <meta 
         //add image for url
-        name="viewport" 
+        // name="viewport" 
         // content="width=device-width, initial-scale=1" 
         />
       </Head>
