@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { AboutHouseCall } from "~/components/aboutHouseCall";
+import { AboutHouseCall } from "~/components/marketing/aboutHouseCall";
 
 const About: NextPage = () => {
   return (
