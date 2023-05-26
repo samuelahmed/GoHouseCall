@@ -7,11 +7,11 @@ export function PrivacyPolicy() {
       <p className="py-1 md:py-2">
         This page is used to inform website visitors regarding our policies with
         the collection, use, and disclosure of Personal Information if anyone
-        decided to use our Service, the www.housecall.com website.
+        decided to use our Service, the www.gohousecall.com website.
       </p>
       <h2 className="py-1 text-xl md:py-2 md:text-2xl">1. Introduction</h2>
       <p className="py-1 md:py-2">
-        House Call operates the www.housecall.com website, which provides the
+        House Call operates the www.gohousecall.com website, which provides the
         service.
       </p>
       <p className="py-1 md:py-2">
@@ -23,7 +23,7 @@ export function PrivacyPolicy() {
       </p>
       <p className="py-1 md:py-2">
         The terms used in this Privacy Policy have the same meanings as in our
-        Terms and Conditions, which is accessible at www.housecall.com/terms,
+        Terms and Conditions, which is accessible at www.gohousecall.com/terms,
         unless otherwise defined in this Privacy Policy.
       </p>
       <h2 className="py-1 text-xl md:py-2 md:text-2xl">
