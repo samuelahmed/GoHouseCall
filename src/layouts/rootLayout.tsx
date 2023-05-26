@@ -11,11 +11,6 @@ export default function RootLayout({
     <>
       <Head>
         <link rel="icon" href="/faviconLarge.png" />
-        <meta 
-        //add image for url
-        // name="viewport" 
-        // content="width=device-width, initial-scale=1" 
-        />
       </Head>
       <div className="font-roboto">
         <Header />
