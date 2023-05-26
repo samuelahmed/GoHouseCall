@@ -116,7 +116,7 @@ export function AboutHouseCall() {
       <h1 className="py-4 text-center text-3xl md:py-2 md:text-4xl">
         Our Community
       </h1>
-      <h3 className="py-1 text-2xl md:py-2">Patients</h3>
+      <h2 className="py-1 text-2xl md:py-2">Patients</h2>
       <p className="py-1 md:py-2">
         We built House Call to help patients improve their quality of life.
         Anyone who needs help with their daily activities is welcome to join
