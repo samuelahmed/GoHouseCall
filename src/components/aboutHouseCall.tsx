@@ -4,114 +4,69 @@ import { Button } from "~/components/ui/button";
 import { AspectRatio } from "~/components/ui/aspectRatio";
 
 export function AboutHouseCall() {
-
   const router = useRouter();
 
   return (
-    <div className="px-2">
-      <h1 className="text-center text-3xl md:py-4  md:text-4xl">
-        Connecting <span className="text-blue11">Patients </span>
-        with <span className="text-blue11">Caregivers</span>
-      </h1>
-      <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-1">
-        <div className="cols-span-1 flex flex-col px-2 py-4 md:px-4">
-          <h2 className="py-2 text-center text-2xl  ">
-            Find the perfect caregiver
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className=" w-full px-4 py-4 ">
+          <h1 className="overflow-hidden py-4 text-4xl font-bold md:text-8xl">
+            Connecting <span className="text-blue11">Patients </span>
+            with <span className="text-blue11">Caregivers</span>
+          </h1>
+          <h2 className="py-4 text-2xl md:text-4xl">
+            Care in the comfort of your home
           </h2>
-          <p className=" py-2 ">
-            Connect with compassionate caregivers who can assist you with your
-            daily needs.
-          </p>
+        </div>
 
-          <h2 className="mt-8 py-2 text-center text-2xl ">
-            Discover patients who need your help
-          </h2>
-          <p className="py-2">
-            Satisfy your passion by helping patients and earn while doing so.
-          </p>
-          <h2 className="mt-8 py-2 text-center text-2xl ">
-            Build lifelong relationships
-          </h2>
-          <p className="py-2">
-            Meet locals who need your services and caregivers to improve your
-            quality of life.
-          </p>
-        </div>
-        <div className="cols-span-1 px-2 py-4 md:px-4">
-          <div className="grid grid-cols-1">
-            <AspectRatio ratio={16 / 9} className="bg-muted">
-              <Image
-                src="/aboutSquare2.png"
-                alt="House Call Example Patient"
-                fill
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
-          </div>
-        </div>
-        {/* for md screens and up */}
-        <div className="cols-span-1 hidden py-4 md:mt-8 md:block md:px-4">
-          <div className="col-span-1">
-            <AspectRatio ratio={16 / 9} className="bg-muted">
-              <Image
-                src="/aboutSquare1.png"
-                alt="House Call Example Patient"
-                fill
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
-          </div>
-        </div>
-        <div className="cols-span-1 flex-center justify-top flex flex-col px-2 md:mt-8 md:px-4">
-          <h2 className=" py-2 text-center text-2xl ">Control your sessions</h2>
-          <p className="py-2">
-            Patients have full control of their sessions and caregivers can
-            discover and apply to sessions that fit their skills and schedule.
-          </p>
-          <h2 className="mt-8 py-2 text-center text-2xl ">
-            Meet in the comfort of home
-          </h2>
-          <p className="py-2">
-            By default all sessions are in the comfort of the patients home.
-            Ultimately up to the patient and caregiver to decide how to best
-            hold their sessions.
-          </p>
-          <h2 className="mt-8 py-2 text-center text-2xl ">
-            Easily get started right now
-          </h2>
-          <p className="py-2">
-            You can get started right now with three easy steps:
-          </p>
-          <ul>
-            <li>1. Register your account</li>
-            <li>2. Select your role</li>
-            <li>3. Create or apply to sessions</li>
+        <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-2">
+          {/* <div className=" flex"> */}
+          <ul className=" grid w-full list-disc content-around px-4 py-4">
+            <li className="text-lg md:text-2xl ">Find the perfect caregiver</li>
+
+            <li className="text-lg md:text-2xl ">Control your sessions</li>
+
+            <li className="text-lg md:text-2xl ">Build lifelong relationships</li>
+            <li className=" text-lg md:text-2xl ">Discover patients who need your help</li>
           </ul>
-          <div className="my-4 flex items-center justify-center">
-            <Button
-              className="bg-blue11 hover:bg-blue12"
-              variant="default"
-              size="lg"
-              onClick={() => {
-                void router.push("/register");
-              }}
-            >
-              Get Started
-            </Button>
+
+          <div className="w-full">
+            <div className="px-2 py-2">
+              <AspectRatio ratio={16 / 9} className="bg-muted ">
+                <Image
+                  src="/aboutSquare2.png"
+                  alt="House Call Example Patient"
+                  fill
+                  className="rounded-md object-cover"
+                />
+              </AspectRatio>
+            </div>
+
+            <div className="px-2 py-2">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
+                <Image
+                  src="/aboutSquare1.png"
+                  alt="House Call Example Patient"
+                  fill
+                  className="rounded-md object-cover"
+                />
+              </AspectRatio>
+            </div>
           </div>
         </div>
-        <div className="cols-span-1 block px-2 md:hidden">
-          <div className="col-span-1">
-            <AspectRatio ratio={16 / 9} className="bg-muted">
-              <Image
-                src="/aboutSquare1.png"
-                alt="House Call Example Patient"
-                fill
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
-          </div>
-        </div>
+      </div>
+
+      <div className="my-4 flex items-center justify-center">
+        <Button
+          className="bg-blue11 hover:bg-blue12"
+          variant="default"
+          size="lg"
+          onClick={() => {
+            void router.push("/register");
+          }}
+        >
+          Get Started
+        </Button>
       </div>
       <h1 className="py-4 text-center text-3xl md:py-2 md:text-4xl">
         Our Community
@@ -135,9 +90,20 @@ export function AboutHouseCall() {
       </p>
       <h2 className="py-1 text-2xl md:py-2">Sessions</h2>
       <p className="py-1 md:py-2">
-        House Call operates the www.gohousecall.com website, which provides the
-        service.
+        Care sessions are the core of House Call. They are created by patients to describe their needs. Caregivers can apply to sessions that match their skills and interests.
+        When a caregiver applies to a session, the patient will be able to message them to discuss details, make sure they are a good fit, and ultimatelly accept them as their caregiver.
       </p>
-    </div>
+
+      <h2 className="py-1 text-2xl md:py-2">Easily get started right now</h2>
+      <p className="py-1 md:py-2">
+        You can get started right now with three easy steps:
+      </p>
+      <ul>
+        <li>1. Register your account</li>
+        <li>2. Select your role</li>
+        <li>3. Create or apply to sessions</li>
+      </ul>
+
+    </>
   );
 }
