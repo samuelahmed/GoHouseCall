@@ -5,9 +5,15 @@ export function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="h-12 bg-gray4 text-olive12 relative">
+    <footer className="relative h-12 bg-gray4 text-olive12">
       <div className="flex h-full w-full items-center justify-end px-4 py-4">
-        <Button variant="ghost" size="sm">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            void router.push("/contact");
+          }}
+        >
           Contact
         </Button>
         <Button
