@@ -11,12 +11,12 @@ export function HomeDisplay() {
     <>
       <div className="relative">
         <div className="absolute inset-0">
-          <div className="grid min-h-screen max-h-screen grid-cols-2 overflow-hidden">
+          <div className="grid max-h-screen min-h-screen grid-cols-2 overflow-hidden">
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
                 src="/housecalloption2.jpeg"
                 alt="background image"
-                className="rounded-md object-cover"
+                className="object-cover"
                 fill
               />
             </AspectRatio>
@@ -24,7 +24,7 @@ export function HomeDisplay() {
               <Image
                 src="/housecalloption6.jpeg"
                 alt="background image"
-                className="rounded-md object-cover"
+                className="object-cover"
                 fill
               />
             </AspectRatio>
@@ -33,7 +33,7 @@ export function HomeDisplay() {
               <Image
                 src="/housecalloption4.jpeg"
                 alt="background image"
-                className="rounded-md object-cover"
+                className="object-cover"
                 fill
               />
             </AspectRatio>
@@ -41,16 +41,16 @@ export function HomeDisplay() {
               <Image
                 src="/housecalloption5.jpeg"
                 alt="background image"
-                className="rounded-md object-cover"
+                className="object-cover"
                 fill
               />
             </AspectRatio>
           </div>
         </div>
-        <div className="z s-10 relative flex min-h-screen max-h-screen items-center justify-center">
+        <div className="z s-10 relative flex max-h-screen min-h-screen items-center justify-center">
           <div className=" border:bg-yellow3 mx-4 flex flex-col items-center justify-center  rounded-xl bg-gradient-to-r from-white via-white to-blue11">
-            <div className=" w-full px-4 py-4 ">
-              <h1 className=" py-4 text-5xl font-bold md:text-8xl ">
+            <div className=" w-full px-4 py-4 pr-8 md:pr-20">
+              <h1 className="py-4 text-5xl font-bold md:text-8xl ">
                 Connecting <span className="text-blue11">Patients </span>
                 with <span className="text-blue11">Caregivers</span>
               </h1>
