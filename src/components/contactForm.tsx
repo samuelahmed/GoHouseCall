@@ -1,3 +1,6 @@
+"use client"
+
+
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -20,10 +23,8 @@ export function ContactForm() {
             Contact Us
           </CardTitle>
           <CardDescription>
-            <p>
               Please fill out the form below and the House Call team will get back to you as soon
               as possible.
-            </p>
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
