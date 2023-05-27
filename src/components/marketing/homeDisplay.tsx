@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button } from "~/components/ui/button";
 import { AspectRatio } from "~/components/ui/aspectRatio";
+import { signIn } from "next-auth/react";
+
 
 export function HomeDisplay() {
   const router = useRouter();
@@ -46,55 +48,39 @@ export function HomeDisplay() {
             </AspectRatio>
           </div>
         </div>
-        <div className="relative z-10 flex h-screen items-center justify-center">
-          <div className=" flex flex-col items-center justify-center border rounded-xl mx-4 bg-white ">
+        <div className="relative z s-10 flex h-screen items-center justify-center">
+          <div className=" mx-4 flex flex-col items-center justify-center rounded-xl border bg-white ">
             <div className=" w-full px-4 py-4 ">
-              <h1 className=" py-4 text-4xl font-bold md:text-8xl ">
+              <h1 className=" py-4 text-5xl font-bold md:text-8xl ">
                 Connecting <span className="text-blue11">Patients </span>
                 with <span className="text-blue11">Caregivers</span>
               </h1>
-              <div className="flex justify-around py-4 space-x-1"> 
-              <Button
-          className=""
-          variant="default"
-          size="lg"
-          onClick={() => {
-            void router.push("/about");
-          }}
-        >
-         Learn More
-        </Button>
-        <Button
-          className=""
-          variant="default"
-          size="lg"
-          onClick={() => {
-            void router.push("/register");
-          }}
-        >
-          Register
-        </Button>
-        <Button
-          className=""
-          variant="default"
-          size="lg"
-          onClick={() => {
-            void router.push("/register");
-          }}
-        >
-          Sign In
-        </Button>
+              <div className="flex justify-end space-x-2 py-4">
+                <Button
+                  className=""
+                  variant="default"
+                  size="lg"
+                  onClick={() => {
+                    void router.push("/about");
+                  }}
+                >
+                  Learn More
+                </Button>
 
-
-
+                <Button
+                  className=""
+                  variant="default"
+                  size="lg"
+                  onClick={() => {
+                    void signIn();
+                  }}
+                >
+                  Sign In
+                </Button>
               </div>
-
             </div>
           </div>
         </div>
-
-
-
       </div>
     </>
   );
