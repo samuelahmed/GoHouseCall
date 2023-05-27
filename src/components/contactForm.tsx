@@ -15,7 +15,7 @@ import { Textarea } from "~/components/ui/textarea";
 
 export function ContactForm() {
   return (
-    <div className="flex min-h-screen flex-col-reverse items-center justify-center md:flex-row">
+    <div className="flex min-h-screen flex-col-reverse md:flex-row">
       <div className="w-full px-10 py-10">
         <Card className="">
           <CardHeader>
@@ -46,7 +46,20 @@ export function ContactForm() {
           </CardFooter>
         </Card>
       </div>
-      <div className="flex w-full flex-col px-10 py-10">
+      <div className="flex min-h-full w-full flex-col space-y-10 px-10 pt-10">
+        <Card className="">
+          <CardHeader>
+            <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+              Help Center
+            </CardTitle>
+            <CardDescription className="text-lg">
+              Find answers to your questions and get the help you need.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <Button>Help Center</Button>
+          </CardContent>
+        </Card>
         <Card className="">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
