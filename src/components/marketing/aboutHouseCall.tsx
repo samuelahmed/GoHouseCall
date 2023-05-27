@@ -9,7 +9,7 @@ export function AboutHouseCall() {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className=" w-full px-4 py-4 ">
+        <div className="flex w-full items-center justify-center px-4 py-4">
           <h1 className="overflow-hidden py-4 text-4xl font-bold md:text-8xl">
             Care in the comfort <span className="text-blue11">comfort </span>
             of your <span className="text-blue11">home</span>
