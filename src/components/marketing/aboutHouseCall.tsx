@@ -107,6 +107,19 @@ export function AboutHouseCall() {
         <li>2. Select your role</li>
         <li>3. Create or apply to sessions</li>
       </ul>
+
+      <div className="my-4 flex ">
+        <Button
+          className="bg-blue11 hover:bg-blue12"
+          variant="default"
+          size="lg"
+          onClick={() => {
+            void router.push("/register");
+          }}
+        >
+          Register
+        </Button>
+      </div>
     </>
   );
 }

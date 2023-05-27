@@ -5,7 +5,7 @@ export function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="h-12 bg-gray4 text-olive12">
+    <footer className="h-12 bg-gray4 text-olive12 relative">
       <div className="flex h-full w-full items-center justify-end px-4 py-4">
         <Button variant="ghost" size="sm">
           Contact

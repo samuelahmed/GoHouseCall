@@ -4,7 +4,6 @@ import { Button } from "~/components/ui/button";
 import { AspectRatio } from "~/components/ui/aspectRatio";
 import { signIn } from "next-auth/react";
 
-
 export function HomeDisplay() {
   const router = useRouter();
 
@@ -12,7 +11,7 @@ export function HomeDisplay() {
     <>
       <div className="relative">
         <div className="absolute inset-0">
-          <div className="grid min-h-full grid-cols-2">
+          <div className="grid min-h-screen grid-cols-2">
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
                 src="/housecalloption2.jpeg"
@@ -40,7 +39,7 @@ export function HomeDisplay() {
             </AspectRatio>
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
-                src="/housecalloption4.jpeg"
+                src="/housecalloption5.jpeg"
                 alt="background image"
                 className="rounded-md object-cover"
                 fill
@@ -48,8 +47,8 @@ export function HomeDisplay() {
             </AspectRatio>
           </div>
         </div>
-        <div className="relative z s-10 flex h-screen items-center justify-center">
-          <div className=" mx-4 flex flex-col items-center justify-center rounded-xl border bg-white ">
+        <div className="z s-10 relative flex h-screen items-center justify-center">
+          <div className=" border:bg-yellow3 mx-4 flex flex-col items-center justify-center  rounded-xl bg-gradient-to-r from-white via-white to-blue11">
             <div className=" w-full px-4 py-4 ">
               <h1 className=" py-4 text-5xl font-bold md:text-8xl ">
                 Connecting <span className="text-blue11">Patients </span>
