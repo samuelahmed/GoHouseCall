@@ -41,8 +41,7 @@ export function ContactForm() {
               <Textarea className="h-40" id="description" />
             </div>
           </CardContent>
-          <CardFooter className="justify-between space-x-2">
-            <Button variant="ghost">Cancel</Button>
+          <CardFooter className="justify-end space-x-2">
             <Button>Submit</Button>
           </CardFooter>
         </Card>
