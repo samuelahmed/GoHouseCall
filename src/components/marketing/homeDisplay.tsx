@@ -49,8 +49,8 @@ export function HomeDisplay() {
         </div>
         <div className="z s-10 relative flex max-h-screen min-h-screen items-center justify-center">
           <div className=" border:bg-yellow3 mx-4 flex flex-col items-center justify-center  rounded-xl bg-gradient-to-r from-white via-white to-blue11">
-            <div className=" w-full px-4 py-4 pr-8 md:pr-20  xl:pr-36">
-              <h1 className="py-4 text-5xl font-bold md:text-8xl">
+            <div className=" w-full px-4 py-4 pr-8 md:pr-20 xl:pr-36">
+              <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                 Connecting <span className="text-blue11">Patients </span>
                 with <span className="text-blue11">Caregivers</span>
               </h1>
