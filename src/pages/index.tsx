@@ -14,9 +14,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Connecting patients and caregivers" />
       </Head>
       {!sessionData && (
-        <div className=" ">
           <HomeDisplay />
-        </div>
       )}
       {sessionData && (
 
