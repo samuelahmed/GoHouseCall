@@ -39,7 +39,7 @@ export function HomeDisplay() {
             </AspectRatio>
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
-                src="/housecalloption4.jpeg"
+                src="/housecalloption5.jpeg"
                 alt="background image"
                 className="rounded-md object-cover"
                 fill
