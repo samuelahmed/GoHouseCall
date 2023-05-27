@@ -11,7 +11,7 @@ export function HomeDisplay() {
     <>
       <div className="relative">
         <div className="absolute inset-0">
-          <div className="grid min-h-screen grid-cols-2">
+          <div className="grid min-h-screen max-h-screen grid-cols-2">
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
                 src="/housecalloption2.jpeg"
@@ -47,7 +47,7 @@ export function HomeDisplay() {
             </AspectRatio>
           </div>
         </div>
-        <div className="z s-10 relative flex h-screen items-center justify-center">
+        <div className="z s-10 relative flex max-h-screen items-center justify-center">
           <div className=" border:bg-yellow3 mx-4 flex flex-col items-center justify-center  rounded-xl bg-gradient-to-r from-white via-white to-blue11">
             <div className=" w-full px-4 py-4 ">
               <h1 className=" py-4 text-5xl font-bold md:text-8xl ">
