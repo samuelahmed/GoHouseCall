@@ -17,7 +17,7 @@ const Notifications: NextPage = () => {
             <div>
               <h3 className="text-lg font-medium">Notifications</h3>
               <p className="text-sm text-muted-foreground">
-                Update your notifications settings. Set you email preferences
+                Update your notifications settings. Set your email preferences
                 and frequency.
               </p>
             </div>
