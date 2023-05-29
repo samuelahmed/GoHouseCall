@@ -58,9 +58,9 @@ export function Header() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
+                <Link href="/settings/profile" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Account
+                    Settings
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
