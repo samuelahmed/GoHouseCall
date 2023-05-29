@@ -17,8 +17,7 @@ const Profile: NextPage = () => {
             <div>
               <h3 className="text-lg font-medium">Profile</h3>
               <p className="text-sm text-muted-foreground">
-                Update your profile settings. Set your username, bio, and add
-                links to your social media profiles.
+                Public information about your account that will be visible to House Call users.
               </p>
             </div>
             <Separator />

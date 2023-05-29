@@ -17,8 +17,7 @@ const Account: NextPage = () => {
             <div>
               <h3 className="text-lg font-medium">Account</h3>
               <p className="text-sm text-muted-foreground">
-                Update your account settings. Set your name, address, and access
-                your payments dashboard.
+                Private settings and personal information for your account.
               </p>
             </div>
             <Separator />

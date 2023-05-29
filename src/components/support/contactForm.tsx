@@ -19,10 +19,10 @@ export function ContactForm() {
       <div className="w-full px-10 py-10">
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+            <CardTitle className="text-center ">
               Email Support
             </CardTitle>
-            <CardDescription className="text-lg">
+            <CardDescription>
               Please fill out the form below and the House Call team will get
               back to you as soon as possible.
             </CardDescription>
@@ -49,10 +49,10 @@ export function ContactForm() {
       <div className="flex min-h-full w-full flex-col space-y-10 px-10 pt-10">
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+            <CardTitle className="text-center">
               Help Center
             </CardTitle>
-            <CardDescription className="text-lg">
+            <CardDescription className="">
               Find answers to your questions and get the help you need.
             </CardDescription>
           </CardHeader>
@@ -62,10 +62,10 @@ export function ContactForm() {
         </Card>
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+            <CardTitle className="text-center">
               Phone Support
             </CardTitle>
-            <CardDescription className="text-lg">
+            <CardDescription className="">
               For immediate assistance, please contact our support team.
             </CardDescription>
           </CardHeader>
