@@ -55,6 +55,15 @@ export function HomeDisplay() {
                 with <span className="text-blue11">Caregivers</span>
               </h1>
               <div className="flex justify-end space-x-2 py-4">
+              <Button
+              variant="default"
+                  size="lg"
+                  onClick={() => {
+                    void router.push("/about");
+                  }}
+                >
+                  Learn More
+                </Button>
                 <Button
                   className=""
                   variant="default"
@@ -63,7 +72,7 @@ export function HomeDisplay() {
                     void router.push("/about");
                   }}
                 >
-                  Learn More
+                  Register
                 </Button>
 
                 <Button

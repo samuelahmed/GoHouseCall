@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 // import { AboutHouseCall } from "~/components/marketing/aboutHouseCall";
-import { ContactForm } from "~/components/contactForm";
+import { ContactForm } from "~/components/support/contactForm";
 
 const Contact: NextPage = () => {
   return (
