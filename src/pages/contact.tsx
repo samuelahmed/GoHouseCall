@@ -10,7 +10,7 @@ const Contact: NextPage = () => {
         <title>Contact</title>
         <meta
           name="description"
-          content="About House Call"
+          content="Contact page of House Call to help users access support or find answers to their questions"
         />
       </Head>
       <div className="min-h-screen px-4 py-4 md:px-8 md:py-8">
