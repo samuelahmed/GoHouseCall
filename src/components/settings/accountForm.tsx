@@ -1,14 +1,10 @@
-// "use client"
+"use client"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { Button } from "~/components/ui/button";
-
 import { Input } from "~/components/ui/input";
-
 import {
   Form,
   FormControl,
@@ -28,18 +24,23 @@ const accountFormSchema = z.object({
     .max(30, {
       message: "Name must not be longer than 30 characters.",
     }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
+  address: z.string().min(2, {
+    message: "Address must be at least 2 characters.",
   }),
-  language: z.string({
-    required_error: "Please select a language.",
+  city: z.string().min(2, {
+    message: "City must be at least 2 characters.",
+  }),
+  zip: z.string().min(2, {
+    message: "Zip Code must be at least 2 characters.",
   }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
-
 const defaultValues: Partial<AccountFormValues> = {
   name: "",
+  address: "",
+  city: "",
+  zip: "",
 };
 
 export function AccountForm() {
@@ -65,14 +66,59 @@ export function AccountForm() {
                 <Input placeholder="Your name" {...field} />
               </FormControl>
               <FormDescription>
-                This is the name that will be displayed on your profile and in
-                emails.
+                This is your legal name and will be used for payments and tax
+                purposes.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Your Address" {...field} />
+              </FormControl>
+              <FormDescription>
+                This address will be the default when creating sessions.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Input placeholder="City" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="zip"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Zip Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Zip Code" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-col items-start space-y-4">
+          <Button variant="outline">Payments Dashboard</Button>
+          <Button type="submit">Update account</Button>
+        </div>
       </form>
     </Form>
   );

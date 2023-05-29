@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import SettingsLayout from "~/components/settings/settingsLayout";
 import { AccountForm } from "~/components/settings/accountForm";
+import { Separator } from "~/components/ui/separator";
 
 const Account: NextPage = () => {
   return (
@@ -12,7 +13,17 @@ const Account: NextPage = () => {
       </Head>
       <div className="min-h-screen px-4 py-4 md:px-8 md:py-8">
         <SettingsLayout>
-          < AccountForm />
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium">Account</h3>
+              <p className="text-sm text-muted-foreground">
+                Update your account settings. Set your name, address, and access
+                your payments dashboard.
+              </p>
+            </div>
+            <Separator />
+            <AccountForm />
+          </div>
         </SettingsLayout>
       </div>
     </>
