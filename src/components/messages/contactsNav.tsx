@@ -24,7 +24,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
-      <div className="flex-rowspace-y-0 flex  ">
+      <div className="flex-row space-y-0 flex  ">
         <aside className="">
           <h2 className="text-md flex h-12 items-center justify-center font-bold tracking-tight  md:text-2xl">
             Chat
@@ -40,13 +40,13 @@ export function ContactsNav({ items }: ContactsNavProps) {
                 <Card
                   className={
                     state === index
-                      ? " h-14 w-14 rounded-none bg-gray-100 md:w-44"
-                      : " h-14 w-14 rounded-none bg-gray-100 md:w-44"
+                      ? " h-14 w-14  bg-gray-100 md:w-44"
+                      : " h-14 w-14  md:w-44"
                   }
                 >
                   <Button
                     variant="ghost"
-                    className="h-full w-full rounded-none"
+                    className="h-full w-full"
                     onClick={() => {
                       setState(index);
                     }}
@@ -58,7 +58,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
             ))}
           </nav>
         </aside>
-        <div className="h-full flex-1">
+        <div className=" flex-1">
           <MessageContent passSelectedUser={selectedUser} />
         </div>
       </div>
