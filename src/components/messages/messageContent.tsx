@@ -60,13 +60,13 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     <>
       <div className="flex flex-col">
         <div className="flex flex-row">
-          <div className="w-full">
+          <div className="w-full pr-2">
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
                 {passSelectedUser.name || lastMessagedUser}
               </CardTitle>
             </Card>
-            <Card className="h-96 w-full rounded-none border border-t-0 px-4 py-4">
+            <Card className="min-h-65vh w-full rounded-none border border-t-0 px-4 py-4">
               <CardContent>
                 <div className="flex flex-col space-y-2 overflow-auto">
                   {messages.map((message) => {
@@ -107,17 +107,17 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               </CardContent>
             </Card>
             <div className="flex flex-row items-center space-x-2">
-            <Input className="my-2 px-4 py-4" aria-label="Input for message" />
-            <div className="flex h-16 items-center justify-end">
-              <Button>Send</Button>
+              <Input
+                className="my-2 px-4 py-4"
+                aria-label="Input for message"
+              />
+              <div className="flex h-16 items-center justify-end ">
+                <Button>Send</Button>
+              </div>
             </div>
-
-
-            </div>
-
           </div>
 
-          <div className="w-24 hidden md:block">Add some user info</div>
+          <div className="hidden w-24 md:block">Add some user info</div>
         </div>
       </div>
     </>
