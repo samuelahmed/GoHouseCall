@@ -58,60 +58,61 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
 
   return (
     <>
-      <div className="flex flex-col ">
-        <div className="flex justify-center px-4 py-4">
-          <CardTitle className="flex h-6 items-center">
-            {passSelectedUser.name || lastMessagedUser}
-          </CardTitle>
-        </div>
-        <Card className="h-96 px-4 py-4">
-          <CardContent>
-            <div className="flex flex-col space-y-2 overflow-auto">
-              {messages.map((message) => {
-                //messages sent
-                if (
-                  message.sender === currentUser &&
-                  message.receiver === currentSelectedUser
-                ) {
-                  return (
-                    <div
-                      className="flex flex-col items-end justify-end space-y-2 text-end"
-                      key={message.id}
-                    >
-                      <CardContent className="rounded bg-blue-300">
-                        {message.content}
-                      </CardContent>
-                    </div>
-                  );
-                }
-                //messages received
-                if (
-                  message.sender === currentSelectedUser &&
-                  message.receiver === currentUser
-                ) {
-                  return (
-                    <div
-                      className="flex flex-col items-start justify-start space-y-2 text-end"
-                      key={message.id}
-                    >
-                      <CardContent className="rounded bg-gray-300">
-                        {message.content}
-                      </CardContent>
-                    </div>
-                  );
-                }
-              })}
+      <div className="flex flex-col">
+        <div className="flex flex-row">
+          <div className="w-full">
+            <Card className="w-full rounded-none border  border-t-0 py-4">
+              <CardTitle className="flex h-6 items-center justify-center text-center">
+                {passSelectedUser.name || lastMessagedUser}
+              </CardTitle>
+            </Card>
+            <Card className="h-96 w-full rounded-none border border-t-0 px-4 py-4">
+              <CardContent>
+                <div className="flex flex-col space-y-2 overflow-auto">
+                  {messages.map((message) => {
+                    //messages sent
+                    if (
+                      message.sender === currentUser &&
+                      message.receiver === currentSelectedUser
+                    ) {
+                      return (
+                        <div
+                          className="flex flex-col items-end justify-end space-y-2 text-end"
+                          key={message.id}
+                        >
+                          <CardContent className="rounded bg-blue-300">
+                            {message.content}
+                          </CardContent>
+                        </div>
+                      );
+                    }
+                    //messages received
+                    if (
+                      message.sender === currentSelectedUser &&
+                      message.receiver === currentUser
+                    ) {
+                      return (
+                        <div
+                          className="flex flex-col items-start justify-start space-y-2 text-end"
+                          key={message.id}
+                        >
+                          <CardContent className="rounded bg-gray-300">
+                            {message.content}
+                          </CardContent>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+            <Input className="my-2 px-4 py-4" aria-label="Input for message" />
+            <div className="flex h-16 items-center justify-end">
+              <Button>Send</Button>
             </div>
-          </CardContent>
-        </Card>
-        <Input 
-        className="my-2 px-4 py-4"
-        // placeholder="Type your message here..."
-        aria-label="Input for message"
-        
-        />
-        <div className="flex h-16 items-center justify-end">
-          <Button>Send</Button>
+          </div>
+
+          <div className="w-24">Add some user info</div>
         </div>
       </div>
     </>

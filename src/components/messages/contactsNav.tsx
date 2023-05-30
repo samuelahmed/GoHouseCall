@@ -24,9 +24,9 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
-      <div className="flex h-full flex-row space-x-4 space-y-0 md:space-x-12 ">
-        <aside className=" lg:w-1/5">
-          <nav className="flex flex-col space-y-2 pt-14">
+      <div className="flex h-full flex-row space-x-4 space-y-0  px-4">
+        <aside className="">
+          <nav className="flex flex-col space-y-2 pt-4">
             {items.map((item, index) => (
               <div
                 key={item.name}
@@ -41,20 +41,21 @@ export function ContactsNav({ items }: ContactsNavProps) {
                       : " flex h-12 flex-row items-center justify-between"
                   }
                 >
-                  <div
+                  <Button
+                    variant="ghost"
                     className="flex h-full w-full flex-row items-center justify-between px-4 py-4"
                     onClick={() => {
                       setState(index);
                     }}
                   >
                     {item.name}
-                  </div>
+                  </Button>
                 </Card>
               </div>
             ))}
           </nav>
         </aside>
-        <div className="h-full flex-1 lg:max-w-2xl">
+        <div className="h-full flex-1">
           <MessageContent passSelectedUser={selectedUser} />
         </div>
       </div>
