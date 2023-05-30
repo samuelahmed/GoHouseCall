@@ -5,14 +5,17 @@ const contactNavItems = [
   {
     title: "Profile",
     name: "John Doe",
+    user: "meow",
   },
   {
     title: "Account",
     name: "Jane Smith",
+    user: "meow",
   },
   {
     title: "Notifications",
     name: "Mr Blue",
+    user: "meow",
   },
 ];
 
@@ -20,14 +23,13 @@ export default function MessagesLayout() {
   return (
     <>
       <div className="min-h-screen overflow-auto px-4 py-4 md:px-8 md:py-8">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Messages</h2>
-          <p className="text-muted-foreground">
-            Chat with your House Call contacts
-          </p>
+        <div className="h-96">
+          <div className="space-y-0.5">
+            <h2 className="text-2xl font-bold tracking-tight">Messages</h2>
+          </div>
+          <Separator className="my-6" />
+          <ContactsNav items={contactNavItems} />
         </div>
-        <Separator className="my-6" />
-        <ContactsNav items={contactNavItems} />
       </div>
     </>
   );
