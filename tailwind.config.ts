@@ -11,6 +11,43 @@ export default {
       },
     },
     extend: {
+      maxHeight: {
+        "5vh": "5vh",
+        "50vh": "50vh",
+        "60vh": "60vh",
+        "70vh": "70vh",
+        "75vh": "75vh",
+        "78vh": "78vh",
+        "80vh": "80vh",
+        "85vh": "85vh",
+        "90vh": "90vh",
+        "95vh": "95vh",
+        "98vh": "98vh",
+        "100vh": "100vh",
+      },
+      minHeight: {
+        "5vh": "5vh",
+        "20vh": "20vh",
+        "60vh": "60vh",
+        "65vh": "65vh",
+        "70vh": "70vh",
+        "78vh": "78vh",
+        "85vh": "85vh",
+        "80vh": "80vh",
+        "88vh": "88vh",
+        "90vh": "90vh",
+        "95vh": "95vh",
+        "100vh": "100vh",
+      },
+      maxWidth: {
+        "5vw": "5vw",
+        "30vw": "30vw",
+        "40vw": "40vw",
+      },
+      minWidth: {
+        "40vw": "40vw",
+        "30vw": "30vw",
+      },
       colors: {
         blue1: "#fbfdff",
         blue2: "#f5faff",
@@ -102,7 +139,7 @@ export default {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
-      fontFamily: {        
+      fontFamily: {
         // roboto: ["Roboto", "sans-serif"],
         // robotoSlab: ["Roboto Slab", "serif"],
       },

@@ -22,15 +22,11 @@ const contactNavItems = [
 export default function MessagesLayout() {
   return (
     <>
-      <div className="min-h-screen overflow-auto px-4 py-4 md:px-8 md:py-8">
-        <div className="h-96">
-          <div className="space-y-0.5">
-            <h2 className="text-2xl font-bold tracking-tight">Messages</h2>
-          </div>
-          <Separator className="my-6" />
-          <ContactsNav items={contactNavItems} />
-        </div>
+      <div className="space-y-0.5 px-4 py-4 ">
+        {/* <h2 className="text-2xl font-bold tracking-tight">Messages</h2> */}
       </div>
+      <Separator />
+      <ContactsNav items={contactNavItems} />
     </>
   );
 }
