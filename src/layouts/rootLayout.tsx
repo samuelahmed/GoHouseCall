@@ -12,7 +12,9 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/faviconLarge.png" />
       </Head>
-      <div className="font-roboto">
+      <div 
+      // className="font-roboto"
+      >
         <Header />
         <main>{children}</main>
         <Footer />
