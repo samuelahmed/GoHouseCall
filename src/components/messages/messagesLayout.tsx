@@ -23,7 +23,7 @@ export default function MessagesLayout() {
   return (
     <>
       <div className="space-y-0.5 px-4 py-4 ">
-        <h2 className="text-2xl font-bold tracking-tight">Messages</h2>
+        {/* <h2 className="text-2xl font-bold tracking-tight">Messages</h2> */}
       </div>
       <Separator />
       <ContactsNav items={contactNavItems} />

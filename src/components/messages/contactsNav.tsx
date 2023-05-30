@@ -24,9 +24,12 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
-      <div className="flex flex-row space-x-4 space-y-0  px-4">
+      <div className="flex-rowspace-y-0 flex  ">
         <aside className="">
-          <nav className="flex flex-col space-y-2 pt-4">
+          <h2 className="text-md flex h-12 items-center justify-center font-bold tracking-tight  md:text-2xl">
+            Chat
+          </h2>
+          <nav className="mx-2 mt-2 flex flex-col space-y-2">
             {items.map((item, index) => (
               <div
                 key={item.name}
@@ -37,13 +40,13 @@ export function ContactsNav({ items }: ContactsNavProps) {
                 <Card
                   className={
                     state === index
-                      ? " flex h-12 flex-row items-center justify-between bg-gray-100"
-                      : " flex h-12 flex-row items-center justify-between"
+                      ? " h-14 w-14 rounded-none bg-gray-100 md:w-44"
+                      : " h-14 w-14 rounded-none bg-gray-100 md:w-44"
                   }
                 >
                   <Button
                     variant="ghost"
-                    className="flex h-full w-full flex-row items-center justify-between px-4 py-4"
+                    className="h-full w-full rounded-none"
                     onClick={() => {
                       setState(index);
                     }}

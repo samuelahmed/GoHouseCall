@@ -106,10 +106,15 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 </div>
               </CardContent>
             </Card>
+            <div className="flex flex-row items-center space-x-2">
             <Input className="my-2 px-4 py-4" aria-label="Input for message" />
             <div className="flex h-16 items-center justify-end">
               <Button>Send</Button>
             </div>
+
+
+            </div>
+
           </div>
 
           <div className="w-24 hidden md:block">Add some user info</div>
