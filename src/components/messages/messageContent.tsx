@@ -112,7 +112,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
             </div>
           </div>
 
-          <div className="w-24">Add some user info</div>
+          <div className="w-24 hidden md:block">Add some user info</div>
         </div>
       </div>
     </>
