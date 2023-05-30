@@ -24,7 +24,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
-      <div className="flex h-full flex-row space-x-4 space-y-0  px-4">
+      <div className="flex flex-row space-x-4 space-y-0  px-4">
         <aside className="">
           <nav className="flex flex-col space-y-2 pt-4">
             {items.map((item, index) => (
