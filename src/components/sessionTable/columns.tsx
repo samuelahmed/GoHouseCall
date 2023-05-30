@@ -31,15 +31,7 @@ export const columns: ColumnDef<SessionSchema>[] = [
   //   enableSorting: false,
   //   enableHiding: false,
   // },
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Id" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
+
   {
     accessorKey: "title",
     header: ({ column }) => (
@@ -48,17 +40,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("title")}</div>,
     enableSorting: true,
     enableHiding: true,
-    // cell: ({ row }) => {
-    //   const label = labels.find((label) => label.value === row.original.label);
-    //   return (
-    //     <div className="flex space-x-2">
-    //       {label && <Badge variant="outline">{label.label}</Badge>}
-    //       <span className="max-w-[500px] truncate font-medium">
-    //         {row.getValue("title")}
-    //       </span>
-    //     </div>
-    //   );
-    // },
   },
   {
     accessorKey: "status",
@@ -87,6 +68,17 @@ export const columns: ColumnDef<SessionSchema>[] = [
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       return value.includes(row.getValue(id));
     },
+  },
+
+
+  {
+    accessorKey: "description",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Description" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("description")}</div>,
+    enableSorting: true,
+    enableHiding: true,
   },
   // {
   //   accessorKey: "priority",
