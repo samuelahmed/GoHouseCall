@@ -103,8 +103,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {        
-        roboto: ["Roboto", "sans-serif"],
-        robotoSlab: ["Roboto Slab", "serif"],
+        // roboto: ["Roboto", "sans-serif"],
+        // robotoSlab: ["Roboto Slab", "serif"],
       },
       keyframes: {
         "accordion-down": {
