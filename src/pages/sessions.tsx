@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import SessionsTableMain from "~/components/sessionTable/sessionsTableMain";
+import SessionsExport from "~/components/sessionTable/sessionsExport";
 
 const Sessions: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Sessions: NextPage = () => {
         <title>Sessions</title>
         <meta name="description" content="House call sessions page" />
       </Head>
-      <SessionsTableMain />
+      <SessionsExport />
     </>
   );
 };
