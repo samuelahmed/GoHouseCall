@@ -8,21 +8,21 @@ import { DataTableRowActions } from "./dataTableRowActions";
 
 export const columns: ColumnDef<SessionSchema>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "sessionType",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Session Type" />
     ),
     cell: ({ row }) => {
-      const title = sessiontypes.find(
+      const sessionType = sessiontypes.find(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        (title) => title.value === row.getValue("title")
+        (sessionType) => sessionType.value === row.getValue("sessionType")
       );
-      if (!title) {
+      if (!sessionType) {
         return null;
       }
       return (
         <div className="flex w-[100px] items-center">
-          <span>{title.label}</span>
+          <span>{sessionType.label}</span>
         </div>
       );
     },
