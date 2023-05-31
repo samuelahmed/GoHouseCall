@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="relative h-screen space-y-4 px-4 ">
-      <div className="overflow-auto">
+      <div className="overflow-auto py-1 px-1">
         <DataTableToolbar table={table} />
       </div>
       <div className="relative max-h-70vh lg:max-h-80vh overflow-auto rounded-md border ">
