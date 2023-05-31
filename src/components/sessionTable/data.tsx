@@ -58,27 +58,27 @@ import {
     {
       value: "New",
       label: "New",
-      icon: HelpCircle,
+      // icon: HelpCircle,
     },
     {
       value: "Open",
       label: "Open",
-      icon: Circle,
+      // icon: Circle,
     },
     {
       value: "Scheduled",
       label: "Scheduled",
-      icon: ArrowUpCircle,
+      // icon: ArrowUpCircle,
     },
     {
       value: "Completed",
       label: "Completed",
-      icon: CheckCircle2,
+      // icon: CheckCircle2,
     },
     {
       value: "Canceled",
       label: "Canceled",
-      icon: XCircle,
+      // icon: XCircle,
     },
   
   
