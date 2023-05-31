@@ -118,10 +118,10 @@ const demoSessions = [
   }
 ];
 
-export default function TaskPage() {
+export default function sessionsTableMain() {
   return (
     <>
-      <div className="flex-1 flex-col space-y-8 p-8 md:flex">
+      <div className="h-screen">
         <DataTable data={demoSessions} columns={columns} />
       </div>
     </> 
