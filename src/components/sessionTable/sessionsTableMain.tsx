@@ -1,6 +1,7 @@
+"use client";
+
 import { columns } from "~/components/sessionTable/columns";
 import { DataTable } from "~/components/sessionTable/dataTable";
-import { Button } from "../ui/button";
 
 const demoSessions = [
   {
@@ -121,12 +122,9 @@ const demoSessions = [
   },
 ];
 
-export default function sessionsTableMain() {
+export default function SessionsTableMain() {
   return (
     <>
-      <div className="flex items-center justify-between px-5 py-4">
-        <Button>Create Session</Button>
-      </div>
       <DataTable data={demoSessions} columns={columns} />
     </>
   );
