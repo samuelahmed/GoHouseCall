@@ -1,7 +1,7 @@
 "use client";
 
 import { type Row } from "@tanstack/react-table";
-import { MoreHorizontal, Pen, Trash } from "lucide-react";
+import { MoreHorizontal, Pen, Trash, Eye } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -29,6 +29,11 @@ export function DataTableRowActions<
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuItem>
+          <Eye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Visit
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Edit

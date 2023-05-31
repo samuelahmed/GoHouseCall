@@ -127,11 +127,7 @@ export default function sessionsTableMain() {
       <div className="flex items-center justify-between px-5 py-4">
         <Button>Create Session</Button>
       </div>
-      {/* <div className="px-4"> */}
-
       <DataTable data={demoSessions} columns={columns} />
-
-      {/* </div> */}
     </>
   );
 }
