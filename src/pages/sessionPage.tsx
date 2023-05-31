@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import GoogleMaps from "~/components/maps/map";
 
 const Sessions: NextPage = () => {
   return (
@@ -11,7 +12,10 @@ const Sessions: NextPage = () => {
           content="House Call session created by a patient looking for a caregiver"
         />
       </Head>
-      <div className="h-screen"></div>
+      <div className="h-screen">
+< GoogleMaps />
+
+      </div>
     </>
   );
 };
