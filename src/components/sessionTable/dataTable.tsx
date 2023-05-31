@@ -90,7 +90,6 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -124,13 +123,8 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-
         <div className="px-4 py-2">
-          <DataTablePagination
-            // className="absolute bottom-0 left-0 right-0"
-
-            table={table}
-          />
+          <DataTablePagination table={table} />
         </div>
       </div>
     </div>

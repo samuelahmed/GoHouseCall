@@ -1,8 +1,6 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { Badge } from "~/components/ui/badge";
-import { Checkbox } from "~/components/ui/checkbox";
 import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
 import { DataTableColumnHeader } from "./dataTableColumnHeader";
@@ -10,25 +8,21 @@ import { DataTableRowActions } from "./dataTableRowActions";
 
 export const columns: ColumnDef<SessionSchema>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "sessionType",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Session Type" />
     ),
     cell: ({ row }) => {
-      const title = sessiontypes.find(
+      const sessionType = sessiontypes.find(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        (title) => title.value === row.getValue("title")
+        (sessionType) => sessionType.value === row.getValue("sessionType")
       );
-
-      if (!title) {
+      if (!sessionType) {
         return null;
       }
       return (
         <div className="flex w-[100px] items-center">
-          {/* {title.icon && (
-            <title.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )} */}
-          <span>{title.label}</span>
+          <span>{sessionType.label}</span>
         </div>
       );
     },
@@ -53,9 +47,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
 
       return (
         <div className="flex w-[100px] items-center">
-          {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
           <span>{status.label}</span>
         </div>
       );
@@ -65,7 +56,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
   {
     accessorKey: "description",
     header: ({ column }) => (
