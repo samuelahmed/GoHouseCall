@@ -1,5 +1,6 @@
 import { columns } from "~/components/sessionTable/columns";
 import { DataTable } from "~/components/sessionTable/dataTable";
+import { Button } from "../ui/button";
 
 const demoSessions = [
   {
@@ -123,9 +124,10 @@ const demoSessions = [
 export default function sessionsTableMain() {
   return (
     <>
-      <div className="h-screen">
-        <DataTable data={demoSessions} columns={columns} />
+      <div className="flex items-center justify-between px-4 py-4">
+        <Button>Create Session</Button>
       </div>
+      <DataTable data={demoSessions} columns={columns} />
     </>
   );
 }
