@@ -68,10 +68,12 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="relative h-screen space-y-4 px-4 py-4">
-      <DataTableToolbar table={table} />
-      <div className=" relative max-h-90vh overflow-scroll rounded-md border ">
-        <Table className="w-full">
+    <div className="relative h-screen space-y-4 px-4 ">
+      <div className="overflow-scroll">
+        <DataTableToolbar table={table} />
+      </div>
+      <div className="relative max-h-70vh lg:max-h-80vh overflow-scroll rounded-md border ">
+        <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -123,10 +125,11 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="px-4 py-2">
+
+      </div>
+      <div className="px-4 py-2 overflow-scroll relative">
           <DataTablePagination table={table} />
         </div>
-      </div>
     </div>
   );
 }
