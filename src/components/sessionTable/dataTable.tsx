@@ -69,10 +69,10 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="relative h-screen space-y-4 px-4 ">
-      <div className="overflow-scroll">
+      <div className="overflow-auto">
         <DataTableToolbar table={table} />
       </div>
-      <div className="relative max-h-70vh lg:max-h-80vh overflow-scroll rounded-md border ">
+      <div className="relative max-h-70vh lg:max-h-80vh overflow-auto rounded-md border ">
         <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
         </Table>
 
       </div>
-      <div className="px-4 py-2 overflow-scroll relative">
+      <div className="px-4 py-2 overflow-auto relative">
           <DataTablePagination table={table} />
         </div>
     </div>
