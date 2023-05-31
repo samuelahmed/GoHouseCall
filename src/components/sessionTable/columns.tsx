@@ -1,8 +1,6 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { Badge } from "~/components/ui/badge";
-import { Checkbox } from "~/components/ui/checkbox";
 import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
 import { DataTableColumnHeader } from "./dataTableColumnHeader";
@@ -19,15 +17,11 @@ export const columns: ColumnDef<SessionSchema>[] = [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         (title) => title.value === row.getValue("title")
       );
-
       if (!title) {
         return null;
       }
       return (
         <div className="flex w-[100px] items-center">
-          {/* {title.icon && (
-            <title.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )} */}
           <span>{title.label}</span>
         </div>
       );
@@ -53,9 +47,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
 
       return (
         <div className="flex w-[100px] items-center">
-          {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
           <span>{status.label}</span>
         </div>
       );
@@ -65,7 +56,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
       return value.includes(row.getValue(id));
     },
   },
-
   {
     accessorKey: "description",
     header: ({ column }) => (
