@@ -11,63 +11,91 @@ import {
 
   //manages icons i think 
   
-  export const labels = [
+  // export const labels = [
+  //   {
+  //     value: "bug",
+  //     label: "Bug",
+  //   },
+  //   {
+  //     value: "feature",
+  //     label: "Feature",
+  //   },
+  //   {
+  //     value: "documentation",
+  //     label: "Documentation",
+  //   },
+  // ]
+  
+  export const sessiontypes = [
     {
-      value: "bug",
-      label: "Bug",
+      value: "Mobility Support",
+      label: "Mobility Support",
+      // icon: HelpCircle,
     },
     {
-      value: "feature",
-      label: "Feature",
+      value: "Personal Care",
+      label: "Personal Care",
+      // icon: Circle,
     },
     {
-      value: "documentation",
-      label: "Documentation",
+      value: "Home Care",
+      label: "Home Care",
+      // icon: ArrowUpCircle,
+    },
+    {
+      value: "Transportation",
+      label: "Transportation",
+      // icon: CheckCircle2,
+    },
+    {
+      value: "Other",
+      label: "Other",
+      // icon: XCircle,
     },
   ]
   
   export const statuses = [
     {
-      value: "new",
+      value: "New",
       label: "New",
       icon: HelpCircle,
     },
     {
-      value: "open",
+      value: "Open",
       label: "Open",
       icon: Circle,
     },
     {
-      value: "scheduled",
+      value: "Scheduled",
       label: "Scheduled",
       icon: ArrowUpCircle,
     },
     {
-      value: "completed",
+      value: "Completed",
       label: "Completed",
       icon: CheckCircle2,
     },
     {
-      value: "canceled",
+      value: "Canceled",
       label: "Canceled",
       icon: XCircle,
     },
-  ]
   
-  export const priorities = [
-    {
-      label: "Low",
-      value: "low",
-      icon: ArrowDownToLine,
-    },
-    {
-      label: "Medium",
-      value: "medium",
-      icon: ArrowRightToLine,
-    },
-    {
-      label: "High",
-      value: "high",
-      icon: ArrowUpToLine,
-    },
+  
+  // export const priorities = [
+  //   {
+  //     label: "Low",
+  //     value: "low",
+  //     icon: ArrowDownToLine,
+  //   },
+  //   {
+  //     label: "Medium",
+  //     value: "medium",
+  //     icon: ArrowRightToLine,
+  //   },
+  //   {
+  //     label: "High",
+  //     value: "high",
+  //     icon: ArrowUpToLine,
+  //   },
   ]

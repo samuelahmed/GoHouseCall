@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdownMenu";
 
-import { labels } from "./data";
+// import { labels } from "./data";
 import { sessionSchema } from "./sessionSchema";
 
 interface DataTableRowActionsProps<TData> {

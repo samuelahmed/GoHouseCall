@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
+import { Table } from "@tanstack/react-table";
+import { X } from "lucide-react";
 
-import { Button } from "~/components/ui/button"
-import { Input } from "~/components/ui/input"
-import { DataTableViewOptions } from "~/components/sessionTable/dataTableViewOptions"
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { DataTableViewOptions } from "~/components/sessionTable/dataTableViewOptions";
 
-import { priorities, statuses } from "./data"
-import { DataTableFacetedFilter } from "./dataTableFacetedFilter"
+import { sessiontypes, statuses } from "./data";
+import { DataTableFacetedFilter } from "./dataTableFacetedFilter";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTableToolbar<TData>({
@@ -19,19 +19,28 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
     table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length
+    table.getFilteredRowModel().rows.length;
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Search session description..."
-          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("description")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
+        {table.getColumn("title") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("title")}
+            title="Title"
+            options={sessiontypes}
+          />
+        )}
         {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
@@ -39,13 +48,14 @@ export function DataTableToolbar<TData>({
             options={statuses}
           />
         )}
-        {table.getColumn("priority") && (
+
+        {/* {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Priority"
             options={priorities}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -59,5 +69,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableViewOptions table={table} />
     </div>
-  )
+  );
 }
