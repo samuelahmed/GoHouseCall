@@ -68,11 +68,11 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="relative h-screen space-y-4 px-4 ">
+    <div className="relative space-y-4 px-4 mb-4">
       <div className="overflow-auto px-1 py-1">
         <DataTableToolbar table={table} />
       </div>
-      <div className="relative mx-1 max-h-70vh overflow-auto rounded-md border lg:max-h-80vh ">
+      <div className="relative mx-1 h-screen overflow-auto rounded-md border lg:max-h-80vh ">
         <Table className="px-10">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
