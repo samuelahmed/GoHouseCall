@@ -24,9 +24,10 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
+
       <div className="flex-row space-y-0 flex  ">
         <aside className="">
-          <h2 className="text-md flex h-12 items-center justify-center font-bold tracking-tight  md:text-2xl">
+          <h2 className="flex h-12 items-center justify-center font-bold tracking-tight text-2xl">
             Chat
           </h2>
           <nav className="mx-2 mt-2 flex flex-col space-y-2">
@@ -46,7 +47,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
                 >
                   <Button
                     variant="ghost"
-                    className="h-full w-full"
+                    className="h-full w-full text-sm"
                     onClick={() => {
                       setState(index);
                     }}
@@ -58,7 +59,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
             ))}
           </nav>
         </aside>
-        <div className=" flex-1">
+        <div className="flex-1">
           <MessageContent passSelectedUser={selectedUser} />
         </div>
       </div>

@@ -23,9 +23,11 @@ interface SettingsLayoutProps {
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <>
-      <div className="min-h-screen overflow-auto px-4 py-4 md:px-8 md:py-8">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+      <div className="min-h-screen overflow-auto  ">
+        <div className="-mb-3 space-y-0.5 ">
+          <h2 className="justify-start text-2xl font-bold tracking-tight md:pl-10">
+            Settings
+          </h2>
         </div>
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">

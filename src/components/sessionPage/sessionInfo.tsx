@@ -1,13 +1,10 @@
-import {
-  Card,
-  CardContent,
-} from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 
 export function SessionInfo() {
   return (
     <>
       <div className="px-4">
-        <Card className="flex-col-2 flex my-4">
+        <Card className="flex-col-2 my-4 flex">
           <div className="col-span-1 w-full pt-4">
             <CardContent>
               <p>

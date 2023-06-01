@@ -85,7 +85,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                             <AvatarImage src="https://lh3.googleusercontent.com/a/AGNmyxbdo5KPhSRdaHNUKqGun6H40eqqTz3zbUCf0oCA=s96-c" />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
-                          <div className="-p-6 rounded bg-blue-300 p-1">
+                          <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
                             {message.content}
                           </div>
                         </div>
@@ -105,7 +105,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                             <AvatarImage src="https://lh3.googleusercontent.com/a/AAcHTtc4YvX9jKd0aR3FDN0GrP848CYTjuZgb7Yicq6K=s96-c" />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
-                          <CardContent className="-p-4 rounded bg-gray-300 p-1">
+                          <CardContent className="-p-4 rounded bg-gray-300 p-1 text-sm">
                             {message.content}
                           </CardContent>
                         </div>
@@ -137,8 +137,12 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               {passSelectedUser.name || lastMessagedUser}
             </div>
 
-            <div className="flex flex-row items-center justify-center space-x-1 px-4">
-              <Button variant="outline" size="sm">
+            <div className="flex flex-row items-center justify-center space-x-1 px-4 text-lg">
+              <Button
+          
+                variant="outline"
+                size="sm"
+              >
                 Profile
               </Button>
               <Button variant="outline" size="sm">
