@@ -18,30 +18,27 @@ const Sessions: NextPage = () => {
           content="House Call session created by a patient looking for a caregiver"
         />
       </Head>
-
       <Separator className="my-4" />
       <div className=" min-h-screen  px-4 py-4 md:flex-row md:px-8 md:py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full">
             <div className="space-y-0.5">
               <h2 className="text-center text-2xl font-bold tracking-tight">
-                Home Care 
+                Home Care
               </h2>
             </div>
             <SessionInfo />
             <SessionActions />
           </div>
           <div className="w-full">
-            <h3 className="text-center font-bold tracking-tight py-1">
+            <h3 className="py-1 text-center font-bold tracking-tight">
               Potential Caregivers
             </h3>
-            <div className="py-4 px-4">
-            <PotentialCaregiverTable />
-
+            <div className="px-4 py-4">
+              <PotentialCaregiverTable />
             </div>
           </div>
         </div>
-
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
           <GoogleMaps />
         </div>
