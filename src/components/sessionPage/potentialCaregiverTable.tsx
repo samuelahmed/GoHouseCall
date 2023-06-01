@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Button } from "../ui/button";
+import { useRouter } from "next/router";
 
 const potentialCaregiver = [
   {
@@ -103,6 +104,7 @@ const potentialCaregiver = [
 ];
 
 export function PotentialCaregiverTable() {
+  const router = useRouter();
   return (
     <div className="max-h-96 overflow-auto rounded-md border ">
       <Table>
@@ -125,7 +127,14 @@ export function PotentialCaregiverTable() {
               <TableCell className="">{potentialCaregiver.status}</TableCell>
               <TableCell className="">{potentialCaregiver.note}</TableCell>
               <TableCell className="flex text-right">
-                <Button size="sm" variant="default" className="ml-4">
+                <Button
+                  onClick={() => {
+                    void router.push("/caregiverProfile");
+                  }}
+                  size="sm"
+                  variant="default"
+                  className="ml-4"
+                >
                   Profile
                 </Button>
                 <Button size="sm" className="ml-4">
