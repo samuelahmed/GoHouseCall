@@ -122,10 +122,10 @@ export function PotentialCaregiverTable() {
               <TableCell className="font-medium">
                 {potentialCaregiver.name}
               </TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="">
                 {potentialCaregiver.status}
               </TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="">
                 {potentialCaregiver.note}
               </TableCell>
               <TableCell className="flex text-right">
