@@ -18,7 +18,7 @@ const Sessions: NextPage = () => {
           content="House Call session created by a patient looking for a caregiver"
         />
       </Head>
-      <Separator className="my-4" />
+      {/* <Separator className="my-4" /> */}
       <div className=" min-h-screen  px-4 py-4 md:flex-row md:px-8 md:py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full">
