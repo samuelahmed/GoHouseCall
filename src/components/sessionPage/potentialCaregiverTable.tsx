@@ -122,18 +122,17 @@ export function PotentialCaregiverTable() {
               <TableCell className="font-medium">
                 {potentialCaregiver.name}
               </TableCell>
-              <TableCell className="">
-                {potentialCaregiver.status}
-              </TableCell>
-              <TableCell className="">
-                {potentialCaregiver.note}
-              </TableCell>
+              <TableCell className="">{potentialCaregiver.status}</TableCell>
+              <TableCell className="">{potentialCaregiver.note}</TableCell>
               <TableCell className="flex text-right">
-                <Button size="sm" variant="outline" className="ml-4">
-                  View Profile
+                <Button size="sm" variant="default" className="ml-4">
+                  Profile
                 </Button>
                 <Button size="sm" className="ml-4">
-                  Accept Caregiver
+                  Accept
+                </Button>
+                <Button variant="outline" size="sm" className="ml-4">
+                  Deny
                 </Button>
               </TableCell>
             </TableRow>
