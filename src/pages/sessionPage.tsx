@@ -24,14 +24,14 @@ const Sessions: NextPage = () => {
           <div className="w-full">
             <div className="space-y-0.5">
               <h2 className="text-center text-2xl font-bold tracking-tight">
-                Home Care
+                Home Care: <span className="font-semibold">Help around my house</span>
               </h2>
             </div>
             <SessionInfo />
             <SessionActions />
           </div>
           <div className="w-full">
-            <h3 className="py-1 text-center font-bold tracking-tight">
+            <h3 className="py-1 text-center font-semibold tracking-tight">
               Potential Caregivers
             </h3>
             <div className="px-4 py-4">

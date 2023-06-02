@@ -126,21 +126,32 @@ export function PotentialCaregiverTable() {
               </TableCell>
               <TableCell className="">{potentialCaregiver.status}</TableCell>
               <TableCell className="">{potentialCaregiver.note}</TableCell>
-              <TableCell className="flex text-right">
+              <TableCell className="flex space-x-1 text-right">
                 <Button
                   onClick={() => {
                     void router.push("/caregiverProfile");
                   }}
                   size="sm"
-                  variant="default"
-                  className="ml-4"
+                  variant="outline"
                 >
                   Profile
                 </Button>
-                <Button size="sm" className="ml-4">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    void router.push("/messages");
+                  }}
+                  size="sm"
+                >
+                  Message
+                </Button>
+                <Button
+                  // variant="outline"
+                  size="sm"
+                >
                   Accept
                 </Button>
-                <Button variant="outline" size="sm" className="ml-4">
+                <Button variant="outline" size="sm">
                   Deny
                 </Button>
               </TableCell>
