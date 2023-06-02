@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
+import { CreateSessionDatePicker } from "./createSessionDatepicker";
 
 const accountFormSchema = z.object({
   name: z
@@ -69,7 +70,7 @@ export function CreateSessionForm() {
     <>
       <Form {...form}>
         <form onSubmit={void form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="flex w-full">
+          <div className="flex w-full space-x-4">
             <FormField
               control={form.control}
               name="sessionType"
@@ -100,7 +101,25 @@ export function CreateSessionForm() {
                 </FormItem>
               )}
             />
-            <div className="w-full">Add Date and Time Picker Here</div>
+            <div className="w-full ">
+              <FormField
+                control={form.control}
+                name="sessionType"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Date & Time</FormLabel>
+
+                    <CreateSessionDatePicker />
+                  </FormItem>
+                )}
+              />
+              <div className="md:hidden py-4">
+                <Input placeholder="date" />
+              </div>
+              <div className="md:py-4">
+                <Input placeholder="Selected Time" />
+              </div>
+            </div>
           </div>
           <FormField
             control={form.control}
