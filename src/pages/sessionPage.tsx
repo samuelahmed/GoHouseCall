@@ -1,10 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import GoogleMaps from "~/components/maps/map";
-import SessionLayout from "~/components/sessionPage/sessionActions";
-// import SessionInfo from "~/components/sessionPage/sessionInfo";
 import { SessionInfo } from "~/components/sessionPage/sessionInfo";
-import { Separator } from "~/components/ui/separator";
 import SessionActions from "~/components/sessionPage/sessionActions";
 import { PotentialCaregiverTable } from "~/components/sessionPage/potentialCaregiverTable";
 
@@ -18,13 +15,13 @@ const Sessions: NextPage = () => {
           content="House Call session created by a patient looking for a caregiver"
         />
       </Head>
-      {/* <Separator className="my-4" /> */}
       <div className=" min-h-screen  px-4 py-4 md:flex-row md:px-8 md:py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full">
             <div className="space-y-0.5">
               <h2 className="text-center text-2xl font-bold tracking-tight">
-                Home Care: <span className="font-semibold">Help around my house</span>
+                Home Care:
+                <span className="font-semibold"> Help around my house</span>
               </h2>
             </div>
             <SessionInfo />
