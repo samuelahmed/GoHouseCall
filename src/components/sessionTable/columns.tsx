@@ -5,6 +5,11 @@ import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
 import { DataTableColumnHeader } from "./dataTableColumnHeader";
 import { DataTableRowActions } from "./dataTableRowActions";
+// import { useRouter } from "next/router";
+
+
+
+
 
 export const columns: ColumnDef<SessionSchema>[] = [
   {
@@ -21,7 +26,14 @@ export const columns: ColumnDef<SessionSchema>[] = [
         return null;
       }
       return (
-        <div className="flex w-[100px] items-center">
+        <div 
+        //on click push to session page
+        onClick={() => {
+          window.location.href = "/sessionPage";
+        //  href/
+        }}
+
+        className="flex w-[100px] items-center hover:cursor-pointer hover:underline font-semibold">
           <span>{sessionType.label}</span>
         </div>
       );

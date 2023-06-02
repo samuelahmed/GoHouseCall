@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdownMenu";
+import { useRouter } from "next/router";
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
@@ -17,6 +18,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<
   TData
 >({}: DataTableRowActionsProps<TData>) {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,7 +31,11 @@ export function DataTableRowActions<
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            void router.push("/sessionPage");
+          }}
+        >
           <Eye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
           Visit
         </DropdownMenuItem>

@@ -11,7 +11,7 @@ export default function SessionsExport() {
         <Button
           variant="outline"
           onClick={() => {
-            console.log(router.push("/sessionPage"));
+            console.log(router.push("/createSession"));
           }}
         >
           Create Session
