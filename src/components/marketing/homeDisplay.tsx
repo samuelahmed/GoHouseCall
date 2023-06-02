@@ -55,8 +55,9 @@ export function HomeDisplay() {
                 with <span className="text-blue11">Caregivers</span>
               </h1>
               <div className="flex justify-end space-x-2 py-4">
-              <Button
-              variant="default"
+                <Button
+                  className="bg-white"
+                  variant="outline"
                   size="lg"
                   onClick={() => {
                     void router.push("/about");
@@ -65,8 +66,8 @@ export function HomeDisplay() {
                   Learn More
                 </Button>
                 <Button
-                  className=""
-                  variant="default"
+                  className="bg-white"
+                  variant="outline"
                   size="lg"
                   onClick={() => {
                     void router.push("/about");
@@ -74,10 +75,9 @@ export function HomeDisplay() {
                 >
                   Register
                 </Button>
-
                 <Button
-                  className=""
-                  variant="default"
+                  className="bg-white"
+                  variant="outline"
                   size="lg"
                   onClick={() => {
                     void signIn();

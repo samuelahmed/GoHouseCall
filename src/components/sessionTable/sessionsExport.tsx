@@ -9,6 +9,7 @@ export default function SessionsExport() {
     <>
       <div className="flex items-center justify-between px-5 py-4">
         <Button
+          variant="outline"
           onClick={() => {
             console.log(router.push("/sessionPage"));
           }}

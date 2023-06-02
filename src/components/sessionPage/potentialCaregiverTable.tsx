@@ -145,10 +145,7 @@ export function PotentialCaregiverTable() {
                 >
                   Message
                 </Button>
-                <Button
-                  // variant="outline"
-                  size="sm"
-                >
+                <Button variant="outline" size="sm">
                   Accept
                 </Button>
                 <Button variant="outline" size="sm">

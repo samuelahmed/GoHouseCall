@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -117,7 +117,9 @@ export function AccountForm() {
         />
         <div className="flex flex-col items-start space-y-4">
           <Button variant="outline">Payments Dashboard</Button>
-          <Button type="submit">Update account</Button>
+          <Button variant="outline" type="submit">
+            Update account
+          </Button>
         </div>
       </form>
     </Form>

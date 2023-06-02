@@ -121,11 +121,10 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 aria-label="Input for message"
               />
               <div className="flex h-16 items-center justify-end ">
-                <Button>Send</Button>
+                <Button variant="outline">Send</Button>
               </div>
             </div>
           </div>
-
           <div className="hidden w-72 md:block">
             <div className="flex items-center justify-center pt-4">
               <Avatar>
@@ -136,13 +135,8 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
             <div className="py-2 text-center">
               {passSelectedUser.name || lastMessagedUser}
             </div>
-
             <div className="flex flex-row items-center justify-center space-x-1 px-4 text-lg">
-              <Button
-          
-                variant="outline"
-                size="sm"
-              >
+              <Button variant="outline" size="sm">
                 Profile
               </Button>
               <Button variant="outline" size="sm">
