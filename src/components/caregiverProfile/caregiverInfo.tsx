@@ -8,8 +8,11 @@ import {
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "../ui/button";
+import { useRouter } from "next/router";
 
 export function CaregiverInfo() {
+  const router = useRouter();
+
   return (
     <>
       <div className="px-4 py-4">
@@ -43,10 +46,17 @@ export function CaregiverInfo() {
           </CardFooter>
         </Card>
         <div className="flex flex-row items-center justify-start space-x-4">
-          <Button size="sm" className="mt-4">
-            Send Message
+          <Button
+            onClick={() => {
+              void router.push("/messages");
+            }}
+            variant="outline"
+            size="sm"
+            className="mt-4"
+          >
+            Message
           </Button>
-          <Button size="sm" className="mt-4">
+          <Button variant="outline" size="sm" className="mt-4">
             Request Caregiver
           </Button>
         </div>

@@ -19,9 +19,7 @@ export function ContactForm() {
       <div className="w-full px-10 py-10">
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center ">
-              Email Support
-            </CardTitle>
+            <CardTitle className="text-center ">Email Support</CardTitle>
             <CardDescription>
               Please fill out the form below and the House Call team will get
               back to you as soon as possible.
@@ -42,35 +40,31 @@ export function ContactForm() {
             </div>
           </CardContent>
           <CardFooter className="justify-end space-x-2">
-            <Button>Submit</Button>
+            <Button variant="outline">Submit</Button>
           </CardFooter>
         </Card>
       </div>
       <div className="flex min-h-full w-full flex-col space-y-10 px-10 pt-10">
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center">
-              Help Center
-            </CardTitle>
+            <CardTitle className="text-center">Help Center</CardTitle>
             <CardDescription className="">
               Find answers to your questions and get the help you need.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center">
-            <Button>Help Center</Button>
+            <Button variant="outline">Help Center</Button>
           </CardContent>
         </Card>
         <Card className="">
           <CardHeader>
-            <CardTitle className="text-center">
-              Phone Support
-            </CardTitle>
+            <CardTitle className="text-center">Phone Support</CardTitle>
             <CardDescription className="">
               For immediate assistance, please contact our support team.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center">
-            <Button>1-408-332-1104</Button>
+            <Button variant="outline">1-408-332-1104</Button>
           </CardContent>
         </Card>
       </div>

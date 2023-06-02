@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -132,7 +132,9 @@ export function ProfileForm() {
             Add URL
           </Button>
         </div>
-        <Button type="submit">Update Profile</Button>
+        <Button variant="outline" type="submit">
+          Update Profile
+        </Button>
       </form>
     </Form>
   );
