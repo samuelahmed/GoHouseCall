@@ -141,7 +141,7 @@ export function AboutHouseCall() {
           </CardHeader>
           <div className="flex px-4 pb-4 ">
             <Button
-              variant="default"
+              variant="outline"
               size="lg"
               onClick={() => {
                 void router.push("/register");
