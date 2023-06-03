@@ -12,9 +12,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import TimePicker from "./timePicker";
 
 export function CreateSessionDatePicker() {
   const [date, setDate] = React.useState<Date>();
+  const [startTime, setStartTime] = React.useState<Date>();
 
   return (
     <Popover>
@@ -26,6 +28,7 @@ export function CreateSessionDatePicker() {
             !date && "text-muted-foreground"
           )}
         >
+
           <CalendarIcon className="mr-2 h-4 w-4 " />
           <ClockIcon className="mr-2 h-4 w-4 " />
           <div className="hidden md:block">
@@ -36,25 +39,11 @@ export function CreateSessionDatePicker() {
       <PopoverContent className="mx-4 w-auto p-0">
         <div className="flex px-4 py-4">
           <div className="w-full">
-            <Popover>
-              <PopoverTrigger>
-                <Button variant={"outline"} className="">
-                  Start Time
-                  <PopoverContent>Time Select</PopoverContent>
-                </Button>
-              </PopoverTrigger>
-            </Popover>
+            <TimePicker />
           </div>
 
           <div className="w-full">
-            <Popover>
-              <PopoverTrigger>
-                <Button variant={"outline"} className="">
-                  End Time
-                  <PopoverContent>Time Select</PopoverContent>
-                </Button>
-              </PopoverTrigger>
-            </Popover>
+            <TimePicker />
           </div>
         </div>
 
