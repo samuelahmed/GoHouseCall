@@ -1,10 +1,15 @@
+"use client";
+
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
+
+// import { authOptions } from "~/server/auth";
+
+
 import { Button } from "~/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +20,7 @@ import { buttonVariants } from "~/components/ui/button";
 import { UserAuthForm } from "~/components/ui/userAuthForm";
 
 export default function SignIn({
-  providers,
+  // providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
@@ -101,7 +106,7 @@ export default function SignIn({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const session = await getServerSession(context.req, context.res, authOptions);
+  const session = await getServerSession();
 
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
