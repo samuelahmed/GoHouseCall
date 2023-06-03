@@ -1,9 +1,14 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getProviders, signIn } from "next-auth/react"
-import { getServerSession } from "next-auth/next"
-import authOptions from "./api/auth/[...nextauth]"
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
+import { getProviders, signIn } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import NextAuth from "./api/auth/[...nextauth]";
 
-export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       {Object.values(providers).map((provider) => (
@@ -14,13 +19,13 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
         </div>
       ))}
     </>
-  )
+  );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const session = await getServerSession(context.req, context.res, authOptions);
-  
+  const session = await getServerSession(context.req, context.res, NextAuth);
+
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
   // To avoid an infinite loop!
@@ -29,8 +34,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const providers = await getProviders();
-  
+
   return {
     props: { providers: providers ?? [] },
-  }
+  };
 }
+
+
