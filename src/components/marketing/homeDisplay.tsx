@@ -70,7 +70,7 @@ export function HomeDisplay() {
                   variant="outline"
                   size="lg"
                   onClick={() => {
-                    void router.push("/about");
+                    void router.push("/signIn");
                   }}
                 >
                   Register
