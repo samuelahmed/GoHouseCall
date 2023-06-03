@@ -10,7 +10,7 @@ import { buttonVariants } from "~/components/ui/button";
 import { UserAuthForm } from "~/components/ui/userAuthForm";
 
 
-export default function SignIn({  }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
 
@@ -93,13 +93,13 @@ export default function SignIn({  }: InferGetServerSidePropsType<typeof getServe
         </div>
       </div>
 
-      {/* {Object.values(providers).map((provider) => (
+      {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <button onClick={() => void signIn(provider.id)}>
             Sign in with {provider.name}
           </button>
         </div>
-      ))} */}
+      ))}
 
 
 
