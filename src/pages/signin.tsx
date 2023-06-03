@@ -83,12 +83,12 @@ export default function SignIn({
               >
                 Terms of Service
               </Link>
-              and
+              {" "}and{" "}
               <Link
                 href="/privacy"
                 className="underline underline-offset-4 hover:text-primary"
               >
-                Privacy Policy
+                Privacy Policy 
               </Link>
               .
             </p>
