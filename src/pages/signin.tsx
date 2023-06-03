@@ -1,10 +1,15 @@
+"use client";
+
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
+
+// import { authOptions } from "~/server/auth";
+
+
 import { Button } from "~/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,11 +19,16 @@ import { buttonVariants } from "~/components/ui/button";
 // import { UserAuthForm } from "~/app/examples/authentication/components/user-auth-form"
 import { UserAuthForm } from "~/components/ui/userAuthForm";
 
-export default function SignIn({
-  providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn() {
+
+  // providers,
+// }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
+
     <>
+
+
+
       <div className=""></div>
       <div className="container relative  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
@@ -72,7 +82,7 @@ export default function SignIn({
               <p className="text-sm text-muted-foreground">
                 Enter your email below to create your account
               </p>
-              <UserAuthForm />
+              {/* <UserAuthForm /> */}
             </div>
 
             <p className="px-8 text-center text-sm text-muted-foreground">
@@ -95,24 +105,27 @@ export default function SignIn({
           </div>
         </div>
       </div>
+
+
+      
     </>
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const session = await getServerSession(context.req, context.res, authOptions);
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+//   const session = await getServerSession();
 
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
+//   // If the user is already logged in, redirect.
+//   // Note: Make sure not to redirect to the same page
+//   // To avoid an infinite loop!
+//   if (session) {
+//     return { redirect: { destination: "/" } };
+//   }
 
-  const providers = await getProviders();
+//   const providers = await getProviders();
 
-  return {
-    props: { providers: providers ?? [] },
-  };
-}
+//   return {
+//     props: { providers: providers ?? [] },
+//   };
+// }
