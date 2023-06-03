@@ -6,10 +6,13 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import RootLayout from "~/layouts/rootLayout";
 
+
 const MyApp: AppType<{ session: Session | null }> = ({
+  
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  
   return (
     <SessionProvider session={session}>
       <RootLayout>

@@ -18,6 +18,10 @@ declare module "next-auth" {
 }
 
 export const authOptions: NextAuthOptions = {
+  // export const authOptions: NextAuthOptions = {
+  // secret: process.env.TOKEN_SECRET,
+  // other configs...
+
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
@@ -27,6 +31,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  // secret: process.env.TOKEN_SECRET,
   // pages: {
   //   signIn: '/auth/signin',
   //   signOut: '/auth/signout',
@@ -43,6 +48,10 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
+    signOut: "/auth/signout",
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
 
