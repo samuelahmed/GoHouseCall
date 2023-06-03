@@ -35,12 +35,30 @@ export function CreateSessionDatePicker() {
       </PopoverTrigger>
       <PopoverContent className="mx-4 w-auto p-0">
         <div className="flex px-4 py-4">
-          <div className="w-full">Start Time</div>
-          <div className="w-full">End Time</div>
+          <div className="w-full">
+            <Popover>
+              <PopoverTrigger>
+                <Button variant={"outline"} className="">
+                  Start Time
+                  <PopoverContent>Time Select</PopoverContent>
+                </Button>
+              </PopoverTrigger>
+            </Popover>
+          </div>
+
+          <div className="w-full">
+            <Popover>
+              <PopoverTrigger>
+                <Button variant={"outline"} className="">
+                  End Time
+                  <PopoverContent>Time Select</PopoverContent>
+                </Button>
+              </PopoverTrigger>
+            </Popover>
+          </div>
         </div>
 
         <Calendar
-          // className=""
           mode="single"
           selected={date}
           onSelect={setDate}
