@@ -16,7 +16,7 @@ export default function RootLayout({
       // className="font-roboto"
       >
         <Header />
-        <main>{children}</main>
+        <main className="min-h-screen overflow-hidden">{children}</main>
         <Footer />
       </div>
     </>
