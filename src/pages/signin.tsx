@@ -9,7 +9,6 @@ import { getServerSession } from "next-auth/next";
 
 // import { authOptions } from "~/server/auth";
 
-
 import { Button } from "~/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,19 +17,12 @@ import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 // import { UserAuthForm } from "~/app/examples/authentication/components/user-auth-form"
 import { UserAuthForm } from "~/components/ui/userAuthForm";
-import NextAuth from "./api/auth/[...nextauth]"
+import NextAuth from "./api/auth/[...nextauth]";
 
-
-export default function SignIn() {
-
-  // providers,
-// }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn({
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-
     <>
-
-
-
       <div className=""></div>
       <div className="container relative  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
@@ -66,9 +58,10 @@ export default function SignIn() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;House Call helped me find the perfect caregiver for my unique needs. 
-                I was able to find someone who was not only compassionate about my situation but also had the skills to help improve my quality of life.&rdquo;
-                
+                &ldquo;House Call helped me find the perfect caregiver for my
+                unique needs. I was able to find someone who was not only
+                compassionate about my situation but also had the skills to help
+                improve my quality of life.&rdquo;
               </p>
               <footer className="text-sm">Sofia Davis</footer>
             </blockquote>
@@ -94,22 +87,19 @@ export default function SignIn() {
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
-              </Link>
-              {" "}and{" "}
+              </Link>{" "}
+              and{" "}
               <Link
                 href="/privacy"
                 className="underline underline-offset-4 hover:text-primary"
               >
-                Privacy Policy 
+                Privacy Policy
               </Link>
               .
             </p>
           </div>
         </div>
       </div>
-
-
-      
     </>
   );
 }
@@ -117,7 +107,7 @@ export default function SignIn() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const session = await getServerSession(context.req, context.res, NextAuth);
-  
+
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
   // To avoid an infinite loop!
@@ -126,8 +116,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const providers = await getProviders();
-  
+
   return {
     props: { providers: providers ?? [] },
-  }
+  };
 }
