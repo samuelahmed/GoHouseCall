@@ -144,7 +144,7 @@ export function AboutHouseCall() {
               variant="outline"
               size="lg"
               onClick={() => {
-                void router.push("/register");
+                void router.push("/signin");
               }}
             >
               Register
