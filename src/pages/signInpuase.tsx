@@ -18,6 +18,8 @@ import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 // import { UserAuthForm } from "~/app/examples/authentication/components/user-auth-form"
 import { UserAuthForm } from "~/components/ui/userAuthForm";
+import NextAuth from "./api/auth/[...nextauth]"
+
 
 export default function SignIn() {
 
@@ -114,8 +116,8 @@ export default function SignIn() {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const session = await getServerSession();
-
+  const session = await getServerSession(context.req, context.res, NextAuth);
+  
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
   // To avoid an infinite loop!
@@ -124,8 +126,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const providers = await getProviders();
-
+  
   return {
     props: { providers: providers ?? [] },
-  };
+  }
 }
