@@ -82,7 +82,7 @@ export default function SignIn() {
               <p className="text-sm text-muted-foreground">
                 Enter your email below to create your account
               </p>
-              {/* <UserAuthForm /> */}
+              <UserAuthForm />
             </div>
 
             <p className="px-8 text-center text-sm text-muted-foreground">
