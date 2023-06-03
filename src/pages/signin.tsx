@@ -19,9 +19,10 @@ import { buttonVariants } from "~/components/ui/button";
 // import { UserAuthForm } from "~/app/examples/authentication/components/user-auth-form"
 import { UserAuthForm } from "~/components/ui/userAuthForm";
 
-export default function SignIn({
+export default function SignIn({  }) {
+
   // providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+// }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <div className=""></div>
@@ -104,20 +105,20 @@ export default function SignIn({
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const session = await getServerSession();
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+//   const session = await getServerSession();
 
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
+//   // If the user is already logged in, redirect.
+//   // Note: Make sure not to redirect to the same page
+//   // To avoid an infinite loop!
+//   if (session) {
+//     return { redirect: { destination: "/" } };
+//   }
 
-  const providers = await getProviders();
+//   const providers = await getProviders();
 
-  return {
-    props: { providers: providers ?? [] },
-  };
-}
+//   return {
+//     props: { providers: providers ?? [] },
+//   };
+// }
