@@ -11,6 +11,7 @@ import { cn } from "~/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { UserAuthForm } from "~/components/auth/userAuthForm";
+import Head from "next/head";
 
 export default function SignIn({}: InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -18,6 +19,13 @@ export default function SignIn({}: InferGetServerSidePropsType<
   console;
   return (
     <>
+      <Head>
+        <title>Sign In</title>
+        <meta
+          name="description"
+          content="Sign or create a House Call account"
+        />
+      </Head>
       <div className=""></div>
       <div className="container relative  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
