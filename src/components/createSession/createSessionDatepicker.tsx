@@ -30,8 +30,8 @@ export function CreateSessionDatePicker() {
         >
 
           <CalendarIcon className="mr-2 h-4 w-4 " />
-          <div className="hidden md:block">
-            {date ? format(date, "PPP") : <span>Pick a date & Time</span>}
+          <div className="">
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
           </div>
         </Button>
       </PopoverTrigger>

@@ -14,7 +14,7 @@ import {
 import { ClockIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function TimePicker() {
+export default function EndTimePicker() {
   const [startHour, setStartHour] = React.useState<string | null>(null);
   const [startMinute, setStartMinute] = React.useState<string | null>(null);
   const [startAMPM, setStartAMPM] = React.useState<string | null>(null);
@@ -40,11 +40,11 @@ export default function TimePicker() {
           ) : (
             <span className="flex items-center font-normal text-muted-foreground">
               <ClockIcon className="mr-2 h-4 w-4 " />
-              Start
+              End
             </span>
           )}
           <PopoverContent>
-            <div className="pb-2 text-center text-sm">Start Time</div>
+            <div className="pb-2 text-center text-sm">End Time</div>
             <div className="flex space-x-1">
               <Select onValueChange={setStartHour}>
                 <SelectTrigger className="w-full">

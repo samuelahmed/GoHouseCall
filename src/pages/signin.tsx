@@ -4,29 +4,20 @@ import type {
 } from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-// import NextAuth from "../pages/api/auth/[...nextauth]"
 import { authOptions } from "~/server/auth";
 import { Button } from "~/components/ui/button";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { UserAuthForm } from "~/components/ui/userAuthForm";
+import { UserAuthForm } from "~/components/auth/userAuthForm";
 
-export default function SignIn({
-  providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn({}: InferGetServerSidePropsType<
+  typeof getServerSideProps
+>) {
   console;
   return (
     <>
-      {/* {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={() => void signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))} */}
-
       <div className=""></div>
       <div className="container relative  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
@@ -40,13 +31,7 @@ export default function SignIn({
           Sign in
         </Button>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-          <div
-            className="absolute inset-0 bg-cover"
-            // style={{
-            //   backgroundImage:
-            //     "url(https://images.unsplash.com/photo-1590069261209-f8e9b8642343?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80)",
-            // }}
-          >
+          <div className="absolute inset-0 bg-cover">
             <Image
               src="/houseCallLogin2.jpeg"
               width={1280}
@@ -55,10 +40,6 @@ export default function SignIn({
               className="block"
             />
           </div>
-
-          {/* <div className="relative z-20 flex items-center text-lg font-medium">
-             House Call
-          </div> */}
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
@@ -71,7 +52,6 @@ export default function SignIn({
             </blockquote>
           </div>
         </div>
-
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] ">
             <div className="flex flex-col space-y-2 text-center">
@@ -83,7 +63,6 @@ export default function SignIn({
               </p>
               <UserAuthForm />
             </div>
-
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
@@ -109,10 +88,7 @@ export default function SignIn({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const session = await getServerSession(context.req, context.res, authOptions);
-
-  // console.log(session)
 
   // If the user is already logged in, redirect.
   // Note: Make sure not to redirect to the same page
