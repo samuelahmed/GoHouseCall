@@ -42,12 +42,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          <Button 
-          variant="outline"
-          disabled={isLoading}>
-            {isLoading && (
-              <></>
-            )}
+          <Button variant="outline" disabled={isLoading}>
+            {isLoading && <></>}
             Sign In with Email
           </Button>
         </div>

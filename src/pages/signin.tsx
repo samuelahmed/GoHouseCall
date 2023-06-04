@@ -10,7 +10,7 @@ import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { UserAuthForm } from "~/components/ui/userAuthForm";
+import { UserAuthForm } from "~/components/auth/userAuthForm";
 
 export default function SignIn({}: InferGetServerSidePropsType<
   typeof getServerSideProps
