@@ -124,7 +124,7 @@ export function CreateSessionForm() {
                     <FormLabel>Time</FormLabel>
                     <div className="flex space-x-2">
                       <TimePicker />
-                      <TimePicker />
+                      {/* <TimePicker /> */}
                     </div>
                   </FormItem>
                 )}

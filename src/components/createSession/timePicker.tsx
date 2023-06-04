@@ -14,11 +14,18 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { ClockIcon } from "lucide-react";
-import { format } from "date-fns";
+// import { format, set } from "date-fns";
 import { Button } from "../ui/button";
 
 export default function TimePicker() {
-  const [startTime, setStartTime] = React.useState<Date>();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const [startHour, setStartHour] = React.useState<string | null>(null);
+  const [startMinute, setStartMinute] = React.useState<string | null>(null);
+  const [startAMPM, setStartAMPM] = React.useState<string | null>(null);
+
+
+  // console.log("startHour", startHour);
+
 
   const hours: string[] = [];
   for (let i = 0; i <= 12; i++) {
@@ -27,24 +34,27 @@ export default function TimePicker() {
 
   const minutes: string[] = [];
   for (let i = 0; i < 60; i = i + 5) {
-    minutes.push(i.toString());
+    if (i < 10) {
+      minutes.push("0" + i.toString());
+    } else minutes.push(i.toString());
   }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant={"outline"} className="w-full">
-          {startTime ? (
-            format(startTime, "PPP")
+          {startHour ? (
+            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
           ) : (
             <span className="flex items-center ">
               <ClockIcon className="mr-2 h-4 w-4 " />
               <span className="hidden md:block">Start Time</span>{" "}
             </span>
           )}
-
           <PopoverContent>
             <div className="flex space-x-1">
-              <Select>
+              <Select onValueChange={setStartHour}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Hour" />
                 </SelectTrigger>
@@ -57,7 +67,7 @@ export default function TimePicker() {
                 </SelectContent>
               </Select>
 
-              <Select>
+              <Select onValueChange={setStartMinute}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Minute" />
                 </SelectTrigger>
@@ -69,8 +79,7 @@ export default function TimePicker() {
                   ))}
                 </SelectContent>
               </Select>
-
-              <Select>
+              <Select onValueChange={setStartAMPM}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="AM" />
                 </SelectTrigger>
