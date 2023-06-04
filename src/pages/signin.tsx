@@ -48,7 +48,7 @@ export default function SignIn({
             // }}
           >
             <Image
-              src="/houseCallLogin6.jpeg"
+              src="/houseCallLogin2.jpeg"
               width={1280}
               height={843}
               alt="Authentication"
