@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-
+import { ClockIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
 
@@ -31,10 +31,16 @@ export default function TimePicker() {
   }
   return (
     <Popover>
-      <PopoverTrigger>
-        <Button variant={"outline"} className="">
-          {startTime ? format(startTime, "PPP") : <span>Start Time</span>}
-
+      <PopoverTrigger asChild>
+        <Button variant={"outline"} className="w-full">
+          {startTime ? (
+            format(startTime, "PPP")
+          ) : (
+            <span className="flex items-center ">
+              <ClockIcon className="mr-2 h-4 w-4 " />
+              <span className="hidden md:block">Start Time</span>{" "}
+            </span>
+          )}
 
           <PopoverContent>
             <div className="flex space-x-1">
@@ -44,8 +50,7 @@ export default function TimePicker() {
                 </SelectTrigger>
                 <SelectContent className="h-56">
                   {hours.map((hour) => (
-                    <SelectItem 
-                    key={hour} value={hour}>
+                    <SelectItem key={hour} value={hour}>
                       {hour}
                     </SelectItem>
                   ))}
@@ -76,9 +81,6 @@ export default function TimePicker() {
               </Select>
             </div>
           </PopoverContent>
-
-
-          
         </Button>
       </PopoverTrigger>
     </Popover>

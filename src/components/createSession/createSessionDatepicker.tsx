@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, ClockIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
@@ -30,22 +30,14 @@ export function CreateSessionDatePicker() {
         >
 
           <CalendarIcon className="mr-2 h-4 w-4 " />
-          <ClockIcon className="mr-2 h-4 w-4 " />
           <div className="hidden md:block">
             {date ? format(date, "PPP") : <span>Pick a date & Time</span>}
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="mx-4 w-auto p-0">
-        <div className="flex px-4 py-4">
-          <div className="w-full">
-            <TimePicker />
-          </div>
 
-          <div className="w-full">
-            <TimePicker />
-          </div>
-        </div>
+      <PopoverContent className="mx-4 w-auto p-0">
+
 
         <Calendar
           mode="single"
