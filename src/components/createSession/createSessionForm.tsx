@@ -24,6 +24,7 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
+import EndTimePicker from "./endTimePicker";
 
 const accountFormSchema = z.object({
   name: z
@@ -124,7 +125,7 @@ export function CreateSessionForm() {
                     <FormLabel>Time</FormLabel>
                     <div className="flex space-x-2">
                       <TimePicker />
-                      {/* <TimePicker /> */}
+                      <EndTimePicker />
                     </div>
                   </FormItem>
                 )}
