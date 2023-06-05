@@ -26,6 +26,15 @@ const profileFormSchema = z.object({
     .max(30, {
       message: "Username must not be longer than 30 characters.",
     }),
+
+  name: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
   email: z
     .string({
       required_error: "Please select an email to display.",
@@ -41,14 +50,17 @@ const profileFormSchema = z.object({
     .optional(),
 });
 
+// type AccountFormValues = z.infer<typeof accountFormSchema>;
+
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-const defaultValues: Partial<ProfileFormValues> = {
-  bio: "",
-  urls: [{ value: "" }],
-};
+export function ProfileForm({ name }: ProfileFormValues) {
+  const defaultValues: Partial<ProfileFormValues> = {
+    name: name,
+    bio: "",
+    urls: [{ value: "" }],
+  };
 
-export function ProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -64,6 +76,8 @@ export function ProfileForm() {
     console.log(data);
   }
 
+  console.log(name);
+
   return (
     <Form {...form}>
       <form onSubmit={void form.handleSubmit(onSubmit)} className="space-y-8">
@@ -74,7 +88,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Prefered Name" {...field} />
+                <Input defaultValue={name} />
               </FormControl>
               <FormDescription>
                 What do you prefer people to call you?

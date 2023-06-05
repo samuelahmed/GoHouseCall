@@ -36,14 +36,21 @@ const accountFormSchema = z.object({
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
-const defaultValues: Partial<AccountFormValues> = {
-  name: "",
-  address: "",
-  city: "",
-  zip: "",
-};
 
-export function AccountForm() {
+
+
+
+
+export function AccountForm( {name, address, city, zip}: AccountFormValues) {
+
+  const defaultValues: Partial<AccountFormValues> = {
+    name: name,
+    address: "",
+    city: "",
+    zip: "",
+  };
+
+
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
@@ -53,6 +60,7 @@ export function AccountForm() {
     console.log(data);
   }
 
+  console.log(name)
   return (
     <Form {...form}>
       <form onSubmit={void form.handleSubmit(onSubmit)} className="space-y-8">
@@ -63,7 +71,9 @@ export function AccountForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your name" {...field} />
+                <Input 
+                defaultValue={name}                
+                />
               </FormControl>
               <FormDescription>
                 This is your legal name and will be used for payments and tax
