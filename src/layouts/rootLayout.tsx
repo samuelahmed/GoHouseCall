@@ -12,11 +12,10 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/faviconLarge.png" />
       </Head>
-      <div 
-      // className="font-roboto"
+      <div
       >
         <Header />
-        <main className="min-h-screen overflow-hidden">{children}</main>
+        <main className="h-screen overflow-auto">{children}</main>
         <Footer />
       </div>
     </>

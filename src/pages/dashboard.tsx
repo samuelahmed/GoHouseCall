@@ -37,7 +37,7 @@ const Dashboard: NextPage = () => {
         )}
         {sessionData && (
           <>
-            <div className="h-screen px-4 py-4">
+            <div className="px-4 py-4">
               <DashboardLayout>
                 <Dashboardinfo />
               </DashboardLayout>
