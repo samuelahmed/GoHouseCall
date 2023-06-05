@@ -39,10 +39,17 @@ export function Header() {
           <SignInOutTrigger />
         </div>
       </div>
-      <div className="flex h-12 w-full items-center justify-start border-b border-blue12 bg-blue11 px-1 md:px-4">
+      <div className="flex h-12 w-full items-center justify-start border-b border-blue12 bg-blue11 px-1 md:px-4 overflow-auto">
         <div className="min-w-fit text-olive1">
           <NavigationMenu>
             <NavigationMenuList>
+            <NavigationMenuItem>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Dashboard
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/sessions" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
