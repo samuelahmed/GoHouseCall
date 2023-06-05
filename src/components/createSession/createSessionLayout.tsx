@@ -1,11 +1,11 @@
 import { Separator } from "~/components/ui/separator";
 
 
-interface SettingsLayoutProps {
+interface CreateSessionProps {
   children: React.ReactNode;
 }
 
-export default function CreateSessionLayout({ children }: SettingsLayoutProps) {
+export default function CreateSessionLayout({ children }: CreateSessionProps) {
   return (
     <>
       <div className="min-h-screen overflow-auto  ">
