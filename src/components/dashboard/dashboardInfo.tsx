@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useRouter } from "next/router";
 
 export default function Dashboardinfo() {
@@ -17,9 +10,9 @@ export default function Dashboardinfo() {
           <Card>
             <CardHeader>
               <CardTitle>Sessions</CardTitle>
-              {/* <CardDescription>Applied Sessions</CardDescription> */}
             </CardHeader>
             <CardContent>
+              <p>Scheduled Sessions: 3</p>
               <p
                 onClick={() => {
                   void router.push("/sessions");
@@ -28,19 +21,14 @@ export default function Dashboardinfo() {
               >
                 Applied Sessions: 5
               </p>
-              <p>Upcoming Sessions: 3</p>
               <p>Completed Sessions: 6</p>
             </CardContent>
-            {/* <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter> */}
           </Card>
         </div>
         <div className="w-full">
           <Card>
             <CardHeader>
               <CardTitle>Messages</CardTitle>
-              {/* <CardDescription>Applied Sessions</CardDescription> */}
             </CardHeader>
             <CardContent>
               <p
@@ -54,16 +42,12 @@ export default function Dashboardinfo() {
               <p>Sent Messages: 3</p>
               <p>Total Contacts: 6</p>
             </CardContent>
-            {/* <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter> */}
           </Card>
         </div>
         <div className="w-full">
           <Card>
             <CardHeader>
               <CardTitle>Account</CardTitle>
-              {/* <CardDescription>Applied Sessions</CardDescription> */}
             </CardHeader>
             <CardContent>
               <p
@@ -94,15 +78,11 @@ export default function Dashboardinfo() {
           </Card>
         </div>
       </div>
-
       <div className="flex flex-col space-y-4 px-4">
         <div className="w-full">
           <Card>
             <CardHeader>
               <CardTitle className="text-center">Scheduled Sessions</CardTitle>
-              <CardDescription>
-                Sessions that have been scheduled
-              </CardDescription>
             </CardHeader>
             <CardContent>
               <p>Session Info</p>
@@ -112,10 +92,7 @@ export default function Dashboardinfo() {
         <div className="w-full">
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">Scheduled Sessions</CardTitle>
-              <CardDescription>
-                Sessions that have been scheduled
-              </CardDescription>
+              <CardTitle className="text-center">Applied Sessions</CardTitle>
             </CardHeader>
             <CardContent>
               <p>Session Info</p>
@@ -125,10 +102,7 @@ export default function Dashboardinfo() {
         <div className="w-full">
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">Scheduled Sessions</CardTitle>
-              <CardDescription>
-                Sessions that have been scheduled
-              </CardDescription>
+              <CardTitle className="text-center">Completed Sessions</CardTitle>
             </CardHeader>
             <CardContent>
               <p>Session Info</p>
