@@ -7,10 +7,7 @@ const About: NextPage = () => {
     <>
       <Head>
         <title>About</title>
-        <meta
-          name="description"
-          content="About House Call"
-        />
+        <meta name="description" content="About House Call" />
       </Head>
       <div className="min-h-screen px-4 py-4 md:px-8 md:py-8">
         <AboutHouseCall />

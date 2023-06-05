@@ -19,6 +19,8 @@ export default function TimePicker() {
   const [startMinute, setStartMinute] = React.useState<string | null>(null);
   const [startAMPM, setStartAMPM] = React.useState<string | null>(null);
 
+
+
   const hours: string[] = [];
   for (let i = 0; i <= 12; i++) {
     hours.push(i.toString());
@@ -43,46 +45,46 @@ export default function TimePicker() {
               Start
             </span>
           )}
-          <PopoverContent>
-            <div className="pb-2 text-center text-sm">Start Time</div>
-            <div className="flex space-x-1">
-              <Select onValueChange={setStartHour}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Hour" />
-                </SelectTrigger>
-                <SelectContent className="h-56">
-                  {hours.map((hour) => (
-                    <SelectItem key={hour} value={hour}>
-                      {hour}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select onValueChange={setStartMinute}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Minute" />
-                </SelectTrigger>
-                <SelectContent className="h-56">
-                  {minutes.map((minute) => (
-                    <SelectItem key={minute} value={minute}>
-                      {minute}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select onValueChange={setStartAMPM}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="AM" />
-                </SelectTrigger>
-                <SelectContent className="h-20">
-                  <SelectItem value="AM">AM</SelectItem>
-                  <SelectItem value="PM">PM</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </PopoverContent>
         </Button>
       </PopoverTrigger>
+      <PopoverContent>
+        <div className="pb-2 text-center text-sm">Start Time</div>
+        <div className="flex space-x-1">
+          <Select onValueChange={setStartHour}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Hour" />
+            </SelectTrigger>
+            <SelectContent className="h-56">
+              {hours.map((hour) => (
+                <SelectItem key={hour} value={hour}>
+                  {hour}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={setStartMinute}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Minute" />
+            </SelectTrigger>
+            <SelectContent className="h-56">
+              {minutes.map((minute) => (
+                <SelectItem key={minute} value={minute}>
+                  {minute}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={setStartAMPM}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="AM" />
+            </SelectTrigger>
+            <SelectContent className="h-20">
+              <SelectItem value="AM">AM</SelectItem>
+              <SelectItem value="PM">PM</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </PopoverContent>
     </Popover>
   );
 }
