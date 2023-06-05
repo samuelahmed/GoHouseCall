@@ -47,9 +47,11 @@ export function HomeDisplay() {
             </AspectRatio>
           </div>
         </div>
+        {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
+
         <div className="z s-10 relative flex max-h-screen min-h-screen items-center justify-center">
-          <div className=" border:bg-yellow3 mx-4 flex flex-col items-center justify-center  rounded-xl bg-gradient-to-r from-white via-white to-blue11">
-            <div className=" w-full px-4 py-4  md:pr-20 xl:pr-36">
+          <div className="mx-20 flex flex-col items-center justify-center bg-white">
+            <div className=" w-full px-4 py-4  6">
               <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                 Connecting <span className="text-blue11">Patients </span>
                 with <span className="text-blue11">Caregivers</span>
