@@ -25,7 +25,7 @@ export function AboutHouseCall() {
         <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-2">
           <div className="flex h-full flex-col content-around space-y-2 px-2">
             <div className="h-full">
-              <Card className="hover:shadow-inner">
+              <Card className="hover:shadow-inner shadow">
                 <CardHeader>
                   <CardTitle className="text-center ">
                     Find the perfect caregiver
@@ -34,7 +34,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner">
+            <Card className="hover:shadow-inner shadow">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Control your sessions
@@ -43,7 +43,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner">
+            <Card className="hover:shadow-inner shadow">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Build lifelong relationships
@@ -52,7 +52,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner">
+            <Card className="hover:shadow-inner shadow">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Discover patients who need your help
@@ -86,7 +86,7 @@ export function AboutHouseCall() {
         </div>
       </div>
       <div className="space-y-4 px-4 py-4">
-      <Card className="hover:shadow-inner">
+      <Card className="hover:shadow-inner shadow">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Patients
@@ -103,7 +103,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner">
+        <Card className="hover:shadow-inner shadow">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Caregivers
@@ -116,7 +116,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner">
+        <Card className="hover:shadow-inner shadow">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Sessions
@@ -131,7 +131,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner">
+        <Card className="hover:shadow-inner shadow">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Easily get started right now
