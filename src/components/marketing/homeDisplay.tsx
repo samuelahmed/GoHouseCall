@@ -60,20 +60,20 @@ export function HomeDisplay() {
               <TabsList className="h-full w-full rounded-none bg-white p-2 md:p-4" >
 
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
+                  className="w-full rounded-none text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="houseCall"
                 >
                   House Call
                 </TabsTrigger>
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
+                  className="w-full rounded-none text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="patients"
                 >
                   Patients
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
+                  className="w-full rounded-none text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="caregivers"
                 >
                   Caregivers
