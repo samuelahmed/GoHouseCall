@@ -51,10 +51,10 @@ export function HomeDisplay() {
         {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
 
         <div className="z s-10 relative flex h-screen items-center justify-center">
-          <div className="mx-4 flex flex-col bg-white md:mx-10  lg:mx-20">
+          <div className="mx-4 flex flex-col bg-white md:mx-10 lg:mx-20">
             <Tabs
               defaultValue="houseCall"
-              className="max-h-50vh min-h-50vh w-full rounded-none"
+              className="max-h-50vh min-h-50vh min-w-85vw max-w-85vw rounded-none"
             >
               <TabsList className="h-full w-full rounded-none">
                 <TabsTrigger
