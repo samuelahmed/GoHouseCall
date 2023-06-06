@@ -23,35 +23,43 @@ export function AboutHouseCall() {
           </h1>
         </div>
         <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-2">
-          <div className="content-around space-y-4 px-2 py-4">
-            <Card className="">
-              <CardHeader>
-                <CardTitle className="text-center ">
-                  Find the perfect caregiver
-                </CardTitle>
-              </CardHeader>
-            </Card>
-            <Card className="">
-              <CardHeader>
-                <CardTitle className="text-center">
-                  Control your sessions
-                </CardTitle>
-              </CardHeader>
-            </Card>
-            <Card className="">
-              <CardHeader>
-                <CardTitle className="text-center">
-                  Build lifelong relationships
-                </CardTitle>
-              </CardHeader>
-            </Card>
-            <Card className="">
-              <CardHeader>
-                <CardTitle className="text-center">
-                  Discover patients who need your help
-                </CardTitle>
-              </CardHeader>
-            </Card>
+          <div className="flex h-full flex-col content-around space-y-2 px-2">
+            <div className="h-full">
+              <Card className="hover:shadow-inner">
+                <CardHeader>
+                  <CardTitle className="text-center ">
+                    Find the perfect caregiver
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </div>
+            <div className="h-full">
+            <Card className="hover:shadow-inner">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    Control your sessions
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </div>
+            <div className="h-full">
+            <Card className="hover:shadow-inner">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    Build lifelong relationships
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </div>
+            <div className="h-full">
+            <Card className="hover:shadow-inner">
+                <CardHeader>
+                  <CardTitle className="text-center">
+                    Discover patients who need your help
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+            </div>
           </div>
           <div className="w-full">
             <div className="px-2 py-2">
@@ -78,7 +86,7 @@ export function AboutHouseCall() {
         </div>
       </div>
       <div className="space-y-4 px-4 py-4">
-        <Card className="">
+      <Card className="hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Patients
@@ -95,7 +103,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="">
+        <Card className="hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Caregivers
@@ -108,7 +116,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="">
+        <Card className="hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Sessions
@@ -123,7 +131,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="">
+        <Card className="hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Easily get started right now

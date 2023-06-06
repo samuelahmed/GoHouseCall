@@ -51,8 +51,8 @@ export function HomeDisplay() {
         </div>
         {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
 
-        <div className="z s-10 relative flex h-screen items-center justify-center ">
-          <div className=" flex flex-col rounded-xl bg-white shadow-2xl">
+        <div className="z s-10 relative flex h-screen items-center justify-center">
+          <div className="flex flex-col rounded-xl bg-white shadow-2xl hover:shadow-none">
             <Tabs
               defaultValue="houseCall"
               className="min-w-85vw max-w-85vw  md:min-w-50vw md:max-w-50vw"
