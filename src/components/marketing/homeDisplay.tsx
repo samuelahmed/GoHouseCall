@@ -52,28 +52,28 @@ export function HomeDisplay() {
         {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
 
         <div className="z s-10 relative flex h-screen items-center justify-center">
-          <div className="mx-4 flex flex-col bg-white md:mx-10 lg:mx-20">
+          <div className=" flex flex-col bg-white ">
             <Tabs
               defaultValue="houseCall"
               className=" min-w-85vw max-w-85vw rounded-none"
             >
-              <TabsList className="h-full w-full rounded-none bg-white">
+              <TabsList className="h-full w-full rounded-none bg-white p-2 md:p-4" >
 
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
                   value="houseCall"
                 >
                   House Call
                 </TabsTrigger>
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
                   value="patients"
                 >
                   Patients
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none md:text-xl"
                   value="caregivers"
                 >
                   Caregivers
@@ -82,12 +82,12 @@ export function HomeDisplay() {
               <Separator />
 
               <TabsContent value="houseCall">
-                <div className="w-full bg-white px-4">
+                <div className="w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold lg:text-8xl">
                     Connecting <span className="text-blue11">Patients </span>
                     with <span className="text-blue11">Caregivers</span>
                   </h1>
-                  <div className="flex justify-end space-x-2 py-4">
+                  <div className="flex justify-end space-x-2 py-4 ">
                     <Button
                       size="lg"
                       onClick={() => {
@@ -102,9 +102,10 @@ export function HomeDisplay() {
                         void router.push("/signin");
                       }}
                     >
-                      Register
+                      Get Started
                     </Button>
                     <Button
+                    className="hidden md:block"
                       size="lg"
                       onClick={() => {
                         void signIn();
@@ -116,7 +117,7 @@ export function HomeDisplay() {
                 </div>
               </TabsContent>
               <TabsContent value="patients">
-                <div className=" w-full bg-white  px-4">
+                <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Find local <span className="text-blue11">Caregivers </span>{" "}
                     to help you
@@ -136,7 +137,7 @@ export function HomeDisplay() {
               </TabsContent>
 
               <TabsContent value="caregivers">
-                <div className=" w-full bg-white px-4 py-4">
+                <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Discover <span className="text-blue11">Patients </span>
                     that need your help
