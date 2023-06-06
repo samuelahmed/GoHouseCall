@@ -86,8 +86,8 @@ export function HomeDisplay() {
               <TabsContent value="houseCall">
                 <div className="w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold lg:text-8xl">
-                    Connecting <span className="text-blue11">Patients </span>
-                    and <span className="text-blue11">Caregivers</span>
+                    Connecting <span className="text-blue11">patients </span>
+                    and <span className="text-blue11">caregivers</span>
                   </h1>
                   <div className="flex justify-end space-x-2 py-4 ">
                     <Button
