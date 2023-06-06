@@ -26,7 +26,7 @@ export default function SignIn({}: InferGetServerSidePropsType<
           content="Sign or create a House Call account"
         />
       </Head>
-      <div className="container relative  h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative  h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
           variant="outline"
           className={cn(
