@@ -121,7 +121,7 @@ export function HomeDisplay() {
               <TabsContent value="patients">
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
-                    Find local <span className="text-blue11">Caregivers </span>{" "}
+                    Find local <span className="text-blue11">caregivers </span>{" "}
                     to help you and your loved ones.
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
@@ -141,7 +141,7 @@ export function HomeDisplay() {
               <TabsContent value="caregivers">
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
-                    Discover <span className="text-blue11">Patients </span>
+                    Discover <span className="text-blue11">patients </span>
                     that need your help and earn extra income.
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
