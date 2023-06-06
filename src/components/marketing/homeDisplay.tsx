@@ -4,6 +4,7 @@ import { Button } from "~/components/ui/button";
 import { AspectRatio } from "~/components/ui/aspectRatio";
 import { signIn } from "next-auth/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Separator } from "~/components/ui/separator";
 
 export function HomeDisplay() {
   const router = useRouter();
@@ -54,29 +55,32 @@ export function HomeDisplay() {
           <div className="mx-4 flex flex-col bg-white md:mx-10 lg:mx-20">
             <Tabs
               defaultValue="houseCall"
-              className="max-h-50vh min-h-50vh min-w-85vw max-w-85vw rounded-none"
+              className=" min-w-85vw max-w-85vw rounded-none"
             >
-              <TabsList className="h-full w-full rounded-none">
+              <TabsList className="h-full w-full rounded-none bg-white">
+
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
                   value="houseCall"
                 >
                   House Call
                 </TabsTrigger>
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
                   value="patients"
                 >
                   Patients
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="w-full rounded-none text-base font-semibold text-black"
+                  className="w-full rounded-none text-base font-semibold text-black data-[state=active]:shadow-none"
                   value="caregivers"
                 >
                   Caregivers
                 </TabsTrigger>
               </TabsList>
+              <Separator />
+
               <TabsContent value="houseCall">
                 <div className="w-full bg-white px-4">
                   <h1 className="py-4 text-6xl font-bold lg:text-8xl">
