@@ -12,11 +12,12 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/faviconLarge.png" />
       </Head>
-      <div
-      >
-        <Header />
-        <main className="h-screen overflow-auto">{children}</main>
-        <Footer />
+      <div>
+        <div className="relative min-h-screen">
+          <Header />
+          <main className="">{children}</main>
+          <Footer />
+        </div>
       </div>
     </>
   );
