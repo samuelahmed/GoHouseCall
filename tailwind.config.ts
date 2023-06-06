@@ -44,12 +44,18 @@ export default {
         "5vw": "5vw",
         "30vw": "30vw",
         "40vw": "40vw",
+        "50vw": "50vw",
+        "60vw": "60vw",
         "85vw": "85vw",
         "90vw": "90vw",
       },
       minWidth: {
         "40vw": "40vw",
         "30vw": "30vw",
+        "50vw": "50vw",
+
+        "60vw": "60vw",
+
         "85vw": "85vw",
 
         "90vw": "90vw",
