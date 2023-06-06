@@ -65,7 +65,7 @@ export function HomeDisplay() {
                   className="w-full rounded-none text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="houseCall"
                 >
-                  House Call
+                  Mission
                 </TabsTrigger>
                 <TabsTrigger
                   className="w-full rounded-none text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
@@ -85,7 +85,7 @@ export function HomeDisplay() {
 
               <TabsContent value="houseCall">
                 <div className="w-full bg-white p-4 md:p-10">
-                  <h1 className="py-4 text-6xl font-bold lg:text-8xl">
+                  <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
                     Connecting <span className="text-blue11">patients </span>
                     and <span className="text-blue11">caregivers</span>
                   </h1>
@@ -120,7 +120,7 @@ export function HomeDisplay() {
               </TabsContent>
               <TabsContent value="patients">
                 <div className=" w-full bg-white p-4 md:p-10">
-                  <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
+                <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
                     Find local <span className="text-blue11">caregivers </span>{" "}
                     to help you and your loved ones
                   </h1>
@@ -140,7 +140,7 @@ export function HomeDisplay() {
 
               <TabsContent value="caregivers">
                 <div className=" w-full bg-white p-4 md:p-10">
-                  <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
+                <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
                     Discover <span className="text-blue11">patients </span>
                     that need your help and earn extra income
                   </h1>
