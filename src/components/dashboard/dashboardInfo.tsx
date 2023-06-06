@@ -7,7 +7,7 @@ export default function Dashboardinfo() {
     <>
       <div className="flex min-w-full flex-col space-y-2 px-4 py-4 md:flex-row md:space-x-2 md:space-y-0">
         <div className="w-full">
-          <Card>
+          <Card className="shadow">
             <CardHeader>
               <CardTitle>Sessions</CardTitle>
             </CardHeader>
@@ -26,7 +26,7 @@ export default function Dashboardinfo() {
           </Card>
         </div>
         <div className="w-full">
-          <Card>
+        <Card className="shadow">
             <CardHeader>
               <CardTitle>Messages</CardTitle>
             </CardHeader>
@@ -45,7 +45,7 @@ export default function Dashboardinfo() {
           </Card>
         </div>
         <div className="w-full">
-          <Card>
+        <Card className="shadow">
             <CardHeader>
               <CardTitle>Account</CardTitle>
             </CardHeader>
@@ -80,7 +80,7 @@ export default function Dashboardinfo() {
       </div>
       <div className="flex flex-col space-y-4 px-4">
         <div className="w-full">
-          <Card>
+        <Card className="shadow">
             <CardHeader>
               <CardTitle className="text-center">Scheduled Sessions</CardTitle>
             </CardHeader>
@@ -90,7 +90,7 @@ export default function Dashboardinfo() {
           </Card>
         </div>
         <div className="w-full">
-          <Card>
+        <Card className="shadow">
             <CardHeader>
               <CardTitle className="text-center">Applied Sessions</CardTitle>
             </CardHeader>
@@ -100,7 +100,7 @@ export default function Dashboardinfo() {
           </Card>
         </div>
         <div className="w-full">
-          <Card>
+        <Card className="shadow">
             <CardHeader>
               <CardTitle className="text-center">Completed Sessions</CardTitle>
             </CardHeader>
