@@ -122,7 +122,7 @@ export function HomeDisplay() {
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Find local <span className="text-blue11">caregivers </span>{" "}
-                    to help you and your loved ones.
+                    to help you and your loved ones
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
@@ -142,7 +142,7 @@ export function HomeDisplay() {
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Discover <span className="text-blue11">patients </span>
-                    that need your help and earn extra income.
+                    that need your help and earn extra income
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
