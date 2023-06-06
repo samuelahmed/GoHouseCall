@@ -59,20 +59,20 @@ export function HomeDisplay() {
             >
               <TabsList className="h-full w-full rounded-xl  bg-white p-2 md:p-4">
                 <TabsTrigger
-                  className="w-full text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="w-full text-base hover:font-semibold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="houseCall"
                 >
                   Mission
                 </TabsTrigger>
                 <TabsTrigger
-                  className="w-full text-base  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="w-full text-base shover:font-semibold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="patients"
                 >
                   Patients
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="stext-base w-full  text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="stext-base w-full hover:font-semibold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="caregivers"
                 >
                   Caregivers

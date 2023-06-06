@@ -26,7 +26,7 @@ export default function SignIn({}: InferGetServerSidePropsType<
           content="Sign or create a House Call account"
         />
       </Head>
-      <div className="container relative  min-h-screen pb-4 flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative min-h-screen pb-4 flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Button
           variant="outline"
           className={cn(
@@ -39,7 +39,6 @@ export default function SignIn({}: InferGetServerSidePropsType<
         </Button>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-cover overflow-hidden">
-            
             <Image
               src="/houseCallLogin2.jpeg"
               width={1280}
