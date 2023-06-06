@@ -31,20 +31,18 @@ const Dashboard: NextPage = () => {
         <title>Dashboard</title>
         <meta name="description" content="Dashboard for House Call users." />
       </Head>
-      <div className="h-screen">
-        {!sessionData && (
-          <>{/* Logged out users have been redirected to home page */}</>
-        )}
-        {sessionData && (
-          <>
-            <div className="px-4 py-4 h-screen overflow-auto" >
-              <DashboardLayout>
-                <Dashboardinfo />
-              </DashboardLayout>
-            </div>
-          </>
-        )}
-      </div>
+      {!sessionData && (
+        <>{/* Logged out users have been redirected to home page */}</>
+      )}
+      {sessionData && (
+        <>
+          <div className="min-h-screen px-4 py-4 ">
+            <DashboardLayout>
+              <Dashboardinfo />
+            </DashboardLayout>
+          </div>
+        </>
+      )}
     </>
   );
 };
