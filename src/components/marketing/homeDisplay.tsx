@@ -51,8 +51,10 @@ export function HomeDisplay() {
         </div>
         {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
 
-        <div className="z s-10 relative flex h-screen items-center justify-center">
-          <div className=" flex flex-col bg-white ">
+        <div className="z s-10 relative flex h-screen items-center justify-center ">
+
+          <div className=" flex flex-col shadow-2xl bg-white">
+            
             <Tabs
               defaultValue="houseCall"
               className=" min-w-85vw max-w-85vw rounded-none"
@@ -85,7 +87,7 @@ export function HomeDisplay() {
                 <div className="w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold lg:text-8xl">
                     Connecting <span className="text-blue11">Patients </span>
-                    with <span className="text-blue11">Caregivers</span>
+                    and <span className="text-blue11">Caregivers</span>
                   </h1>
                   <div className="flex justify-end space-x-2 py-4 ">
                     <Button
@@ -120,7 +122,7 @@ export function HomeDisplay() {
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Find local <span className="text-blue11">Caregivers </span>{" "}
-                    to help you
+                    to help you and your loved ones.
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
@@ -140,7 +142,7 @@ export function HomeDisplay() {
                 <div className=" w-full bg-white p-4 md:p-10">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Discover <span className="text-blue11">Patients </span>
-                    that need your help
+                    that need your help and earn extra income.
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
