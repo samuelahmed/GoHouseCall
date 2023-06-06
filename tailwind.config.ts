@@ -44,10 +44,15 @@ export default {
         "5vw": "5vw",
         "30vw": "30vw",
         "40vw": "40vw",
+        "85vw": "85vw",
+        "90vw": "90vw",
       },
       minWidth: {
         "40vw": "40vw",
         "30vw": "30vw",
+        "85vw": "85vw",
+
+        "90vw": "90vw",
       },
       colors: {
         blue1: "#fbfdff",

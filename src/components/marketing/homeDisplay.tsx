@@ -50,24 +50,36 @@ export function HomeDisplay() {
         </div>
         {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
 
-        <div className="z s-10 relative flex max-h-screen min-h-screen items-center justify-center">
-          <div className="max-h-50vh min-h-50vh mx-20 flex flex-col items-center justify-center bg-white">
-            <Tabs defaultValue="houseCall" className="w-full rounded-none">
-              <TabsList className="w-full rounded-none">
-                <TabsTrigger className="w-full rounded-none" value="houseCall">
+        <div className="z s-10 relative flex h-screen items-center justify-center">
+          <div className="mx-4 flex flex-col bg-white md:mx-10 lg:mx-20">
+            <Tabs
+              defaultValue="houseCall"
+              className="max-h-50vh min-h-50vh min-w-85vw max-w-85vw rounded-none"
+            >
+              <TabsList className="h-full w-full rounded-none">
+                <TabsTrigger
+                  className="w-full rounded-none text-base font-semibold text-black"
+                  value="houseCall"
+                >
                   House Call
                 </TabsTrigger>
-                <TabsTrigger className="w-full rounded-none" value="patients">
+                <TabsTrigger
+                  className="w-full rounded-none text-base font-semibold text-black"
+                  value="patients"
+                >
                   Patients
                 </TabsTrigger>
 
-                <TabsTrigger className="w-full rounded-none" value="caregivers">
+                <TabsTrigger
+                  className="w-full rounded-none text-base font-semibold text-black"
+                  value="caregivers"
+                >
                   Caregivers
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="houseCall">
-                <div className="w-full px-4 py-4">
-                  <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
+                <div className="w-full bg-white px-4">
+                  <h1 className="py-4 text-6xl font-bold lg:text-8xl">
                     Connecting <span className="text-blue11">Patients </span>
                     with <span className="text-blue11">Caregivers</span>
                   </h1>
@@ -100,10 +112,10 @@ export function HomeDisplay() {
                 </div>
               </TabsContent>
               <TabsContent value="patients">
-                <div className=" w-full px-4 py-4">
+                <div className=" w-full bg-white  px-4">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Find local <span className="text-blue11">Caregivers </span>{" "}
-                    to help you and your loved ones
+                    to help you
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
@@ -120,7 +132,7 @@ export function HomeDisplay() {
               </TabsContent>
 
               <TabsContent value="caregivers">
-                <div className=" w-full px-4 py-4">
+                <div className=" w-full bg-white px-4 py-4">
                   <h1 className="py-4 text-6xl font-bold  lg:text-8xl">
                     Discover <span className="text-blue11">Patients </span>
                     that need your help
