@@ -151,7 +151,7 @@ export function AboutHouseCall() {
             <Button
               size="lg"
               onClick={() => {
-                void router.push("/signin");
+                void router.push("/register");
               }}
             >
               Register
