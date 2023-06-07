@@ -94,7 +94,7 @@ export function HomeDisplay() {
                     <Button
                       size="lg"
                       onClick={() => {
-                        void router.push("/signin");
+                        void router.push("/register");
                       }}
                     >
                       Get Started
@@ -122,7 +122,7 @@ export function HomeDisplay() {
                       variant="default"
                       size="lg"
                       onClick={() => {
-                        void router.push("/signin");
+                        void router.push("/register");
                       }}
                     >
                       Get Started
@@ -141,7 +141,7 @@ export function HomeDisplay() {
                       variant="default"
                       size="lg"
                       onClick={() => {
-                        void router.push("/signin");
+                        void router.push("/register");
                       }}
                     >
                       Get Started
