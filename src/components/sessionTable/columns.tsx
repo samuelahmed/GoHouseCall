@@ -7,10 +7,6 @@ import { DataTableColumnHeader } from "./dataTableColumnHeader";
 import { DataTableRowActions } from "./dataTableRowActions";
 // import { useRouter } from "next/router";
 
-
-
-
-
 export const columns: ColumnDef<SessionSchema>[] = [
   {
     accessorKey: "sessionType",
