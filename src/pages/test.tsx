@@ -2,9 +2,9 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { TermsOfServiceAgreement } from "~/components/legal/tos";
 
-import RegisterForm from "~/components/auth/credentialsRegisterForm";
+import RegisterForm from "~/components/auth/TEMPcredentialsRegisterForm";
 import { Separator } from "@radix-ui/react-select";
-import LoginForm from "~/components/auth/credentialsLoginForm";
+import LoginForm from "~/components/auth/TEMPcredentialsLoginForm";
 
 const Test: NextPage = () => {
   return (
