@@ -9,6 +9,8 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 
 export const credentialsRegister = createTRPCRouter({
+
+  
   register: publicProcedure
     .input(registerSchema)
     .mutation(async ({ input, ctx }) => {

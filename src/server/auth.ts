@@ -40,25 +40,31 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    // credSession({ session, token }) {
-    //   if (token && session.user) {
-    //     session.user.id = token.id as string;
-    //   }
-    //   return session;
-    // },
-
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    
+    session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
   },
-  secret: env.NEXTAUTH_SECRET,
+
+  //   session: ({ session, user }) => ({
+  //     ...session,
+  //     user: {
+  //       ...session.user,
+  //       id: user.id,
+  //     },
+  //   }),
+  // },
+  // secret: env.NEXTAUTH_SECRET,
+
+  //Have to disable the adapter because it doesn't work with credentials
+  //so that means that google doesn't create Session automatically in the database
+  //TODO: find a way to make it work with credentials or find a way to create session in the database
+  // adapter: PrismaAdapter(prisma),
 
 
-  adapter: PrismaAdapter(prisma),
   providers: [
     
     Credentials({
@@ -72,7 +78,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const cred = await loginSchema.parseAsync(credentials);
 
         const user = await prisma.user.findFirst({
@@ -85,7 +90,6 @@ export const authOptions: NextAuthOptions = {
 
         const isValidPassword = bcrypt.compareSync(
           cred.password,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           user.password as string
         );
 
@@ -96,16 +100,18 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          // username: user.username,
         };
       },
     }),
 
+
+    
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+
   pages: {
     signIn: "/signin",
     signOut: "/auth/signout",
