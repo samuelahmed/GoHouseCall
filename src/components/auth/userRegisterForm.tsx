@@ -1,4 +1,5 @@
 // "use client";
+/* eslint-disable @typescript-eslint/no-misused-promises */
 
 import * as React from "react";
 import { cn } from "~/lib/utils";
@@ -6,27 +7,36 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { signIn } from "next-auth/react";
-
-// import { Icons } from "~/components/icons"
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { CredentialRegister } from "~/utils/authSchemas";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const mutation = api.credentialsRegister.register.useMutation({
+    onError: (e) => setErrorMessage(e.message),
+    onSuccess: () => router.push("/login"),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CredentialRegister>();
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
+  const onSubmit: SubmitHandler<CredentialRegister> = async (data) => {
+    setErrorMessage(undefined);
+    await mutation.mutateAsync(data);
+  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={void onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -40,7 +50,13 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              {...register("email", { required: true })}
             />
+            {errors.email && (
+              <p className="text-center text-red11">
+                Error! This field is required
+              </p>
+            )}
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
@@ -52,9 +68,15 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              {...register("password", { required: true })}
             />
+            {errors.password && (
+              <p className="text-center text-red11">
+                Error! This field is required
+              </p>
+            )}
           </div>
-          <Button variant="outline" disabled={isLoading}>
+          <Button variant="outline" type="submit" disabled={isLoading}>
             {isLoading && <></>}
             Create Account
           </Button>
@@ -71,7 +93,7 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <Button
-        onClick={() => void signIn("google")}
+        onClick={() => signIn("google")}
         variant="outline"
         type="button"
         disabled={isLoading}

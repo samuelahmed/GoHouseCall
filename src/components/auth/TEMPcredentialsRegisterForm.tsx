@@ -27,6 +27,10 @@ const RegisterForm = () => {
     await mutation.mutateAsync(data);
   };
 
+
+
+
+  
   return (
     <div className="flex flex-col items-center gap-2 font-roboto">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">

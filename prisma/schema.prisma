@@ -69,6 +69,7 @@ model VerificationToken {
 // End necessary for Next auth
 
 //start of my models
+//HC PROFILE MODEL?
 model HCAccount {
     id      String  @id @default(cuid())
     userId  String

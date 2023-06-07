@@ -1,16 +1,12 @@
-// import { registerSchema } from "@/validation/auth";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
 import { registerSchema } from "~/utils/authSchemas";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const SALT_ROUNDS = 10;
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import { z } from "zod";
-
 export const credentialsRegister = createTRPCRouter({
 
-  
   register: publicProcedure
     .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
