@@ -11,18 +11,10 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { loginSchema } from "~/utils/authSchemas";
 
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-    } & DefaultSession["user"];
-  }
-}
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    jwt: async ({ token, user }) => {
+    jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -30,7 +22,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-  
   providers: [
     Credentials({
       name: "credentials",
@@ -89,6 +80,29 @@ export const getServerAuthSession = (ctx: {
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
+
+
+
+
+
+
+
+
+
+//TODO:figure out what this does.
+//it breaks id: ctx.session?.user?.id when deleted.
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+    } & DefaultSession["user"];
+  }
+}
+
+
+
+
+
 
 // TODO: figure how to fix session so it creates a session item in the db upon login
 // SESSION OPTION 1

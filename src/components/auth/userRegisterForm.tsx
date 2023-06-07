@@ -19,10 +19,16 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+
   const mutation = api.credentialsRegister.register.useMutation({
-    onError: (e) => setErrorMessage(e.message),
-    onSuccess: () => router.push("/login"),
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
+    onSuccess: () => {
+      void router.push("/signin");
+    }
   });
+
   const {
     register,
     handleSubmit,
@@ -38,6 +44,11 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
+          {errorMessage && (
+            <p className="text-sm text-red11">
+              Account creation failed, try again!
+            </p>
+          )}
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
@@ -53,9 +64,7 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
               {...register("email", { required: true })}
             />
             {errors.email && (
-              <p className="text-center text-red11">
-                Error! This field is required
-              </p>
+              <p className="text-sm text-red11">This field is required</p>
             )}
             <Label className="sr-only" htmlFor="email">
               Email
@@ -71,9 +80,7 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-center text-red11">
-                Error! This field is required
-              </p>
+              <p className="text-sm text-red11">This field is required</p>
             )}
           </div>
           <Button variant="outline" type="submit" disabled={isLoading}>
