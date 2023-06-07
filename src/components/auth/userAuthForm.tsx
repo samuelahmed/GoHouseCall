@@ -41,10 +41,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCorrect="off"
               disabled={isLoading}
             />
+            <Label className="sr-only" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              id="password"
+              placeholder="password"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+            />
           </div>
           <Button variant="outline" disabled={isLoading}>
             {isLoading && <></>}
-            Sign In with Email
+            Sign In
           </Button>
         </div>
       </form>

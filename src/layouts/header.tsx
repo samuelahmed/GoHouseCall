@@ -15,7 +15,7 @@ export function Header() {
   const router = useRouter();
   return (
     <header className="">
-      <div className="flex h-14 w-full items-center  bg-blue12 px-1 md:px-4">
+      <div className="flex h-14 w-full items-center  bg-blue12 px-1 md:px-4 overflow-auto">
         <div
           className="flex min-w-fit items-center space-x-2 px-2 text-xl text-olive1 hover:cursor-pointer"
           onClick={() => {
@@ -32,8 +32,9 @@ export function Header() {
           />
           <text className="font-robotoSlab">House Call</text>
         </div>
-        <div className="flex w-full items-center  justify-center px-4 text-olive1">
-          <Input placeholder="Search" className="max-w-lg" />
+
+        <div className="flex w-full items-center  justify-center px-4 text-olive1 ">
+          <Input placeholder="Search" className="max-w-lg hidden md:block" />
         </div>
         <div className="min-w-fit px-2">
           <SignInOutTrigger />
