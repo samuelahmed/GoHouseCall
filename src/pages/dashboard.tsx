@@ -6,7 +6,6 @@ import Dashboardinfo from "~/components/dashboard/dashboardInfo";
 import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "../server/auth";
 
-//redict to home page if not logged in
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);
   if (!session) {
@@ -31,9 +30,7 @@ const Dashboard: NextPage = () => {
         <title>Dashboard</title>
         <meta name="description" content="Dashboard for House Call users." />
       </Head>
-      {!sessionData && (
-        <>{/* Logged out users have been redirected to home page */}</>
-      )}
+      {!sessionData && <div className="min-h-screen"></div>}
       {sessionData && (
         <>
           <div className="min-h-screen px-4 py-4 ">

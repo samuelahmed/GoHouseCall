@@ -2,14 +2,26 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { HomeDisplay } from "~/components/marketing/homeDisplay";
-import { useRouter } from "next/router";
+import { type GetServerSidePropsContext } from "next";
+import { getServerAuthSession } from "../server/auth";
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(ctx);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
-  const router = useRouter();
-  if (sessionData) {
-    void router.push("/dashboard");
-  }
 
   return (
     <>
@@ -18,9 +30,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Connecting patients and caregivers" />
       </Head>
       {!sessionData && <HomeDisplay />}
-      {sessionData && <>
-      {/* Logged in users are redirected to dashboard */}
-      </>}
+      {sessionData && <div className="min-h-screen"></div>}
     </>
   );
 };

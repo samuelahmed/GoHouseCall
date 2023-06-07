@@ -30,7 +30,6 @@ export function HomeDisplay() {
                 fill
               />
             </AspectRatio>
-
             <AspectRatio ratio={16 / 9} className="bg-muted">
               <Image
                 src="/housecalloption4.jpeg"
@@ -49,8 +48,6 @@ export function HomeDisplay() {
             </AspectRatio>
           </div>
         </div>
-        {/* //  bg-gradient-to-r from-white via-white to-blue11 */}
-
         <div className="z s-10 relative flex h-screen items-center justify-center">
           <div className="flex flex-col rounded-xl bg-white shadow-2xl hover:shadow-none">
             <Tabs
@@ -59,27 +56,26 @@ export function HomeDisplay() {
             >
               <TabsList className="h-full w-full rounded-xl  bg-white p-2 md:p-4">
                 <TabsTrigger
-                  className="w-full text-base hover:font-bold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="w-full text-base text-black hover:font-bold data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="houseCall"
                 >
                   Mission
                 </TabsTrigger>
                 <TabsTrigger
-                  className="w-full text-base hover:font-bold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="w-full text-base text-black hover:font-bold data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="patients"
                 >
                   Patients
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="stext-base w-full hover:font-bold text-black data-[state=active]:shadow-none md:text-lg lg:text-xl"
+                  className="stext-base w-full text-black hover:font-bold data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="caregivers"
                 >
                   Caregivers
                 </TabsTrigger>
               </TabsList>
               <Separator />
-
               <TabsContent value="houseCall">
                 <div className="w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
@@ -134,7 +130,6 @@ export function HomeDisplay() {
                   </div>
                 </div>
               </TabsContent>
-
               <TabsContent value="caregivers">
                 <div className=" w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">

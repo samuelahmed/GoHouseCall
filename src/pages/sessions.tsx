@@ -10,8 +10,7 @@ const Sessions: NextPage = () => {
         <meta name="description" content="House call sessions page" />
       </Head>
       <div className="h-fit px-4 py-4 md:px-8 md:py-8">
-      <SessionsExport />
-
+        <SessionsExport />
       </div>
     </>
   );
