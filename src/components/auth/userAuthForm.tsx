@@ -8,9 +8,8 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import type { CredentialLogin } from "~/utils/authSchemas";
+import type { CredentialLogin } from "~/types/authSchemas";
 import { useForm, type SubmitHandler } from "react-hook-form";
-
 import { useState } from "react";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;

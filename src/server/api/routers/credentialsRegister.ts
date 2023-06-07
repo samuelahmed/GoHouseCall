@@ -1,11 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
-import { registerSchema } from "~/utils/authSchemas";
+import { registerSchema } from "~/types/authSchemas";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const SALT_ROUNDS = 10;
 
-export const credentialsRegister = createTRPCRouter({
+export const credentialsRegisterRouter = createTRPCRouter({
   register: publicProcedure
     .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
@@ -14,12 +14,11 @@ export const credentialsRegister = createTRPCRouter({
         where: { email },
       });
       if (exists) {
+        // need to figure out how to better tell client there is an error
         throw new TRPCError({
-          // need to figure out how to better tell client there is an error
           code: "CONFLICT",
           message: "This email is already in use",
         });
-        return null;
       }
       const salt = bcrypt.genSaltSync(SALT_ROUNDS);
       const hash = bcrypt.hashSync(password, salt);

@@ -9,8 +9,7 @@ import { prisma } from "~/server/db";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { loginSchema } from "~/utils/authSchemas";
-
+import { loginSchema } from "~/types/authSchemas";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -59,7 +58,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-
   pages: {
     signIn: "/signin",
     signOut: "/auth/signout",
@@ -85,10 +83,6 @@ export const getServerAuthSession = (ctx: {
 
 
 
-
-
-
-
 //TODO:figure out what this does.
 //it breaks id: ctx.session?.user?.id when deleted.
 declare module "next-auth" {
@@ -98,7 +92,6 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
-
 
 
 

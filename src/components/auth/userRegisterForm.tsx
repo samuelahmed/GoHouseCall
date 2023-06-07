@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { CredentialRegister } from "~/utils/authSchemas";
+import type { CredentialRegister } from "~/types/authSchemas";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -20,7 +20,7 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-  const mutation = api.credentialsRegister.register.useMutation({
+  const mutation = api.credentialsRegisterAPI.register.useMutation({
     onError: (error) => {
       setErrorMessage(error.message);
     },

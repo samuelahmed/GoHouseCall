@@ -24,10 +24,9 @@ export function ContactsNav({ items }: ContactsNavProps) {
 
   return (
     <>
-
-      <div className="flex-row space-y-0 flex  ">
+      <div className="flex flex-row space-y-0 ">
         <aside className="">
-          <h2 className="flex h-12 items-center justify-center font-bold tracking-tight text-2xl">
+          <h2 className="flex h-12 items-center justify-center text-2xl font-bold tracking-tight">
             Chat
           </h2>
           <nav className="mx-2 mt-2 flex flex-col space-y-2">

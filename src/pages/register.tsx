@@ -1,23 +1,25 @@
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
-import { getProviders, signIn } from "next-auth/react";
+import type { GetServerSidePropsContext } from "next";
+import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
-import { Button } from "~/components/ui/button";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { UserAuthForm } from "~/components/auth/userAuthForm";
 import Head from "next/head";
 import { UserRegisterForm } from "~/components/auth/userRegisterForm";
+import { type NextPage } from "next";
 
-export default function SignIn({}: InferGetServerSidePropsType<
-  typeof getServerSideProps
->) {
-  console;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (session) {
+    return { redirect: { destination: "/" } };
+  }
+  const providers = await getProviders();
+  return {
+    props: { providers: providers ?? [] },
+  };
+}
+
+const Register: NextPage = () => {
   return (
     <>
       <Head>
@@ -27,19 +29,9 @@ export default function SignIn({}: InferGetServerSidePropsType<
           content="Sign or create a House Call account"
         />
       </Head>
-      <div className="container relative min-h-screen pb-4 flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        {/* <Button
-          variant="outline"
-          className={cn(
-            buttonVariants({ variant: "ghost", size: "sm" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
-          )}
-          onClick={() => void signIn("google")}
-        >
-          Sign in
-        </Button> */}
+      <div className="container relative min-h-screen flex-col items-center justify-center pb-4 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-          <div className="absolute inset-0 bg-cover overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden bg-cover">
             <Image
               src="/houseCallLogin6.jpeg"
               width={1280}
@@ -63,15 +55,11 @@ export default function SignIn({}: InferGetServerSidePropsType<
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] ">
             <div className="flex flex-col space-y-2 text-center">
-              
-
-
-
               <h1 className="mt-20 text-2xl font-semibold tracking-tight md:mt-0">
                 Create Your Account
               </h1>
               <p className="text-sm text-muted-foreground">
-                Create an account with your email address and password. 
+                Create an account with your email address and password.
               </p>
               <UserRegisterForm />
             </div>
@@ -97,21 +85,6 @@ export default function SignIn({}: InferGetServerSidePropsType<
       </div>
     </>
   );
-}
+};
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
-
-  const providers = await getProviders();
-
-  return {
-    props: { providers: providers ?? [] },
-  };
-}
+export default Register;
