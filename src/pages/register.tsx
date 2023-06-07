@@ -26,7 +26,7 @@ const Register: NextPage = () => {
         <title>Sign In</title>
         <meta
           name="description"
-          content="Sign or create a House Call account"
+          content="Register to create your House Call account"
         />
       </Head>
       <div className="container relative min-h-screen flex-col items-center justify-center pb-4 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
