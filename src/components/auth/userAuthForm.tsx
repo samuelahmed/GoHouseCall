@@ -16,7 +16,6 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  const [providerType, setProviderType] = useState<string | undefined>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
   const { error } = router.query;
@@ -30,16 +29,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 
   const onSubmit: SubmitHandler<CredentialLogin> = async (data) => {
-    setProviderType("credentials");
+    // setProviderType("credentials");
     setErrorMessage(undefined);
     await signIn("credentials", {
       ...data,
     });
   };
-
-
-  // console.log(signIn.arguments)
-
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -85,7 +80,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
           <Button 
-          onClick={() => void setProviderType("credentials")}
+          // onClick={() => void setProviderType("credentials")}
           variant="outline" disabled={isLoading}>
             {isLoading && <></>}
             Sign In
@@ -104,7 +99,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <Button
         onClick={() => {
-          setProviderType("google");
+          // setProviderType("google");
           void signIn("google")}
         }
         variant="outline"
