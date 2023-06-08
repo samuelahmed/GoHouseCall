@@ -9,5 +9,18 @@ export const emailRouter = createTRPCRouter({
     sendLoginEmail();
     return true;
   }),
+
+  userEmailVerificationStatus: protectedProcedure.query(({ ctx }) => {
+    //only return user email verification status
+
+    return ctx.prisma.user.findFirst({
+      where: {
+        id: ctx.session?.user?.id,
+      },
+      select: {
+        emailVerified: true,
+      },
+    });
+  }),
   
 });
