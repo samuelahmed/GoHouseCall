@@ -16,9 +16,11 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const [providerType, setProviderType] = useState<string | undefined>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
   const { error } = router.query;
+
 
   const {
     register,
@@ -26,12 +28,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     formState: { errors },
   } = useForm<CredentialLogin>();
 
+
   const onSubmit: SubmitHandler<CredentialLogin> = async (data) => {
+    setProviderType("credentials");
     setErrorMessage(undefined);
     await signIn("credentials", {
       ...data,
     });
   };
+
+
+  // console.log(signIn.arguments)
+
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -76,7 +84,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <p className="text-sm text-red11">This field is required</p>
             )}
           </div>
-          <Button variant="outline" disabled={isLoading}>
+          <Button 
+          onClick={() => void setProviderType("credentials")}
+          variant="outline" disabled={isLoading}>
             {isLoading && <></>}
             Sign In
           </Button>
@@ -93,7 +103,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <Button
-        onClick={() => void signIn("google")}
+        onClick={() => {
+          setProviderType("google");
+          void signIn("google")}
+        }
         variant="outline"
         type="button"
         disabled={isLoading}
@@ -104,3 +117,4 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     </div>
   );
 }
+
