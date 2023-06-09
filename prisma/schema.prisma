@@ -11,12 +11,6 @@ datasource db {
     relationMode = "prisma"
 }
 
-//currently usused
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
 
 // Necessary for Next auth
 model Account {
@@ -50,6 +44,13 @@ model User {
     HCAccount     HCAccount[]
 }
 
+
+//currently usused
+model Example {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
 
 //currently not used.
 model Session {
