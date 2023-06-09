@@ -37,13 +37,6 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
 model User {
     id            String      @id @default(cuid())
@@ -57,7 +50,17 @@ model User {
     HCAccount     HCAccount[]
 }
 
-//not used yet
+
+//currently not used.
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//currently not used.
 model VerificationToken {
     identifier String
     token      String   @unique
@@ -70,6 +73,7 @@ model VerificationToken {
 
 //start of my models
 //HC PROFILE MODEL?
+//don't duplicate data from other models
 model HCAccount {
     id      String  @id @default(cuid())
     userId  String
