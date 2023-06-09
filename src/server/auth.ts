@@ -1,5 +1,9 @@
 import { type GetServerSidePropsContext } from "next";
-import { getServerSession, type NextAuthOptions, type DefaultSession } from "next-auth";
+import {
+  getServerSession,
+  type NextAuthOptions,
+  type DefaultSession,
+} from "next-auth";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 import GoogleProvider from "next-auth/providers/google";
@@ -16,34 +20,7 @@ declare module "next-auth" {
   }
 }
 
-export const googleAuthOptions: NextAuthOptions = {
-  secret: process.env.TOKEN_SECRET,
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-  },
-  adapter: PrismaAdapter(prisma),
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  pages: {
-    signIn: "/signin",
-    signOut: "/auth/signout",
-    // error: '/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/auth/verify-request', // (used for check email message)
-    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-  },
-};
-
-const credentialsAuthOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
       name: "credentials",
@@ -76,18 +53,37 @@ const credentialsAuthOptions: NextAuthOptions = {
         };
       },
     }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+  },
+  //Without PrismaAdapter google won't add user to db
+  adapter: PrismaAdapter(prisma),
+
+  // Secret disabled for now since nothing is being encrypted here
+  // secret: process.env.SECRET,
+  
+  //This stop session from being created in db
+  //However it is necessary for both google and credentials to work while PrismaAdapter is being used
+  session: { strategy: "jwt" },
   pages: {
     signIn: "/signin",
     signOut: "/auth/signout",
-    // error: '/auth/error', // Error code passed in query string as ?error=
+    error: '/signin', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: "/register", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
-
-export const authOptions: NextAuthOptions = googleAuthOptions
-// export const authOptions: NextAuthOptions = credentialsAuthOptions;
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
@@ -100,4 +96,3 @@ export const getServerAuthSession = (ctx: {
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
-
