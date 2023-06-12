@@ -1,23 +1,11 @@
-import type { GetServerSidePropsContext } from "next";
-import { getProviders } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { UserAuthForm } from "~/components/auth/userAuthForm";
 import Head from "next/head";
 import { type NextPage } from "next";
+import { RouteSignedInUser } from "~/components/auth/routeSignedInUser";
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
-  const providers = await getProviders();
-  return {
-    props: { providers: providers ?? [] },
-  };
-}
+export const getServerSideProps = RouteSignedInUser("/");
 
 const SignIn: NextPage = () => {
   return (

@@ -1,23 +1,11 @@
-import type { GetServerSidePropsContext } from "next";
-import { getProviders } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import { UserRegisterForm } from "~/components/auth/userRegisterForm";
 import { type NextPage } from "next";
+import { RouteSignedInUser } from "~/components/auth/routeSignedInUser";
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  if (session) {
-    return { redirect: { destination: "/" } };
-  }
-  const providers = await getProviders();
-  return {
-    props: { providers: providers ?? [] },
-  };
-}
+export const getServerSideProps = RouteSignedInUser("/");
 
 const Register: NextPage = () => {
   return (
@@ -26,7 +14,7 @@ const Register: NextPage = () => {
         <title>Sign In</title>
         <meta
           name="description"
-          content="Sign or create a House Call account"
+          content="Register to create your House Call account"
         />
       </Head>
       <div className="container relative min-h-screen flex-col items-center justify-center pb-4 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">

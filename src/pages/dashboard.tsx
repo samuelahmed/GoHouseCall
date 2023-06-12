@@ -3,23 +3,9 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import DashboardLayout from "~/components/dashboard/dashboardLayout";
 import Dashboardinfo from "~/components/dashboard/dashboardInfo";
-import { type GetServerSidePropsContext } from "next";
-import { getServerAuthSession } from "../server/auth";
+import { RouteSignedOutUser } from "~/components/auth/routeSignedOutUser";
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerAuthSession(ctx);
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+export const getServerSideProps = RouteSignedOutUser("/");
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();

@@ -20,13 +20,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const { error } = router.query;
 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CredentialLogin>();
 
+
   const onSubmit: SubmitHandler<CredentialLogin> = async (data) => {
+    // setProviderType("credentials");
     setErrorMessage(undefined);
     await signIn("credentials", {
       ...data,
@@ -76,7 +79,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <p className="text-sm text-red11">This field is required</p>
             )}
           </div>
-          <Button variant="outline" disabled={isLoading}>
+          <Button 
+          // onClick={() => void setProviderType("credentials")}
+          variant="outline" disabled={isLoading}>
             {isLoading && <></>}
             Sign In
           </Button>
@@ -93,7 +98,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
       <Button
-        onClick={() => void signIn("google")}
+        onClick={() => {
+          // setProviderType("google");
+          void signIn("google")}
+        }
         variant="outline"
         type="button"
         disabled={isLoading}
@@ -104,3 +112,4 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     </div>
   );
 }
+

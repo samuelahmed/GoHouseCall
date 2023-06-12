@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
 import { registerSchema } from "~/types/authSchemas";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 const SALT_ROUNDS = 10;
 
@@ -31,4 +31,6 @@ export const credentialsRegisterRouter = createTRPCRouter({
         result: result.email,
       };
     }),
+
+
 });
