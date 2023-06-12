@@ -7,6 +7,8 @@ import { RouteSignedOutUser } from "~/components/auth/routeSignedOutUser";
 export const getServerSideProps = RouteSignedOutUser("/");
 
 const WelcomeForm: NextPage = () => {
+
+  
   
   const { data: emailVerified, isLoading } =
     api.emailAPI.userEmailVerificationStatus.useQuery();
