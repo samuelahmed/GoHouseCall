@@ -5,6 +5,8 @@ import { SessionInfo } from "~/components/sessionPage/sessionInfo";
 import SessionActions from "~/components/sessionPage/sessionActions";
 import { PotentialCaregiverTable } from "~/components/sessionPage/potentialCaregiverTable";
 
+//Who should be able to access this page?
+
 const Sessions: NextPage = () => {
   return (
     <>

@@ -4,6 +4,8 @@ import { CreateSessionForm } from "~/components/createSession/createSessionForm"
 import CreateSessionLayout from "~/components/createSession/createSessionLayout";
 import GoogleMaps from "~/components/maps/map";
 
+//Who should be able to access this page?
+
 const Sessions: NextPage = () => {
   return (
     <>

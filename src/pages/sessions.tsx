@@ -1,6 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import SessionsExport from "~/components/sessionTable/sessionsExport";
+import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
+
+export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Sessions: NextPage = () => {
   return (
