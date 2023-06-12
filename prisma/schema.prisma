@@ -11,7 +11,6 @@ datasource db {
     relationMode = "prisma"
 }
 
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -31,19 +30,18 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-
 model User {
-    id            String      @id @default(cuid())
-    name          String?
-    email         String?     @unique
-    emailVerified DateTime?
-    image         String?
-    password     String?    
-    accounts      Account[]
-    sessions      Session[]
-    HCAccount     HCAccount[]
+    id                 String              @id @default(cuid())
+    name               String?
+    email              String?             @unique
+    emailVerified      DateTime?
+    image              String?
+    password           String?
+    accounts           Account[]
+    sessions           Session[]
+    HCAccount          HCAccount[]
+    verificationTokens VerificationToken[]
 }
-
 
 //currently usused
 model Example {
@@ -61,11 +59,15 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-//currently not used.
 model VerificationToken {
-    identifier String
+    id         String   @id @default(cuid())
+    identifier String?
     token      String   @unique
-    expires    DateTime
+    expires    DateTime?
+
+    userId String
+
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([identifier, token])
 }
@@ -85,6 +87,7 @@ model HCAccount {
     zipCode String?
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
     @@index([userId])
 }
 
