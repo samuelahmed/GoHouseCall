@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import { env } from "~/env.mjs";
 
 export async function sendLoginEmail(email: string, token: string) {
-
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -13,11 +12,12 @@ export async function sendLoginEmail(email: string, token: string) {
   });
 
   const info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', 
+    from: '"Fred Foo 👻" <foo@example.com>',
     to: email,
     subject: "Sending with mutation",
-    text: "Hello world?", 
-    html: `<b>Click here to activate your account: http://localhost:3000/verify/${token}</b>`, 
+    text: "Hello world?",
+    html: `<b>Click here to activate your account live: http://www.gohousecall/verify/${token}</b>
+    <b>Click here to activate your account dev: http://localhost:3000/verify/${token}</b>`,
   });
 
   //testing stuff
