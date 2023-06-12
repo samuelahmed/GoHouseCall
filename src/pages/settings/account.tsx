@@ -4,10 +4,13 @@ import SettingsLayout from "~/components/settings/settingsLayout";
 import { AccountForm } from "~/components/settings/accountForm";
 import { Separator } from "~/components/ui/separator";
 import { useSession } from "next-auth/react";
+import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
+
+export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Account: NextPage = () => {
   const { data: sessionData } = useSession();
-
+  
   return (
     <>
       <Head>

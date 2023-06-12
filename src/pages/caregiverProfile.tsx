@@ -2,6 +2,8 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { CaregiverInfo } from "~/components/caregiverProfile/caregiverInfo";
 
+//Who should be able to access this page?
+
 const CaregiverProfile: NextPage = () => {
   return (
     <>

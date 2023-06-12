@@ -6,6 +6,9 @@ import { ProfileForm } from "~/components/settings/profileForm";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
+import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
+
+export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Profile: NextPage = () => {
   const { data: sessionData } = useSession();

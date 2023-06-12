@@ -3,6 +3,9 @@ import Head from "next/head";
 import { NotificationsForm } from "~/components/settings/notificationsForm";
 import SettingsLayout from "~/components/settings/settingsLayout";
 import { Separator } from "~/components/ui/separator";
+import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
+
+export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Notifications: NextPage = () => {
   return (
