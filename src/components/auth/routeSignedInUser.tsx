@@ -13,6 +13,7 @@ export const RouteSignedInUser = (route: string) =>
         },
       };
     }
+
     return {
       props: {},
     };
