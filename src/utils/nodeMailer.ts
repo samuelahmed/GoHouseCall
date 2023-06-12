@@ -16,7 +16,7 @@ export async function sendLoginEmail(email: string, token: string) {
     to: email,
     subject: "Sending with mutation",
     text: "Hello world?",
-    html: `<b>Click here to activate your account live: http://www.gohousecall/verify/${token}</b>
+    html: `<b>Click here to activate your account live: http://www.gohousecall.com/verify/${token}</b>
     <b>Click here to activate your account dev: http://localhost:3000/verify/${token}</b>`,
   });
 
