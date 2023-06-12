@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import DashboardLayout from "~/components/dashboard/dashboardLayout";
 import Dashboardinfo from "~/components/dashboard/dashboardInfo";
-import { RouteSignedOutUser } from "~/components/auth/routeSignedOutUser";
+import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 
-export const getServerSideProps = RouteSignedOutUser("/");
+export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();

@@ -2,9 +2,7 @@ import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
-
-//maybe rename this to RouteSignedOutAndNewUsers or something
-export const RouteSignedOutUser = (route: string) =>
+export const RouteSignedOutAndNewUsers = (route: string) =>
   async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const session = await getServerAuthSession(ctx);
 
@@ -35,6 +33,7 @@ export const RouteSignedOutUser = (route: string) =>
         };
       }
     }
+
 
     return {
       props: {},

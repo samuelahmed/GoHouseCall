@@ -2,14 +2,10 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import { RouteSignedOutUser } from "~/components/auth/routeSignedOutUser";
-
-// export const getServerSideProps = RouteSignedOutUser("/");
+import { type GetServerSidePropsContext } from "next";
+import { getServerAuthSession } from "~/server/auth";
 
 const WelcomeForm: NextPage = () => {
-
-
-  
   const { data: emailVerified, isLoading } =
     api.emailAPI.userEmailVerificationStatus.useQuery();
 
@@ -43,3 +39,20 @@ const WelcomeForm: NextPage = () => {
 };
 
 export default WelcomeForm;
+
+//prevent non-logged in users from accessing this page
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
