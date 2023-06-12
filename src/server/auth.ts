@@ -58,6 +58,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  session: { strategy: "jwt" },
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
@@ -66,20 +67,20 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
   },
-  //Without PrismaAdapter google won't add user to db
   adapter: PrismaAdapter(prisma),
-
-  // Secret disabled for now since nothing is being encrypted here
+  // Secret disabled for now
   // secret: process.env.SECRET,
-  
-  //This stop session from being created in db
-  //However it is necessary for both google and credentials to work while PrismaAdapter is being used
-  session: { strategy: "jwt" },
   pages: {
     signIn: "/signin",
     signOut: "/auth/signout",
-    error: '/signin', // Error code passed in query string as ?error=
+    error: "/signin", // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: "/register", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
