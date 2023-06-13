@@ -114,8 +114,55 @@ export function ProfileForm({ name }: ProfileFormValues) {
             </FormItem>
           )}
         />
+
+        <FormField
+          // control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Your Address" {...field} />
+              </FormControl>
+              {/* <FormDescription>
+                          This address will be the default when creating
+                          sessions.
+                        </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex space-x-2">
+          <FormField
+            // control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="City" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            // control={form.control}
+            name="zip"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Zip Code</FormLabel>
+                <FormControl>
+                  <Input placeholder="Zip Code" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <div>
-          {fields.map((field, index) => (
+          {/* {fields.map((field, index) => (
             <FormField
               control={form.control}
               key={field.id}
@@ -135,8 +182,9 @@ export function ProfileForm({ name }: ProfileFormValues) {
                 </FormItem>
               )}
             />
-          ))}
-          <Button
+          ))} */}
+
+          {/* <Button
             type="button"
             variant="link"
             size="sm"
@@ -144,7 +192,7 @@ export function ProfileForm({ name }: ProfileFormValues) {
             onClick={() => append({ value: "" })}
           >
             Add URL
-          </Button>
+          </Button> */}
         </div>
         <Button variant="outline" type="submit">
           Update Profile
