@@ -2,7 +2,8 @@
 import nodemailer from "nodemailer";
 import { env } from "~/env.mjs";
 
-export async function sendLoginEmail(email: string, token: string) {
+export async function sendLoginEmail(email: string, token: string, subject: string) {
+  
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -11,16 +12,17 @@ export async function sendLoginEmail(email: string, token: string) {
     },
   });
 
-  const info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>',
+  await transporter.sendMail({
+    from: '"House Call" <HouseCallAutomatedSystem@housecall.com>',
     to: email,
-    subject: "Sending with mutation",
-    text: "Hello world?",
-    html: `<b>Click here to activate your account live: http://www.gohousecall.com/verify/${token}</b>
-    <b>Click here to activate your account dev: http://localhost:3000/verify/${token}</b>`,
+    subject: subject,
+    // text: "Hello world?",
+    html: `<p>Click here to activate your account live: http://www.gohousecall.com/verify/${token}</p>
+    <p>Click here to activate your account dev: http://localhost:3000/verify/${token}</p>`,
   });
 
-  //testing stuff
-  console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  //activate below to test email in console
+  // const info = await transporter.sendMail({
+  // console.log("Message sent: %s", info.messageId);
+  // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }

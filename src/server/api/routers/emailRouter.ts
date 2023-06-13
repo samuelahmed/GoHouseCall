@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-
 import { randomUUID } from "crypto";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { sendLoginEmail } from "~/utils/nodeMailer";
 
 export const emailRouter = createTRPCRouter({
-  //triggered by a button on the welcomeForm
   sendConfirmationEmail: protectedProcedure.mutation(async ({ ctx }) => {
     const currentUser = await ctx.prisma.user.findFirst({
       where: {
         id: ctx.session?.user?.id,
       },
     });
+    const subject = `Welcome to House Call ${currentUser?.name || ""}!`;
     if (currentUser && currentUser.email) {
       const token = await ctx.prisma.verificationToken.findFirst({
         where: {
@@ -19,7 +17,7 @@ export const emailRouter = createTRPCRouter({
         },
       });
       if (token) {
-        sendLoginEmail(currentUser.email, token.token);
+        await sendLoginEmail(currentUser.email, token.token, subject);
         return true;
       }
       const createToken = await ctx.prisma.verificationToken.create({
@@ -29,7 +27,7 @@ export const emailRouter = createTRPCRouter({
           expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
         },
       });
-      sendLoginEmail(currentUser.email, createToken.token);
+      await sendLoginEmail(currentUser.email, createToken.token, subject);
       return true;
     }
     return false;
@@ -40,16 +38,15 @@ export const emailRouter = createTRPCRouter({
       where: {
         id: ctx.session.user.id,
       },
-      //only return the emailVerified field
       select: {
         emailVerified: true,
         email: true,
       },
     });
-    return user 
+    return user;
   }),
 
-   checkVerificationToken: protectedProcedure.query(async ({ ctx }) => {
+  checkVerificationToken: protectedProcedure.query(async ({ ctx }) => {
     const verificationToken = await ctx.prisma.verificationToken.findFirst({
       where: {
         userId: ctx.session.user.id,
@@ -57,7 +54,4 @@ export const emailRouter = createTRPCRouter({
     });
     return verificationToken;
   }),
-
-
-
 });
