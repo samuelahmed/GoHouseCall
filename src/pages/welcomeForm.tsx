@@ -4,15 +4,31 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
+import { useToast } from "~/components/ui/useToast";
 
 const WelcomeForm: NextPage = () => {
-  const { data: emailVerified, isLoading } =
-    api.emailAPI.userEmailVerificationStatus.useQuery();
+  const {
+    data: emailVerified,
+    isLoading: emailLoading,
+    refetch: emailRefetch,
+  } = api.emailAPI.userEmailVerificationStatus.useQuery();
 
-  const { data: verificationToken } =
-    api.emailAPI.checkVerificationToken.useQuery();
+  const {
+    data: verificationToken,
+    // isLoading: tokenLoading,
+    refetch: tokenRefetch,
+  } = api.emailAPI.checkVerificationToken.useQuery();
 
-  console.log(verificationToken?.identifier);
+  const handleClick = async () => {
+    // manually refetch
+    await emailRefetch();
+    await tokenRefetch();
+  };
+
+  // console.log(verificationToken?.identifier);
+
+  const { toast } = useToast();
+  const currentTime = new Date().toLocaleTimeString();
 
   //
   const { mutate } = api.emailAPI.sendConfirmationEmail.useMutation();
@@ -36,26 +52,52 @@ const WelcomeForm: NextPage = () => {
           {/* Send Login Email because user is not verified and no token exists */}
           {!emailVerified?.emailVerified &&
             verificationToken?.identifier !== null &&
-            (isLoading ? (
+            (emailLoading ? (
               <div>loading...</div>
             ) : (
-              <Button className="" onClick={() => mutate()}>
+              <Button
+                className=""
+                variant="outline"
+                onClick={() => {
+                  handleClick;
+                  mutate();
+                  toast({
+                    title: "Verfication Email Sent",
+                    description: `"Email sent to ${
+                      emailVerified?.email || ""
+                    } at ${currentTime}"`,
+                  });
+                }}
+              >
                 Send Login Email
               </Button>
             ))}
           {/* Resend Login Email because user is not verified and token exists */}
           {!emailVerified?.emailVerified &&
             verificationToken?.identifier === null &&
-            (isLoading ? (
+            (emailLoading ? (
               <div>loading...</div>
             ) : (
-              <Button className="" onClick={() => mutate()}>
+              <Button
+                className=""
+                variant="outline"
+                onClick={() => {
+                  handleClick;
+                  mutate();
+                  toast({
+                    title: "Verfication Email Sent",
+                    description: `"Email sent to ${
+                      emailVerified?.email || ""
+                    } at ${currentTime}"`,
+                  });
+                }}
+              >
                 Resend Login Email
               </Button>
             ))}
           {/* Email verified */}
           {emailVerified?.emailVerified &&
-            (isLoading ? (
+            (emailLoading ? (
               <div>checking...</div>
             ) : (
               <div> email verified :) </div>

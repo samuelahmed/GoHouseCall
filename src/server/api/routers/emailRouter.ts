@@ -43,6 +43,7 @@ export const emailRouter = createTRPCRouter({
       //only return the emailVerified field
       select: {
         emailVerified: true,
+        email: true,
       },
     });
     return user 
