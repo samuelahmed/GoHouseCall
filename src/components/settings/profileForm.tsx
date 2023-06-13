@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "~/components/ui/radioGroup";
 
 const profileFormSchema = z.object({
   username: z
@@ -48,15 +49,18 @@ const profileFormSchema = z.object({
       })
     )
     .optional(),
+  profile_type: z.string(),
 });
 
 // type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm({ name }: ProfileFormValues) {
+export function ProfileForm({ name, email }: ProfileFormValues) {
   const defaultValues: Partial<ProfileFormValues> = {
+    email: "",
     name: name,
+    profile_type: "",
     bio: "",
     urls: [{ value: "" }],
   };
@@ -86,17 +90,72 @@ export function ProfileForm({ name }: ProfileFormValues) {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input defaultValue={name} />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription>
                 What do you prefer people to call you?
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
+
+
+       {/* Only show this if the user is a patient */}
+        <FormField
+          control={form.control}
+          name="profile_type"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue="all"
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="all" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      I am the patient
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="new_conversation" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      I am manage this account for a loved one
+                    </FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input defaultValue={email} />
+              </FormControl>
+              {/* <FormDescription>
+                This is your legal name and will be used for payments and tax
+                purposes.
+              </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="bio"

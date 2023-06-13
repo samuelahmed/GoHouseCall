@@ -25,8 +25,7 @@ const Profile: NextPage = () => {
             <div>
               <h3 className="text-lg font-medium">Profile</h3>
               <p className="text-sm text-muted-foreground">
-                Public information about your account that will be visible to
-                House Call users.
+                Manage your House Call profile information.
               </p>
             </div>
             <Separator />
@@ -42,6 +41,7 @@ const Profile: NextPage = () => {
               username={""}
               email={""}
               bio={""}
+              profile_type={""}
             />
           </div>
         </SettingsLayout>
