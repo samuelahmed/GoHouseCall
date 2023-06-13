@@ -16,7 +16,7 @@ const WelcomeForm: NextPage = () => {
       </Head>
 
       <div className="min-h-screen space-y-4 px-4 py-4 md:px-8 md:py-8">
-        <h1 className="text-xl">Welcome to House Call!</h1>
+        <h1 className="text-xl font-semibold">Welcome to House Call</h1>
 
         <h2 className="text-lg ">
           Complete your registration to access the rest of the site.
