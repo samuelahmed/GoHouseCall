@@ -4,6 +4,7 @@ const EmailVerificationPage = () => {
   return <div>This is where verification will happen.</div>;
 };
 
+//Probably need to do better error handling here
 export async function getServerSideProps(context: {
   params: { token: string };
 }) {
