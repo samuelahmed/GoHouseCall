@@ -16,11 +16,14 @@ const WelcomeForm: NextPage = () => {
       </Head>
 
       <div className="min-h-screen space-y-4 px-4 py-4 md:px-8 md:py-8">
-        <h1>Welcome to House Call!</h1>
+        <h1 className="text-xl">Welcome to House Call!</h1>
 
-        <h2>Complete your registration to access the rest of the site.</h2>
+        <h2 className="text-lg ">
+          Complete your registration to access the rest of the site.
+        </h2>
 
-        <div>
+        <div className="flex space-x-4 ">
+          <p className="place-self-center">1. Confirm Email</p>
           <EmailVerification />
         </div>
 
