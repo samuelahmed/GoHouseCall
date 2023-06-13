@@ -9,6 +9,12 @@ const WelcomeForm: NextPage = () => {
   const { data: emailVerified, isLoading } =
     api.emailAPI.userEmailVerificationStatus.useQuery();
 
+  const { data: verificationToken } =
+    api.emailAPI.checkVerificationToken.useQuery();
+
+  console.log(verificationToken?.identifier);
+
+  //
   const { mutate } = api.emailAPI.sendConfirmationEmail.useMutation();
 
   return (
@@ -21,14 +27,15 @@ const WelcomeForm: NextPage = () => {
         />
       </Head>
 
-      <div className="min-h-screen px-4 py-4 md:px-8 md:py-8 space-y-4">
+      <div className="min-h-screen space-y-4 px-4 py-4 md:px-8 md:py-8">
         <h1>Welcome to House Call!</h1>
 
-        <div>Complete your registration to access the rest of the site.</div>
+        <h2>Complete your registration to access the rest of the site.</h2>
 
         <div>
-          1. Confirm your email address (needs to note when email is sent)
+          {/* Send Login Email because user is not verified and no token exists */}
           {!emailVerified?.emailVerified &&
+            verificationToken?.identifier !== null &&
             (isLoading ? (
               <div>loading...</div>
             ) : (
@@ -36,17 +43,31 @@ const WelcomeForm: NextPage = () => {
                 Send Login Email
               </Button>
             ))}
-          {emailVerified?.emailVerified &&
+          {/* Resend Login Email because user is not verified and token exists */}
+          {!emailVerified?.emailVerified &&
+            verificationToken?.identifier === null &&
             (isLoading ? (
               <div>loading...</div>
+            ) : (
+              <Button className="" onClick={() => mutate()}>
+                Resend Login Email
+              </Button>
+            ))}
+          {/* Email verified */}
+          {emailVerified?.emailVerified &&
+            (isLoading ? (
+              <div>checking...</div>
             ) : (
               <div> email verified :) </div>
             ))}
         </div>
 
-        <div>2. Select your role</div>
+        <div>2. Select your role (pulldown with two options) </div>
 
-        <div>3. Tell us about yourself</div>
+        <div>
+          3. Tell us about yourself (1. are you making account for yourself? 2.
+          what is your bio 3. add address 4. upload profile picture 5. )
+        </div>
 
         <div>
           4. (to create sessions) Setup Payments (maybe put this later on as
