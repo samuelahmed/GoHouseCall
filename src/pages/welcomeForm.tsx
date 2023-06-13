@@ -37,13 +37,13 @@ const WelcomeForm: NextPage = () => {
         <h2 className="text-lg ">
           Complete your registration to access the rest of the site.
         </h2>
-        <p className="place-self-center text-sm font-semibold">
+        <p className="">
           1. Verify your email address
         </p>
         <div className="flex space-x-4 ">
           <EmailVerification />
         </div>
-        <p className="place-self-center text-sm font-semibold">
+        <p className="">
           2. Select your role
         </p>
         <div className="flex w-full items-center space-x-4  ">
@@ -63,7 +63,7 @@ const WelcomeForm: NextPage = () => {
 
 
             <TabsContent value="patient">
-              <p className="place-self-center text-sm font-semibold">
+              <p className="">
                 3. Tell us about yourself
               </p>
               <Form {...form}>
@@ -195,7 +195,7 @@ const WelcomeForm: NextPage = () => {
 
 
             <TabsContent value="caregiver">
-              <p className="place-self-center text-sm font-semibold">
+              <p className="">
                 3. Tell us about yourself
               </p>
               <Form {...form}>
