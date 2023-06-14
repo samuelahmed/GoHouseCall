@@ -2,7 +2,9 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 import { z } from "zod";
 
+
 export const WelcomeFormRouter = createTRPCRouter({
+  //Get user data for welcome form
   me: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {
@@ -18,14 +20,24 @@ export const WelcomeFormRouter = createTRPCRouter({
     return user;
   }),
 
+  checkIfWelcomeFormComplete: protectedProcedure.query(
+    async ({ ctx }) => {
+      const user = await ctx.prisma.hC_Account.findUnique({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        select: {
+          welcomeFormComplete: true,
+        },
+      });
+      return user;
+    }
+  ),
 
-
-
-
+  //Create or update HC_Account table with welcome form data
   registerNewUser: protectedProcedure
     .input(
       z.object({
-
         userId: z.string(),
         type: z.string(),
         image: z.string(),
@@ -81,17 +93,12 @@ export const WelcomeFormRouter = createTRPCRouter({
           welcomeFormComplete: welcomeFormComplete,
         },
         where: {
-
-          // userId: ctx.session?.user?.id,
-          // i: userId,
           userId: ctx.session.user.id,
-
-
         },
-        
-
-
       });
       return registeredUser;
     }),
+
+    
 });
+

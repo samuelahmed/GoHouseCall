@@ -14,7 +14,7 @@ export const credentialsRegisterRouter = createTRPCRouter({
         where: { email },
       });
       if (exists) {
-        // need to figure out how to better tell client there is an error
+        // TODO:need to figure out how to better tell client there is an error
         throw new TRPCError({
           code: "CONFLICT",
           message: "This email is already in use",
