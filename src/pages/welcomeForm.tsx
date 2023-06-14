@@ -15,12 +15,77 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { useForm } from "react-hook-form";
+import { DefaultValues, useForm } from "react-hook-form";
 import { Textarea } from "~/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radioGroup";
+import { api } from "~/utils/api";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useEffect } from "react";
+
+const welcomeFormSchema = z.object({
+  userId: z.string(), //this is the id of the user and should be pushed automatically
+  type: z.string(),
+  image: z.string(),
+  name: z.string(),
+  patientType: z.string(),
+  email: z.string(),
+  bio: z.string(),
+  address: z.string(),
+  city: z.string(),
+  zip: z.string(),
+});
+
+type WelcomeFormValues = z.infer<typeof welcomeFormSchema>;
 
 const WelcomeForm: NextPage = () => {
-  const form = useForm({});
+  //USED FOR DEFAULT VALUES
+  const { data: user } = api.WelcomeFormRouter.me.useQuery();
+  //USED TO REGISTER NEW USER ON SUBMIT
+  const mutation = api.WelcomeFormRouter.registerNewUser.useMutation();
+  
+  // console.log(user)
+  const form =  useForm<WelcomeFormValues>({
+    resolver: zodResolver(welcomeFormSchema),
+     defaultValues: {
+      userId: user?.id, //Do I want to pass this here?
+      type: "",
+      image: "",
+      name:"",
+      patientType: "",
+      email: "",
+      bio: "",
+      address: "",
+      city: "",
+      zip: "",
+    },
+    // mode: "onChange",
+  });
+
+  useEffect(() => {
+    if (user) {
+      form.setValue("userId", user.id || "");
+      form.setValue("image", user.image || "");
+      form.setValue("name", user.name || "");
+      form.setValue("email", user.email || "");
+
+    }
+  }, [user, form]);
+
+  // console.log("form", form.defaultValues?)
+
+
+
+  
+  function onSubmit(field: WelcomeFormValues) {
+    mutation.mutate(field);
+    console.log('field',  field);
+  }
+
+
+
+
 
   return (
     <>
@@ -53,19 +118,28 @@ const WelcomeForm: NextPage = () => {
               <p className="">3. Tell us about yourself</p>
               <Form {...form}>
                 <form
-                  // onSubmit={void form.handleSubmit(onSubmit)}
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                  onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-8"
                 >
+                  <FormLabel>Profile Image</FormLabel>
+
+                  <Avatar className="h-20 w-20 rounded-full object-cover">
+                    <AvatarImage src={user?.image || ""} />
+                    <AvatarFallback>{user?.image || ""}</AvatarFallback>
+                  </Avatar>
+                  {/* <Button size="sm" variant="outline">
+                    Upload profile image
+                  </Button> */}
+
                   <FormField
-                    // control={form.control}
+                    control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input
-                          // defaultValue={name}
-                          />
+                          <Input defaultValue={user?.name || ""} />
                         </FormControl>
                         <FormDescription>
                           This is your legal name and will be used for payments
@@ -75,19 +149,18 @@ const WelcomeForm: NextPage = () => {
                       </FormItem>
                     )}
                   />
+
                   <FormField
-                    control={form.control}
+                    control={form.control } 
                     name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input defaultValue="" />
+                          <Input
+                          // placeholder="shadcn"
+                           {...field} />
                         </FormControl>
-                        {/* <FormDescription>
-                This is your legal name and will be used for payments and tax
-                purposes.
-              </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -95,7 +168,7 @@ const WelcomeForm: NextPage = () => {
 
                   <FormField
                     control={form.control}
-                    name="message_frequency"
+                    name="patientType"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
                         <FormControl>
@@ -162,7 +235,7 @@ const WelcomeForm: NextPage = () => {
                   />
                   <div className="flex space-x-2">
                     <FormField
-                      // control={form.control}
+                      control={form.control}
                       name="city"
                       render={({ field }) => (
                         <FormItem className="w-full">
@@ -175,7 +248,7 @@ const WelcomeForm: NextPage = () => {
                       )}
                     />
                     <FormField
-                      // control={form.control}
+                      control={form.control}
                       name="zip"
                       render={({ field }) => (
                         <FormItem className="w-full">
@@ -188,10 +261,15 @@ const WelcomeForm: NextPage = () => {
                       )}
                     />
                   </div>
+                  <Button variant="outline" type="submit">
+                    Complete Registration
+                  </Button>
                 </form>
+                <div className="flex flex-col items-start space-y-4"></div>
               </Form>
             </TabsContent>
 
+            {/* 
             <TabsContent value="caregiver">
               <p className="">3. Tell us about yourself</p>
               <Form {...form}>
@@ -210,10 +288,6 @@ const WelcomeForm: NextPage = () => {
                           // defaultValue={name}
                           />
                         </FormControl>
-                        {/* <FormDescription>
-                          This is your legal name and will be used for payments
-                          and tax purposes.
-                        </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -227,10 +301,6 @@ const WelcomeForm: NextPage = () => {
                         <FormControl>
                           <Input defaultValue="" />
                         </FormControl>
-                        {/* <FormDescription>
-                This is your legal name and will be used for payments and tax
-                purposes.
-              </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -261,10 +331,6 @@ const WelcomeForm: NextPage = () => {
                         <FormControl>
                           <Input placeholder="Your Address" {...field} />
                         </FormControl>
-                        {/* <FormDescription>
-                          This address will be the default when creating
-                          sessions.
-                        </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -299,14 +365,8 @@ const WelcomeForm: NextPage = () => {
                   </div>
                 </form>
               </Form>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
-        </div>
-
-        <div className="flex flex-col items-start space-y-4">
-          <Button variant="outline" type="submit">
-            Complete Registration
-          </Button>
         </div>
       </div>
     </>
