@@ -11,7 +11,7 @@ datasource db {
     relationMode = "prisma"
 }
 
-// Necessary for Next auth
+//ONLY FOR AUTHENTICATION & SESSIONS
 model Account {
     id                String  @id @default(cuid())
     userId            String
@@ -39,15 +39,8 @@ model User {
     password           String?
     accounts           Account[]
     sessions           Session[]
-    HCAccount          HCAccount[]
+    HC_Account         HC_Account[]
     verificationTokens VerificationToken[]
-}
-
-//currently usused
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
 
 //currently not used.
@@ -60,37 +53,35 @@ model Session {
 }
 
 model VerificationToken {
-    id         String   @id @default(cuid())
+    id         String    @id @default(cuid())
     identifier String?
-    token      String   @unique
+    token      String    @unique
     expires    DateTime?
 
     userId String
 
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([identifier, token])
 }
 
-// End necessary for Next auth
+//END ONLY FOR AUTHENTICATION & SESSIONS
 
-//start of my models
-//HC PROFILE MODEL?
-//don't duplicate data from other models
-model HCAccount {
-    id      String  @id @default(cuid())
-    userId  String
-    name    String?
-    email   String? @unique
-    address String?
-    city    String?
-    zipCode String?
+//Tables for the app
+model HC_Account {
+    id                  String   @id @default(cuid())
+    userId              String   @unique
+    type                String? //patient or caregiver
+    image               String?
+    name                String?
+    patientType         String? //self or manager
+    email               String?
+    bio                 String?
+    address             String?
+    city                String?
+    zip                 String?
+    welcomeFormComplete Boolean? @default(false)
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
+    // @@index([userId])
 }
-
-// model HCNotification {
-
-// }

@@ -1,6 +1,7 @@
 import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
+import { checkIfWelcomeFormComplete } from "~/server/api/routers/welcomeFormRouter";
 
 export const RouteSignedOutAndNewUsers = (route: string) =>
   async function getServerSideProps(ctx: GetServerSidePropsContext) {
@@ -18,13 +19,20 @@ export const RouteSignedOutAndNewUsers = (route: string) =>
 
     if (session) {
       //Find if user has verified email
-      const user = await prisma.user.findFirst({
-        where: {
-          id: session.user.id,
-        },
-      });
+      // const user = await prisma.user.findFirst({
+      //   where: {
+      //     id: session.user.id,
+      //   },
+      // });
       //If user has not verified email, redirect to welcome form
-      if (user?.emailVerified === null) {
+
+      const userId = session?.user?.id;
+
+      const loggedInUser = await checkIfWelcomeFormComplete({
+        prisma,
+        input: { userId },
+      });
+      if (loggedInUser?.welcomeFormComplete !== true) {
         return {
           redirect: {
             destination: "/welcomeForm",
@@ -32,8 +40,16 @@ export const RouteSignedOutAndNewUsers = (route: string) =>
           },
         };
       }
-    }
 
+      // if (user?.emailVerified === null) {
+      //   return {
+      //     redirect: {
+      //       destination: "/welcomeForm",
+      //       permanent: false,
+      //     },
+      //   };
+      // }
+    }
 
     return {
       props: {},
