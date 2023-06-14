@@ -77,16 +77,11 @@ const WelcomeForm: NextPage = () => {
 
   // console.log("form", form.defaultValues?)
 
-
-
   
   function onSubmit(field: WelcomeFormValues) {
     mutation.mutate(field);
     console.log('field',  field);
   }
-
-
-
 
 
   return (
