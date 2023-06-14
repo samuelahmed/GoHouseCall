@@ -6,18 +6,10 @@ import { EmailVerification } from "~/components/welcomePage/emailVerification";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { PatientWelcomeForm } from "~/components/welcomePage/patientWelcomeForm";
 import { CaregiverWelcomeForm } from "~/components/welcomePage/caregiverWelcomeForm";
-import { api } from "~/utils/api";
-import { useRouter } from "next/router";
+import { prisma } from "~/server/db";
+import { checkIfWelcomeFormComplete } from "~/server/api/routers/welcomeFormRouter";
 
 const WelcomeForm: NextPage = () => {
-  //TODO: move to server side props and redirect if user has already completed welcome form before rendering page
-  const router = useRouter();
-  const { data: user } =
-    api.WelcomeFormRouter.checkIfWelcomeFormComplete.useQuery();
-  if (user?.welcomeFormComplete) {
-    void router.push("/dashboard");
-  }
-
   return (
     <>
       <Head>
@@ -58,19 +50,33 @@ const WelcomeForm: NextPage = () => {
 
 export default WelcomeForm;
 
-//prevent non-logged in users from accessing this page
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);
-
   if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+  const userId = session?.user?.id;
+  const user = await checkIfWelcomeFormComplete({
+    prisma,
+    input: { userId },
+  });
+  if (user?.welcomeFormComplete === true) {
+    return {
+      redirect: {
+        destination: "/dashboard",
         permanent: false,
       },
     };
   }
   return {
-    props: {},
+    props: {
+      userId,
+      user,
+    },
   };
 }

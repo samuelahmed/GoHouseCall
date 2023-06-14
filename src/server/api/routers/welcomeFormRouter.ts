@@ -1,7 +1,31 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-
 import { z } from "zod";
+import { type PrismaClient } from "@prisma/client";
 
+//Used to route users to / from welcome form based on whether or not they have completed it
+//using getserversideprops and hc_account table
+const getUserInputSchema = z.object({
+  userId: z.string(),
+});
+type getUserInput = z.infer<typeof getUserInputSchema>;
+
+export async function checkIfWelcomeFormComplete({
+  prisma,
+  input,
+}: {
+  prisma: PrismaClient;
+  input: getUserInput;
+}) {
+  const user = await prisma.hC_Account.findUnique({
+    where: {
+      userId: input.userId,
+    },
+    select: {
+      welcomeFormComplete: true,
+    },
+  });
+  return user;
+}
 
 export const WelcomeFormRouter = createTRPCRouter({
   //Get user data for welcome form
@@ -20,19 +44,18 @@ export const WelcomeFormRouter = createTRPCRouter({
     return user;
   }),
 
-  checkIfWelcomeFormComplete: protectedProcedure.query(
-    async ({ ctx }) => {
-      const user = await ctx.prisma.hC_Account.findUnique({
-        where: {
-          userId: ctx.session.user.id,
-        },
-        select: {
-          welcomeFormComplete: true,
-        },
-      });
-      return user;
-    }
-  ),
+  // checkIfWelcomeFormComplete: protectedProcedure.query(async ({ ctx }) => {
+  //   const user = await ctx.prisma.hC_Account.findUnique({
+  //     where: {
+  //       userId: ctx.session.user.id,
+  //     },
+  //     select: {
+  //       welcomeFormComplete: true,
+  //     },
+  //   });
+  //   const welcomeFormComplete = user?.welcomeFormComplete;
+  //   return user;
+  // }),
 
   //Create or update HC_Account table with welcome form data
   registerNewUser: protectedProcedure
@@ -98,7 +121,4 @@ export const WelcomeFormRouter = createTRPCRouter({
       });
       return registeredUser;
     }),
-
-    
 });
-
