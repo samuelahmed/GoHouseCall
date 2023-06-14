@@ -37,35 +37,20 @@ const WelcomeForm: NextPage = () => {
         <h2 className="text-lg ">
           Complete your registration to access the rest of the site.
         </h2>
-        <p className="">
-          1. Verify your email address
-        </p>
+        <p className="">1. Verify your email address</p>
         <div className="flex space-x-4 ">
           <EmailVerification />
         </div>
-        <p className="">
-          2. Select your role
-        </p>
+        <p className="">2. Select your role</p>
         <div className="flex w-full items-center space-x-4  ">
-
-
-
           <Tabs defaultValue="account " className="w-[600px]">
-
-
-
             <TabsList>
               <TabsTrigger value="patient">Patient</TabsTrigger>
               <TabsTrigger value="caregiver">Caregiver</TabsTrigger>
             </TabsList>
 
-
-
-
             <TabsContent value="patient">
-              <p className="">
-                3. Tell us about yourself
-              </p>
+              <p className="">3. Tell us about yourself</p>
               <Form {...form}>
                 <form
                   // onSubmit={void form.handleSubmit(onSubmit)}
@@ -90,6 +75,24 @@ const WelcomeForm: NextPage = () => {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input defaultValue="" />
+                        </FormControl>
+                        {/* <FormDescription>
+                This is your legal name and will be used for payments and tax
+                purposes.
+              </FormDescription> */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="message_frequency"
@@ -189,15 +192,8 @@ const WelcomeForm: NextPage = () => {
               </Form>
             </TabsContent>
 
-
-
-
-
-
             <TabsContent value="caregiver">
-              <p className="">
-                3. Tell us about yourself
-              </p>
+              <p className="">3. Tell us about yourself</p>
               <Form {...form}>
                 <form
                   // onSubmit={void form.handleSubmit(onSubmit)}
@@ -218,6 +214,23 @@ const WelcomeForm: NextPage = () => {
                           This is your legal name and will be used for payments
                           and tax purposes.
                         </FormDescription> */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input defaultValue="" />
+                        </FormControl>
+                        {/* <FormDescription>
+                This is your legal name and will be used for payments and tax
+                purposes.
+              </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -289,16 +302,6 @@ const WelcomeForm: NextPage = () => {
             </TabsContent>
           </Tabs>
         </div>
-
-
-
-
-
-
-
-
-
-
 
         <div className="flex flex-col items-start space-y-4">
           <Button variant="outline" type="submit">
