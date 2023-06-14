@@ -18,9 +18,14 @@ export const WelcomeFormRouter = createTRPCRouter({
     return user;
   }),
 
+
+
+
+
   registerNewUser: protectedProcedure
     .input(
       z.object({
+
         userId: z.string(),
         type: z.string(),
         image: z.string(),
@@ -31,6 +36,7 @@ export const WelcomeFormRouter = createTRPCRouter({
         address: z.string(),
         city: z.string(),
         zip: z.string(),
+        welcomeFormComplete: z.boolean(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -45,6 +51,7 @@ export const WelcomeFormRouter = createTRPCRouter({
         address,
         city,
         zip,
+        welcomeFormComplete,
       } = input;
       const registeredUser = await ctx.prisma.hC_Account.upsert({
         create: {
@@ -58,6 +65,7 @@ export const WelcomeFormRouter = createTRPCRouter({
           address: address,
           city: city,
           zip: zip,
+          welcomeFormComplete: welcomeFormComplete,
         },
         update: {
           userId: userId,
@@ -70,11 +78,12 @@ export const WelcomeFormRouter = createTRPCRouter({
           address: address,
           city: city,
           zip: zip,
+          welcomeFormComplete: welcomeFormComplete,
         },
         where: {
 
           // userId: ctx.session?.user?.id,
-          // userId: userId,
+          // i: userId,
           userId: ctx.session.user.id,
 
 

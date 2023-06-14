@@ -35,6 +35,7 @@ const welcomeFormSchema = z.object({
   address: z.string(),
   city: z.string(),
   zip: z.string(),
+  welcomeFormComplete: z.boolean(),
 });
 
 type WelcomeFormValues = z.infer<typeof welcomeFormSchema>;
@@ -59,6 +60,7 @@ const WelcomeForm: NextPage = () => {
       address: "",
       city: "",
       zip: "",
+      welcomeFormComplete: true,
     },
     // mode: "onChange",
   });

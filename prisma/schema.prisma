@@ -64,23 +64,24 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
 //END ONLY FOR AUTHENTICATION & SESSIONS
 
 //Tables for the app
 model HC_Account {
-    id          String  @id @default(cuid())
-    userId      String
-    type        String? //patient or caregiver
-    image       String?
-    name        String? 
-    patientType String?  //self or manager
-    email       String?
-    bio         String?
-    address     String?
-    city        String?
-    zip         String?
+    id                  String   @id @default(cuid())
+    userId              String   @unique
+    type                String? //patient or caregiver
+    image               String?
+    name                String?
+    patientType         String? //self or manager
+    email               String?
+    bio                 String?
+    address             String?
+    city                String?
+    zip                 String?
+    welcomeFormComplete Boolean? @default(false)
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    @@index([userId])
+    // @@index([userId])
 }
-
