@@ -44,6 +44,7 @@ export const WelcomeFormRouter = createTRPCRouter({
     return user;
   }),
 
+
   // checkIfWelcomeFormComplete: protectedProcedure.query(async ({ ctx }) => {
   //   const user = await ctx.prisma.hC_Account.findUnique({
   //     where: {

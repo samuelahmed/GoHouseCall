@@ -7,11 +7,16 @@ import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
+import { CaregiverProfileForm } from "~/components/settings/caregiverProfileForm";
+import { api } from "~/utils/api";
 
 export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Profile: NextPage = () => {
   const { data: sessionData } = useSession();
+  console.log(sessionData);
+  const { data: user } = api.settingsAPI.userHC_Account.useQuery();
+  console.log(user?.type);
 
   return (
     <>
@@ -36,8 +41,8 @@ const Profile: NextPage = () => {
             <Button size="sm" variant="outline">
               Change profile picture
             </Button>
-            <PatientProfileForm
-            />
+            {user?.type === "patient" ? <PatientProfileForm /> : null}
+            {user?.type === "caregiver" ? <CaregiverProfileForm /> : null}
           </div>
         </SettingsLayout>
       </div>

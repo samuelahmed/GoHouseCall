@@ -30,6 +30,7 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+//this model is also used in useSession() 
 model User {
     id                 String              @id @default(cuid())
     name               String?

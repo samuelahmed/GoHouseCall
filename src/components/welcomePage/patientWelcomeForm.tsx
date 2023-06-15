@@ -43,6 +43,7 @@ export function PatientWelcomeForm() {
   //USED TO REGISTER NEW USER ON SUBMIT
   const mutation = api.WelcomeFormRouter.registerNewUser.useMutation();
 
+
   const router = useRouter();
 
   // console.log(user)
