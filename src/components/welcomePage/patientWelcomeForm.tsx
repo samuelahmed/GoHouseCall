@@ -19,6 +19,7 @@ import * as z from "zod";
 import { useEffect } from "react";
 import { toast } from "../ui/useToast";
 import { useRouter } from "next/router";
+import { Loader2 } from "lucide-react";
 
 const welcomeFormSchema = z.object({
   userId: z.string(), //this is the id of the user and should be pushed automatically
@@ -36,8 +37,13 @@ const welcomeFormSchema = z.object({
 
 type WelcomeFormValues = z.infer<typeof welcomeFormSchema>;
 
-
 export function PatientWelcomeForm() {
+  const {
+    data: emailVerified,
+    isLoading: emailLoading,
+    refetch: emailRefetch,
+  } = api.emailAPI.userEmailVerificationStatus.useQuery();
+
   //USED FOR DEFAULT VALUES
   const { data: user } = api.WelcomeFormRouter.me.useQuery();
   //USED TO REGISTER NEW USER ON SUBMIT
@@ -77,26 +83,23 @@ export function PatientWelcomeForm() {
 
   function onSubmit(field: WelcomeFormValues) {
     mutation.mutate(field);
-    console.log("field", field);
+    // console.log("field", field);
+
     toast({
-        title: `Welcome ${field.name}`,
-        description: "You have successfully created your account!",
-        duration: 5000,
-        });
+      title: `Welcome ${field.name}`,
+      description: "You have successfully created your account!",
+      duration: 5000,
+    });
     void router.push("/dashboard");
   }
 
-  console.log(user?.id)
+  console.log(user?.id);
 
   return (
     <>
       <p className="">3. Tell us about yourself</p>
       <Form {...form}>
-        <form
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
-        >
+        <form className="space-y-8">
           <FormLabel>Profile Image</FormLabel>
 
           <Avatar className="h-20 w-20 rounded-full object-cover">
@@ -237,9 +240,22 @@ export function PatientWelcomeForm() {
               )}
             />
           </div>
-          <Button variant="outline" type="submit">
-            Complete Registration
-          </Button>
+          {!emailVerified?.emailVerified && (
+            <Button variant="outline" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Verify Email
+            </Button>
+          )}
+          {emailVerified?.emailVerified && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onSubmit(form.getValues());
+              }}
+            >
+              Complete Registration
+            </Button>
+          )}
         </form>
         <div className="flex flex-col items-start space-y-4"></div>
       </Form>
