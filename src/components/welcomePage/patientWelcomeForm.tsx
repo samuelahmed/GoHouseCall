@@ -86,6 +86,8 @@ export function PatientWelcomeForm() {
     void router.push("/dashboard");
   }
 
+  console.log(user?.id)
+
   return (
     <>
       <p className="">3. Tell us about yourself</p>

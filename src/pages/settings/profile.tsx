@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import SettingsLayout from "~/components/settings/settingsLayout";
 import { Separator } from "~/components/ui/separator";
-import { ProfileForm } from "~/components/settings/profileForm";
+import { PatientProfileForm } from "~/components/settings/patientProfileForm";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -36,12 +36,7 @@ const Profile: NextPage = () => {
             <Button size="sm" variant="outline">
               Change profile picture
             </Button>
-            <ProfileForm
-              name={sessionData?.user?.name || ""}
-              username={""}
-              email={""}
-              bio={""}
-              profile_type={""}
+            <PatientProfileForm
             />
           </div>
         </SettingsLayout>
