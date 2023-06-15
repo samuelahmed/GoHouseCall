@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +19,19 @@ import {
 import { api } from "~/utils/api";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alertDialog";
+import { toast } from "../ui/useToast";
+import { useRouter } from "next/router";
 
 const notificationsFormSchema = z.object({
   userId: z.string(),
@@ -31,10 +43,9 @@ const notificationsFormSchema = z.object({
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
 
-
 export function NotificationsForm() {
   const { data: sessionData } = useSession();
- 
+  const router = useRouter();
   const { data: user } = api.NotificationsAPI.userHC_Notifications.useQuery();
   const mutation = api.NotificationsAPI.updateNotifications.useMutation();
 
@@ -44,8 +55,6 @@ export function NotificationsForm() {
       userId: sessionData?.user?.id || "",
       messageNotifications: user?.messageNotifications || false,
       messageFrequency: user?.messageFrequency || "",
-      // allMessages: user?.allMessages || false,
-      // newConversation: user?.newConversation  || false,
       sessionApplications: user?.sessionApplications || false,
       payments: user?.payments || false,
     },
@@ -59,29 +68,26 @@ export function NotificationsForm() {
         user?.messageNotifications || false
       );
       form.setValue("messageFrequency", user?.messageFrequency || "");
-      // form.setValue("allMessages", user?.allMessages || false);
-      // form.setValue("newConversation", user?.newConversation || false);
       form.setValue("sessionApplications", user?.sessionApplications || false);
       form.setValue("payments", user?.payments || false);
     }
   }, [user, form]);
 
   function onSubmit(data: NotificationsFormValues) {
-    console.log(data);
-
     mutation.mutate(data);
+    toast({
+      title: `${sessionData?.user?.name || ""}`,
+      description: "You have successfully updated your account!",
+      duration: 5000,
+    });
+    void router.push("/settings/notifications");
   }
 
   return (
     <Form {...form}>
-      <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-      >
+      <form className="space-y-8">
         <div>
           <h3 className="mb-4 text-lg font-medium">Email Notifications</h3>
-
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -182,15 +188,29 @@ export function NotificationsForm() {
             />
           </div>
         </div>
-        <Button
-          onClick={() => {
-            onSubmit(form.getValues());
-          }}
-          variant="outline"
-          type="submit"
-        >
-          Update notifications
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline">Update Notifications</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently update your notifications settings.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  onSubmit(form.getValues());
+                }}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </Form>
   );
