@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,44 +17,75 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { api } from "~/utils/api";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const notificationsFormSchema = z.object({
-  message_frequency: z.enum(["all", "new_conversation"], {
-    required_error: "You need to select a notification type.",
-  }),
-  messages_emails: z.boolean().default(true).optional(),
-  session_emails: z.boolean().default(true).optional(),
-  payment_emails: z.boolean().default(true).optional(),
+  userId: z.string(),
+  messageNotifications: z.boolean(),
+  messageFrequency: z.string(),
+  sessionApplications: z.boolean(),
+  payments: z.boolean(),
 });
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
 
-const defaultValues: Partial<NotificationsFormValues> = {
-  messages_emails: true,
-  session_emails: true,
-  payment_emails: true,
-};
 
 export function NotificationsForm() {
+  const { data: sessionData } = useSession();
+ 
+  const { data: user } = api.NotificationsAPI.userHC_Notifications.useQuery();
+  const mutation = api.NotificationsAPI.updateNotifications.useMutation();
+
   const form = useForm<NotificationsFormValues>({
     resolver: zodResolver(notificationsFormSchema),
-    defaultValues,
+    defaultValues: {
+      userId: sessionData?.user?.id || "",
+      messageNotifications: user?.messageNotifications || false,
+      messageFrequency: user?.messageFrequency || "",
+      // allMessages: user?.allMessages || false,
+      // newConversation: user?.newConversation  || false,
+      sessionApplications: user?.sessionApplications || false,
+      payments: user?.payments || false,
+    },
   });
+
+  useEffect(() => {
+    if (user) {
+      form.setValue("userId", user.userId);
+      form.setValue(
+        "messageNotifications",
+        user?.messageNotifications || false
+      );
+      form.setValue("messageFrequency", user?.messageFrequency || "");
+      // form.setValue("allMessages", user?.allMessages || false);
+      // form.setValue("newConversation", user?.newConversation || false);
+      form.setValue("sessionApplications", user?.sessionApplications || false);
+      form.setValue("payments", user?.payments || false);
+    }
+  }, [user, form]);
 
   function onSubmit(data: NotificationsFormValues) {
     console.log(data);
+
+    mutation.mutate(data);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={void form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8"
+      >
         <div>
           <h3 className="mb-4 text-lg font-medium">Email Notifications</h3>
 
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="messages_emails"
+              name="messageNotifications"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -72,18 +105,19 @@ export function NotificationsForm() {
             />
             <FormField
               control={form.control}
-              name="message_frequency"
+              name="messageFrequency"
               render={({ field }) => (
                 <FormItem className="space-y-3">
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
+                      value={field.value}
                       defaultValue="all"
                       className="flex flex-col space-y-1"
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="all" />
+                          <RadioGroupItem value="allMessages" />
                         </FormControl>
                         <FormLabel className="font-normal">
                           All messages
@@ -91,7 +125,7 @@ export function NotificationsForm() {
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="new_conversation" />
+                          <RadioGroupItem value="newConversation" />
                         </FormControl>
                         <FormLabel className="font-normal">
                           The first message in a new conversation
@@ -105,7 +139,7 @@ export function NotificationsForm() {
             />
             <FormField
               control={form.control}
-              name="session_emails"
+              name="sessionApplications"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -128,7 +162,7 @@ export function NotificationsForm() {
             />
             <FormField
               control={form.control}
-              name="payment_emails"
+              name="payments"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -148,7 +182,13 @@ export function NotificationsForm() {
             />
           </div>
         </div>
-        <Button variant="outline" type="submit">
+        <Button
+          onClick={() => {
+            onSubmit(form.getValues());
+          }}
+          variant="outline"
+          type="submit"
+        >
           Update notifications
         </Button>
       </form>

@@ -41,6 +41,7 @@ model User {
     accounts           Account[]
     sessions           Session[]
     HC_Account         HC_Account[]
+    HC_Notifications   HC_Notifications[]
     verificationTokens VerificationToken[]
 }
 
@@ -84,5 +85,21 @@ model HC_Account {
     welcomeFormComplete Boolean? @default(false)
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    // @@index([userId])
+}
+
+model HC_Notifications {
+    id                  String   @id @default(cuid())
+    userId              String   @unique
+    messageNotifications Boolean? @default(true)
+    messageFrequency    String? //allMessages / newConversation
+    // allMessages         Boolean? @default(false)
+    // newConversation        Boolean? @default(true)
+    sessionApplications Boolean? @default(true)
+    payments            Boolean? @default(true)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
     // @@index([userId])
 }
