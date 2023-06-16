@@ -106,9 +106,9 @@ export function PatientWelcomeForm() {
             <AvatarImage src={user?.image || ""} />
             <AvatarFallback>{user?.image || ""}</AvatarFallback>
           </Avatar>
-          {/* <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline">
                     Upload profile image
-                  </Button> */}
+                  </Button>
 
           <FormField
             control={form.control}
