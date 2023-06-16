@@ -98,10 +98,11 @@ export function PatientWelcomeForm() {
   return (
     <>
       <p className="">3. Tell us about yourself</p>
+      <ImageUpload />
+
       <Form {...form}>
         <form className="space-y-8">
           <FormLabel>Profile Image</FormLabel>
-          <ImageUpload />
 
           <FormField
             control={form.control}

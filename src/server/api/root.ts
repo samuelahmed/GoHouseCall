@@ -4,6 +4,7 @@ import { credentialsRegisterRouter } from "~/server/api/routers/credentialsRegis
 import { emailRouter } from "./routers/emailRouter";
 import { WelcomeFormRouter } from "./routers/welcomeFormRouter";
 import { notificationsRouter } from "./routers/notifications";
+import { imageRouter } from "./routers/imageRouter";
 
 export const appRouter = createTRPCRouter({
   settingsAPI: settingsRouter,
@@ -11,6 +12,7 @@ export const appRouter = createTRPCRouter({
   emailAPI: emailRouter,
   WelcomeFormRouter: WelcomeFormRouter,
   NotificationsAPI: notificationsRouter,
+  imageAPI: imageRouter, 
 });
 
 export type AppRouter = typeof appRouter;
