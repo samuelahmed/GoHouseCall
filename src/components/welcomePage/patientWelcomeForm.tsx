@@ -13,13 +13,13 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "~/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radioGroup";
 import { api } from "~/utils/api";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect } from "react";
 import { toast } from "../ui/useToast";
 import { useRouter } from "next/router";
 import { Loader2 } from "lucide-react";
+import { ImageUpload } from "~/components/s3/imageUpload";
 
 const welcomeFormSchema = z.object({
   userId: z.string(), //this is the id of the user and should be pushed automatically
@@ -101,14 +101,7 @@ export function PatientWelcomeForm() {
       <Form {...form}>
         <form className="space-y-8">
           <FormLabel>Profile Image</FormLabel>
-
-          <Avatar className="h-20 w-20 rounded-full object-cover">
-            <AvatarImage src={user?.image || ""} />
-            <AvatarFallback>{user?.image || ""}</AvatarFallback>
-          </Avatar>
-          <Button size="sm" variant="outline">
-                    Upload profile image
-                  </Button>
+          <ImageUpload />
 
           <FormField
             control={form.control}
@@ -135,16 +128,12 @@ export function PatientWelcomeForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    // placeholder="shadcn"
-                    {...field}
-                  />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="patientType"
