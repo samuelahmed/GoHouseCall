@@ -5,9 +5,14 @@ import { AspectRatio } from "~/components/ui/aspectRatio";
 import { signIn } from "next-auth/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Separator } from "~/components/ui/separator";
+import { useState } from "react";
 
 export function HomeDisplay() {
   const router = useRouter();
+  const [img1Loaded, setImg1Loaded] = useState(false);
+  const [img2Loaded, setImg2Loaded] = useState(false);
+  const [img3Loaded, setImg3Loaded] = useState(false);
+  const [img4Loaded, setImg4Loaded] = useState(false);
 
   return (
     <>
@@ -15,35 +20,79 @@ export function HomeDisplay() {
         <div className="absolute inset-0">
           <div className="grid max-h-screen min-h-screen grid-cols-2 overflow-hidden">
             <AspectRatio ratio={16 / 9} className="bg-muted">
+              {img1Loaded === false && (
+                <Image
+                  src="/housecalloption2small.jpg"
+                  width={1280}
+                  height={843}
+                  alt="Authentication"
+                  className="block "
+                />
+              )}
               <Image
+                loading="lazy"
                 src="/housecalloption2.jpeg"
                 alt="background image"
                 className="object-cover"
                 fill
+                onLoadingComplete={() => setImg1Loaded(true)}
               />
             </AspectRatio>
             <AspectRatio ratio={16 / 9} className="bg-muted">
+              {img2Loaded === false && (
+                <Image
+                  src="/housecalloption6small.jpg"
+                  width={1280}
+                  height={843}
+                  alt="Authentication"
+                  className="block "
+                />
+              )}
               <Image
+                loading="lazy"
                 src="/housecalloption6.jpeg"
                 alt="background image"
                 className="object-cover"
                 fill
+                onLoadingComplete={() => setImg2Loaded(true)}
               />
             </AspectRatio>
             <AspectRatio ratio={16 / 9} className="bg-muted">
+              {img3Loaded === false && (
+                <Image
+                  src="/housecalloption4small.jpg"
+                  width={1280}
+                  height={843}
+                  alt="Authentication"
+                  className="block "
+                />
+              )}
               <Image
+                loading="lazy"
                 src="/housecalloption4.jpeg"
                 alt="background image"
                 className="object-cover"
                 fill
+                onLoadingComplete={() => setImg3Loaded(true)}
               />
             </AspectRatio>
             <AspectRatio ratio={16 / 9} className="bg-muted">
+              {img4Loaded === false && (
+                <Image
+                  src="/housecalloption5small.jpg"
+                  width={1280}
+                  height={843}
+                  alt="Authentication"
+                  className="block "
+                />
+              )}
               <Image
+                loading="lazy"
                 src="/housecalloption5.jpeg"
                 alt="background image"
                 className="object-cover"
                 fill
+                onLoadingComplete={() => setImg4Loaded(true)}
               />
             </AspectRatio>
           </div>
