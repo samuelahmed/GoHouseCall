@@ -69,7 +69,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
               {...register("password", { required: true })}
             />
-
             {errors.password && (
               <p className="text-sm text-red11">This field is required</p>
             )}
