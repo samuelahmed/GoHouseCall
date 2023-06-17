@@ -9,9 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { useState } from "react";
 
 export function AboutHouseCall() {
   const router = useRouter();
+  const [img1Loaded, setImg1Loaded] = useState(false);
+  const [img2Loaded, setImg2Loaded] = useState(false);
 
   return (
     <>
@@ -25,7 +28,7 @@ export function AboutHouseCall() {
         <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-2">
           <div className="flex h-full flex-col content-around space-y-2 px-2">
             <div className="h-full">
-              <Card className="hover:shadow-inner shadow">
+              <Card className="shadow hover:shadow-inner">
                 <CardHeader>
                   <CardTitle className="text-center ">
                     Find the perfect caregiver
@@ -34,7 +37,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner shadow">
+              <Card className="shadow hover:shadow-inner">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Control your sessions
@@ -43,7 +46,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner shadow">
+              <Card className="shadow hover:shadow-inner">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Build lifelong relationships
@@ -52,7 +55,7 @@ export function AboutHouseCall() {
               </Card>
             </div>
             <div className="h-full">
-            <Card className="hover:shadow-inner shadow">
+              <Card className="shadow hover:shadow-inner">
                 <CardHeader>
                   <CardTitle className="text-center">
                     Discover patients who need your help
@@ -64,21 +67,41 @@ export function AboutHouseCall() {
           <div className="w-full">
             <div className="px-2 py-2">
               <AspectRatio ratio={16 / 9} className="bg-muted ">
+                {img1Loaded === false && (
+                  <Image
+                    src="/aboutSquare2small.jpg"
+                    fill
+                    alt="Authentication"
+                    className="block "
+                  />
+                )}
                 <Image
+                  loading="lazy"
                   src="/aboutSquare2.png"
                   alt="House Call Example Patient"
                   fill
                   className="rounded-md object-cover"
+                  onLoadingComplete={() => setImg1Loaded(true)}
                 />
               </AspectRatio>
             </div>
             <div className="px-2 py-2">
               <AspectRatio ratio={16 / 9} className="bg-muted">
+                {img2Loaded === false && (
+                  <Image
+                    src="/aboutSquare1small.jpg"
+                    fill
+                    alt="Authentication"
+                    className="block "
+                  />
+                )}
                 <Image
+                  loading="lazy"
                   src="/aboutSquare1.png"
                   alt="House Call Example Patient"
                   fill
                   className="rounded-md object-cover"
+                  onLoadingComplete={() => setImg2Loaded(true)}
                 />
               </AspectRatio>
             </div>
@@ -86,7 +109,7 @@ export function AboutHouseCall() {
         </div>
       </div>
       <div className="space-y-4 px-4 py-4">
-      <Card className="hover:shadow-inner shadow">
+        <Card className="shadow hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Patients
@@ -103,7 +126,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner shadow">
+        <Card className="shadow hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Caregivers
@@ -116,7 +139,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner shadow">
+        <Card className="shadow hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Sessions
@@ -131,7 +154,7 @@ export function AboutHouseCall() {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="hover:shadow-inner shadow">
+        <Card className="shadow hover:shadow-inner">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
               Easily get started right now

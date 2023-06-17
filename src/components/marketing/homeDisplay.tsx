@@ -23,8 +23,7 @@ export function HomeDisplay() {
               {img1Loaded === false && (
                 <Image
                   src="/housecalloption2small.jpg"
-                  width={1280}
-                  height={843}
+                  fill
                   alt="Authentication"
                   className="block "
                 />
@@ -42,8 +41,7 @@ export function HomeDisplay() {
               {img2Loaded === false && (
                 <Image
                   src="/housecalloption6small.jpg"
-                  width={1280}
-                  height={843}
+                  fill
                   alt="Authentication"
                   className="block "
                 />
@@ -61,8 +59,7 @@ export function HomeDisplay() {
               {img3Loaded === false && (
                 <Image
                   src="/housecalloption4small.jpg"
-                  width={1280}
-                  height={843}
+                  fill
                   alt="Authentication"
                   className="block "
                 />
@@ -80,8 +77,7 @@ export function HomeDisplay() {
               {img4Loaded === false && (
                 <Image
                   src="/housecalloption5small.jpg"
-                  width={1280}
-                  height={843}
+                  fill
                   alt="Authentication"
                   className="block "
                 />
