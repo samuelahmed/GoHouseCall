@@ -92,7 +92,7 @@ export function PatientWelcomeForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                <Input {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

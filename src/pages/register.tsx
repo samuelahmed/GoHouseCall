@@ -21,12 +21,24 @@ const Register: NextPage = () => {
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 overflow-hidden bg-cover">
             <Image
+              loading="lazy"
               src="/houseCallLogin6.jpeg"
               width={1280}
               height={843}
               alt="Authentication"
-              className="block"
+              className="block "
+              placeholder="blur"
+              blurDataURL="/houseCallLogin6small.jpg"
+  
             />
+{/*             
+            <Image
+              src="/houseCallLogin6small.jpg"
+              width={1280}
+              height={843}
+              alt="Authentication"
+              className="block "
+            /> */}
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
