@@ -1,7 +1,6 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -11,17 +10,17 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Textarea } from "~/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "~/components/ui/radioGroup";
 import { api } from "~/utils/api";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect } from "react";
 import { toast } from "../ui/useToast";
 import { useRouter } from "next/router";
+import { ImageUpload } from "../s3/imageUpload";
+import { Loader2 } from "lucide-react";
 
 const welcomeFormSchema = z.object({
-  userId: z.string(), //this is the id of the user and should be pushed automatically
+  userId: z.string(),
   type: z.string(),
   image: z.string(),
   name: z.string(),
@@ -36,20 +35,16 @@ const welcomeFormSchema = z.object({
 
 type WelcomeFormValues = z.infer<typeof welcomeFormSchema>;
 
-
 export function CaregiverWelcomeForm() {
-  //USED FOR DEFAULT VALUES
   const { data: user } = api.WelcomeFormRouter.me.useQuery();
-  //USED TO REGISTER NEW USER ON SUBMIT
   const mutation = api.WelcomeFormRouter.registerNewUser.useMutation();
-
+  const { data: emailVerified } =
+    api.emailAPI.userEmailVerificationStatus.useQuery();
   const router = useRouter();
-
-  // console.log(user)
   const form = useForm<WelcomeFormValues>({
     resolver: zodResolver(welcomeFormSchema),
     defaultValues: {
-      userId: user?.id, //Do I want to pass this here?
+      userId: user?.id,
       type: "caregiver",
       image: "",
       name: "",
@@ -61,7 +56,6 @@ export function CaregiverWelcomeForm() {
       zip: "",
       welcomeFormComplete: true,
     },
-    // mode: "onChange",
   });
 
   useEffect(() => {
@@ -73,38 +67,27 @@ export function CaregiverWelcomeForm() {
     }
   }, [user, form]);
 
-  // console.log("form", form.defaultValues?)
-
   function onSubmit(field: WelcomeFormValues) {
     mutation.mutate(field);
     console.log("field", field);
     toast({
-        title: `Welcome ${field.name}`,
-        description: "You have successfully created your account!",
-        duration: 5000,
-        });
+      title: `Welcome ${field.name}`,
+      description: "You have successfully created your account!",
+      duration: 5000,
+    });
     void router.push("/dashboard");
   }
 
   return (
     <>
-      <p className="">3. Tell us about yourself</p>
+      <p className="py-4">3. Tell us about yourself</p>
+      <ImageUpload />
       <Form {...form}>
         <form
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
         >
-          <FormLabel>Profile Image</FormLabel>
-
-          <Avatar className="h-20 w-20 rounded-full object-cover">
-            <AvatarImage src={user?.image || ""} />
-            <AvatarFallback>{user?.image || ""}</AvatarFallback>
-          </Avatar>
-          {/* <Button size="sm" variant="outline">
-                    Upload profile image
-                  </Button> */}
-
           <FormField
             control={form.control}
             name="name"
@@ -112,17 +95,12 @@ export function CaregiverWelcomeForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input defaultValue={user?.name || ""} />
+                  <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your legal name and will be used for payments and tax
-                  purposes.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="email"
@@ -130,52 +108,12 @@ export function CaregiverWelcomeForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    // placeholder="shadcn"
-                    {...field}
-                  />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          {/* <FormField
-            control={form.control}
-            name="patientType"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue="self"
-                    className="flex flex-col space-y-1"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="self" />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        I am the patient
-                      </FormLabel>
-                    </FormItem>
-
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="managed" />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        I am making an account for a loved one
-                      </FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-
-
           <FormField
             control={form.control}
             name="bio"
@@ -194,7 +132,7 @@ export function CaregiverWelcomeForm() {
             )}
           />
           <FormField
-            // control={form.control}
+            control={form.control}
             name="address"
             render={({ field }) => (
               <FormItem>
@@ -202,9 +140,6 @@ export function CaregiverWelcomeForm() {
                 <FormControl>
                   <Input placeholder="Your Address" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This address will be the default when creating sessions.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -237,9 +172,22 @@ export function CaregiverWelcomeForm() {
               )}
             />
           </div>
-          <Button variant="outline" type="submit">
-            Complete Registration
-          </Button>
+          {!emailVerified?.emailVerified && (
+            <Button variant="outline" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Verify Email
+            </Button>
+          )}
+          {emailVerified?.emailVerified && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onSubmit(form.getValues());
+              }}
+            >
+              Complete Registration
+            </Button>
+          )}
         </form>
         <div className="flex flex-col items-start space-y-4"></div>
       </Form>

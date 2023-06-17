@@ -35,9 +35,6 @@ const Profile: NextPage = () => {
             </div>
             <Separator />
             <ImageUpload />
-            <Button size="sm" variant="outline">
-              Change profile picture
-            </Button>
             {user?.type === "patient" ? <PatientProfileForm /> : null}
             {user?.type === "caregiver" ? <CaregiverProfileForm /> : null}
           </div>

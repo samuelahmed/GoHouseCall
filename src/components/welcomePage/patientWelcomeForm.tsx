@@ -1,7 +1,6 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,7 +21,7 @@ import { Loader2 } from "lucide-react";
 import { ImageUpload } from "~/components/s3/imageUpload";
 
 const welcomeFormSchema = z.object({
-  userId: z.string(), //this is the id of the user and should be pushed automatically
+  userId: z.string(),
   type: z.string(),
   image: z.string(),
   name: z.string(),
@@ -38,24 +37,15 @@ const welcomeFormSchema = z.object({
 type WelcomeFormValues = z.infer<typeof welcomeFormSchema>;
 
 export function PatientWelcomeForm() {
-  const {
-    data: emailVerified,
-    isLoading: emailLoading,
-    refetch: emailRefetch,
-  } = api.emailAPI.userEmailVerificationStatus.useQuery();
-
-  //USED FOR DEFAULT VALUES
+  const { data: emailVerified } =
+    api.emailAPI.userEmailVerificationStatus.useQuery();
   const { data: user } = api.WelcomeFormRouter.me.useQuery();
-  //USED TO REGISTER NEW USER ON SUBMIT
   const mutation = api.WelcomeFormRouter.registerNewUser.useMutation();
-
   const router = useRouter();
-
-  // console.log(user)
   const form = useForm<WelcomeFormValues>({
     resolver: zodResolver(welcomeFormSchema),
     defaultValues: {
-      userId: user?.id, //Do I want to pass this here?
+      userId: user?.id,
       type: "patient",
       image: "",
       name: "",
@@ -67,7 +57,6 @@ export function PatientWelcomeForm() {
       zip: "",
       welcomeFormComplete: true,
     },
-    // mode: "onChange",
   });
 
   useEffect(() => {
@@ -76,15 +65,12 @@ export function PatientWelcomeForm() {
       form.setValue("image", user.image2 || user.image || "");
       form.setValue("name", user.name || "");
       form.setValue("email", user.email || "");
+      form.setValue("patientType", "self");
     }
   }, [user, form]);
 
-  // console.log("form", form.defaultValues?)
-
   function onSubmit(field: WelcomeFormValues) {
     mutation.mutate(field);
-    // console.log("field", field);
-
     toast({
       title: `Welcome ${field.name}`,
       description: "You have successfully created your account!",
@@ -93,17 +79,12 @@ export function PatientWelcomeForm() {
     void router.push("/dashboard");
   }
 
-  console.log(user?.id);
-
   return (
     <>
-      <p className="">3. Tell us about yourself</p>
+      <p className="py-4">3. Tell us about yourself</p>
       <ImageUpload />
-
       <Form {...form}>
         <form className="space-y-8">
-          <FormLabel>Profile Image</FormLabel>
-
           <FormField
             control={form.control}
             name="name"
@@ -111,17 +92,12 @@ export function PatientWelcomeForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input defaultValue={user?.name || ""} />
+                <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your legal name and will be used for payments and tax
-                  purposes.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="email"
@@ -154,7 +130,6 @@ export function PatientWelcomeForm() {
                         I am the patient
                       </FormLabel>
                     </FormItem>
-
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="managed" />
@@ -187,7 +162,7 @@ export function PatientWelcomeForm() {
             )}
           />
           <FormField
-            // control={form.control}
+            control={form.control}
             name="address"
             render={({ field }) => (
               <FormItem>
@@ -195,9 +170,7 @@ export function PatientWelcomeForm() {
                 <FormControl>
                   <Input placeholder="Your Address" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This address will be the default when creating sessions.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
