@@ -39,7 +39,6 @@ export function ImageUpload() {
   const createPresignedUrlMutation = api.imageAPI.createUploadUrl.useMutation();
   const newProfileImage = api.imageAPI.newProfileImage.useMutation();
 
-  console.log(user2?.image);
   const uploadImage = async (e: React.FormEvent<HTMLFormElement>) => {
     const imageName = `${user?.id || ""}${Date.now()}`;
     e.preventDefault();
@@ -55,6 +54,11 @@ export function ImageUpload() {
       imageName: imageName,
     });
     setFile(null);
+    toast({
+      title: `${user2?.name || ""}`,
+      description: "You have successfully updated your profile image!",
+      duration: 5000,
+    });
   };
 
   return (
@@ -76,19 +80,7 @@ export function ImageUpload() {
           />
         </div>
         {file && (
-          <Button
-            onClick={() => {
-              toast({
-                title: `${user2?.name || ""}`,
-                description:
-                  "You have successfully updated your profile image!",
-                duration: 5000,
-              });
-            }}
-            variant="outline"
-            disabled={!file}
-            type="submit"
-          >
+          <Button variant="outline" disabled={!file} type="submit">
             Update Image
           </Button>
         )}
