@@ -4,10 +4,15 @@ import Head from "next/head";
 import { UserRegisterForm } from "~/components/auth/userRegisterForm";
 import { type NextPage } from "next";
 import { RouteSignedInUser } from "~/components/auth/routeSignedInUser";
+import { useState } from "react";
 
 export const getServerSideProps = RouteSignedInUser("/");
 
 const Register: NextPage = () => {
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  console.log(imgLoaded);
+
   return (
     <>
       <Head>
@@ -18,8 +23,17 @@ const Register: NextPage = () => {
         />
       </Head>
       <div className="container relative min-h-screen flex-col items-center justify-center pb-4 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+        <div className="relative hidden h-full flex-col  p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 overflow-hidden bg-cover">
+            {imgLoaded === false && (
+              <Image
+                src="/houseCallLogin6small.jpg"
+                width={1280}
+                height={843}
+                alt="Authentication"
+                className="block "
+              />
+            )}
             <Image
               loading="lazy"
               src="/houseCallLogin6.jpeg"
@@ -27,18 +41,8 @@ const Register: NextPage = () => {
               height={843}
               alt="Authentication"
               className="block "
-              placeholder="blur"
-              blurDataURL="/houseCallLogin6small.jpg"
-  
+              onLoadingComplete={() => setImgLoaded(true)}
             />
-{/*             
-            <Image
-              src="/houseCallLogin6small.jpg"
-              width={1280}
-              height={843}
-              alt="Authentication"
-              className="block "
-            /> */}
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
