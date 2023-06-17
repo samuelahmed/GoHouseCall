@@ -46,7 +46,7 @@ export function EmailVerification() {
               });
             }}
           >
-            Send Login Email
+            Send Verification Email
           </Button>
         ))}
       {/* Resend Login Email because user is not verified and token exists */}
@@ -69,7 +69,7 @@ export function EmailVerification() {
               });
             }}
           >
-            Resend Login Email
+            Resend Verification Email
           </Button>
         ))}
       {/* Email verified */}

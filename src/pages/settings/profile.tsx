@@ -4,11 +4,11 @@ import SettingsLayout from "~/components/settings/settingsLayout";
 import { Separator } from "~/components/ui/separator";
 import { PatientProfileForm } from "~/components/settings/patientProfileForm";
 import { useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { CaregiverProfileForm } from "~/components/settings/caregiverProfileForm";
 import { api } from "~/utils/api";
+import { ImageUpload } from "~/components/s3/imageUpload";
 
 export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
@@ -34,13 +34,7 @@ const Profile: NextPage = () => {
               </p>
             </div>
             <Separator />
-            <Avatar className="h-20 w-20 rounded-full object-cover">
-              <AvatarImage src={sessionData?.user?.image || ""} />
-              <AvatarFallback>{sessionData?.user?.name || ""}</AvatarFallback>
-            </Avatar>
-            <Button size="sm" variant="outline">
-              Change profile picture
-            </Button>
+            <ImageUpload />
             {user?.type === "patient" ? <PatientProfileForm /> : null}
             {user?.type === "caregiver" ? <CaregiverProfileForm /> : null}
           </div>

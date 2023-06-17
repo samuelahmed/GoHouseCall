@@ -25,6 +25,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string(),
     GOOGLE_EMAIL: z.string(),
     GOOGLE_PASS: z.string(),
+    AWS_ACCESS_KEY_ID: z.string(),
+    AWS_SECRET_ACCESS_KEY: z.string(),
   },
 
   /**
@@ -53,6 +55,8 @@ export const env = createEnv({
 
     GOOGLE_EMAIL: process.env.GOOGLE_EMAIL,
     GOOGLE_PASS: process.env.GOOGLE_PASS,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
 
   },
 });
