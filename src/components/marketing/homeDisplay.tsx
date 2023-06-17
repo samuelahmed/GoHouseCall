@@ -97,7 +97,7 @@ export function HomeDisplay() {
           <div className="flex flex-col rounded-xl bg-white shadow-2xl hover:shadow-none">
             <Tabs
               defaultValue="houseCall"
-              className="min-w-85vw max-w-85vw  md:min-w-50vw md:max-w-50vw"
+              className="min-w-85vw max-w-85vw  md:min-w-60vw md:max-w-60vw"
             >
               <TabsList className="h-full w-full rounded-xl  bg-white p-2 md:p-4">
                 <TabsTrigger
@@ -124,8 +124,10 @@ export function HomeDisplay() {
               <TabsContent value="houseCall">
                 <div className="w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
-                    Connecting <span className="text-blue11">patients </span>
-                    and <span className="text-blue11">caregivers</span>
+                    Directly connecting{" "}
+                    <span className="text-blue11">caregivers </span>
+                    with <span className="text-blue11">patients</span> and their
+                    loved ones
                   </h1>
                   <div className="flex justify-end space-x-2 py-4 ">
                     <Button
