@@ -3,12 +3,12 @@ import Head from "next/head";
 import SessionsExport from "~/components/sessionTable/sessionsExport";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 
-export const getServerSideProps = RouteSignedOutAndNewUsers("/");
+export const getServerSideProps = RouteSignedOutAndNewUsers("/indexSessions");
 
 const Sessions: NextPage = () => {
   return (
     <>
-      <Head>
+      <Head>  
         <title>Sessions</title>
         <meta name="description" content="House call sessions page" />
       </Head>
