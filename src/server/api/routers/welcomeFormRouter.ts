@@ -37,26 +37,13 @@ export const WelcomeFormRouter = createTRPCRouter({
       select: {
         id: true,
         image: true,
+        image2: true,
         name: true,
         email: true,
       },
     });
     return user;
   }),
-
-
-  // checkIfWelcomeFormComplete: protectedProcedure.query(async ({ ctx }) => {
-  //   const user = await ctx.prisma.hC_Account.findUnique({
-  //     where: {
-  //       userId: ctx.session.user.id,
-  //     },
-  //     select: {
-  //       welcomeFormComplete: true,
-  //     },
-  //   });
-  //   const welcomeFormComplete = user?.welcomeFormComplete;
-  //   return user;
-  // }),
 
   //Create or update HC_Account table with welcome form data
   registerNewUser: protectedProcedure

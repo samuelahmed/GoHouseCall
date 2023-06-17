@@ -67,7 +67,7 @@ export function CaregiverWelcomeForm() {
   useEffect(() => {
     if (user) {
       form.setValue("userId", user.id || "");
-      form.setValue("image", user.image || "");
+      form.setValue("image", user.image2 || "");
       form.setValue("name", user.name || "");
       form.setValue("email", user.email || "");
     }
