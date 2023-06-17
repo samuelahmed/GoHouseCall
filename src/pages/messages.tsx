@@ -3,7 +3,7 @@ import Head from "next/head";
 import MessagesLayout from "~/components/messages/messagesLayout";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 
-export const getServerSideProps = RouteSignedOutAndNewUsers("/");
+export const getServerSideProps = RouteSignedOutAndNewUsers("/indexMessages");
 
 const Messages: NextPage = () => {
   return (
