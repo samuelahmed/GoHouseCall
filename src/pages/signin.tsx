@@ -4,10 +4,13 @@ import { UserAuthForm } from "~/components/auth/userAuthForm";
 import Head from "next/head";
 import { type NextPage } from "next";
 import { RouteSignedInUser } from "~/components/auth/routeSignedInUser";
+import { useState } from "react";
 
 export const getServerSideProps = RouteSignedInUser("/");
 
 const SignIn: NextPage = () => {
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   return (
     <>
       <Head>
@@ -20,12 +23,23 @@ const SignIn: NextPage = () => {
       <div className="container relative min-h-screen flex-col items-center justify-center pb-4 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 overflow-hidden bg-cover">
+            {imgLoaded === false && (
+              <Image
+                src="/houseCallLogin2small.jpg"
+                width={1280}
+                height={843}
+                alt="Authentication"
+                className="block "
+              />
+            )}
             <Image
+              loading="lazy"
               src="/houseCallLogin2.jpeg"
               width={1280}
               height={843}
               alt="Authentication"
               className="block"
+              onLoadingComplete={() => setImgLoaded(true)}
             />
           </div>
           <div className="relative z-20 mt-auto">

@@ -1,4 +1,3 @@
-// "use client";
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import * as React from "react";
@@ -20,16 +19,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const { error } = router.query;
 
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CredentialLogin>();
 
-
   const onSubmit: SubmitHandler<CredentialLogin> = async (data) => {
-    // setProviderType("credentials");
     setErrorMessage(undefined);
     await signIn("credentials", {
       ...data,
@@ -43,7 +39,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           {error && (
             <p className="text-sm text-red11">Login failed, try again!</p>
           )}
-
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
@@ -74,14 +69,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
               {...register("password", { required: true })}
             />
-
             {errors.password && (
               <p className="text-sm text-red11">This field is required</p>
             )}
           </div>
-          <Button 
-          // onClick={() => void setProviderType("credentials")}
-          variant="outline" disabled={isLoading}>
+          <Button variant="outline" disabled={isLoading}>
             {isLoading && <></>}
             Sign In
           </Button>
@@ -99,9 +91,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <Button
         onClick={() => {
-          // setProviderType("google");
-          void signIn("google")}
-        }
+          void signIn("google");
+        }}
         variant="outline"
         type="button"
         disabled={isLoading}
@@ -112,4 +103,3 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     </div>
   );
 }
-
