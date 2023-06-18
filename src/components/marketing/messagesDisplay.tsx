@@ -110,14 +110,14 @@ export function MessagesDisplay() {
                   className="w-full text-base text-black hover:font-bold data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="patients"
                 >
-                  Notifications
+                  Patients
                 </TabsTrigger>
 
                 <TabsTrigger
                   className="stext-base w-full text-black hover:font-bold data-[state=active]:shadow-none md:text-lg lg:text-xl"
                   value="caregivers"
                 >
-                  Easy
+                  Caregivers
                 </TabsTrigger>
               </TabsList>
               <Separator />
@@ -153,15 +153,16 @@ export function MessagesDisplay() {
                     >
                       Sign In
                     </Button>
+                    
                   </div>
                 </div>
               </TabsContent>
               <TabsContent value="patients">
                 <div className=" w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
-                    Turn on{" "}
-                    <span className="text-blue11">email notifications</span> to
-                    never miss a connection
+                    Get to know your{" "}
+                    <span className="text-blue11">caregiver</span> before
+                    meeting and ask any questions
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
@@ -179,8 +180,8 @@ export function MessagesDisplay() {
               <TabsContent value="caregivers">
                 <div className=" w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
-                    Easily chat using the{" "}
-                    <span className="text-blue11">website </span> without any
+                    Easily send messages to your
+                    <span className="text-blue11"> patients </span> without any
                     downloads
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
