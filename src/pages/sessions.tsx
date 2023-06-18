@@ -3,7 +3,7 @@ import Head from "next/head";
 import SessionsExport from "~/components/sessionTable/sessionsExport";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 
-export const getServerSideProps = RouteSignedOutAndNewUsers("/indexSessions");
+export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/sessions");
 
 const Sessions: NextPage = () => {
   return (
