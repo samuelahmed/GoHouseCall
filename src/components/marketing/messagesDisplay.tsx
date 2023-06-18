@@ -22,7 +22,7 @@ export function MessagesDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img1Loaded === false && (
                 <Image
-                  src="/housecalloption2small.jpg"
+                  src="/messages1small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -40,7 +40,7 @@ export function MessagesDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img2Loaded === false && (
                 <Image
-                  src="/housecalloption6small.jpg"
+                  src="/messages3small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -58,7 +58,7 @@ export function MessagesDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img3Loaded === false && (
                 <Image
-                  src="/housecalloption4small.jpg"
+                  src="/messages2small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -76,7 +76,7 @@ export function MessagesDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img4Loaded === false && (
                 <Image
-                  src="/housecalloption5small.jpg"
+                  src="/messages4small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
