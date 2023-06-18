@@ -22,7 +22,7 @@ export function SettingsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img1Loaded === false && (
                 <Image
-                  src="/careSession1small.jpg"
+                  src="/settings3small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -40,7 +40,7 @@ export function SettingsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img2Loaded === false && (
                 <Image
-                  src="/careSession4small.jpg"
+                  src="/settings2small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -58,7 +58,7 @@ export function SettingsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img3Loaded === false && (
                 <Image
-                  src="/careSession3small.jpg"
+                  src="/settings4small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -76,7 +76,7 @@ export function SettingsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img4Loaded === false && (
                 <Image
-                  src="/careSession2small.jpg"
+                  src="/settings1small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -124,8 +124,8 @@ export function SettingsDisplay() {
               <TabsContent value="houseCall">
                 <div className="w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl  font-semibold lg:text-5xl">
-                    <span className="text-blue11">Care sessions</span> in the
-                    comfort of your home
+                    Control your <span className="text-blue11">profile </span>{" "}
+                    information
                   </h1>
                   <div className="flex justify-end space-x-2 py-4 ">
                     <Button
@@ -159,8 +159,9 @@ export function SettingsDisplay() {
               <TabsContent value="patients">
                 <div className=" w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
-                    Create <span className="text-blue11">care sessions </span>{" "}
-                    describing your needs for caregivers to apply
+                    Select whether your or{" "}
+                    <span className="text-blue11">a love one </span> manages
+                    your account
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
@@ -178,11 +179,8 @@ export function SettingsDisplay() {
               <TabsContent value="caregivers">
                 <div className=" w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
-                    Apply to <span className="text-blue11">care sessions </span> that match your
-                    skills and schedule
-
-
-        
+                    Setup your <span className="text-blue11"> profile </span> in
+                    minutes and start helping others
                   </h1>
                   <div className="flex justify-end space-x-2 py-4">
                     <Button
