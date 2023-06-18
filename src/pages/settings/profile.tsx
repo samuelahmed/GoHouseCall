@@ -10,7 +10,7 @@ import { CaregiverProfileForm } from "~/components/settings/caregiverProfileForm
 import { api } from "~/utils/api";
 import { ImageUpload } from "~/components/s3/imageUpload";
 
-export const getServerSideProps = RouteSignedOutAndNewUsers("/");
+export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/settings");
 
 const Profile: NextPage = () => {
   const { data: sessionData } = useSession();

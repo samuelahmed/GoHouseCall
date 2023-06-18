@@ -22,7 +22,7 @@ export function SessionsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img1Loaded === false && (
                 <Image
-                  src="/housecalloption2small.jpg"
+                  src="/careSession1small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -40,7 +40,7 @@ export function SessionsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img2Loaded === false && (
                 <Image
-                  src="/housecalloption6small.jpg"
+                  src="/careSession4small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -58,7 +58,7 @@ export function SessionsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img3Loaded === false && (
                 <Image
-                  src="/housecalloption4small.jpg"
+                  src="/careSession3small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
@@ -76,7 +76,7 @@ export function SessionsDisplay() {
             <AspectRatio ratio={16 / 9} className="bg-muted">
               {img4Loaded === false && (
                 <Image
-                  src="/housecalloption5small.jpg"
+                  src="/careSession2small.jpg"
                   fill
                   alt="Authentication"
                   className="block "
