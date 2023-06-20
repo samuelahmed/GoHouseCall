@@ -2,6 +2,10 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { useState } from "react";
+import { useEffect } from "react";
+import { pusherClient } from "~/lib/pusher";
+
 
 //demo message data
 const messages = [
@@ -58,6 +62,26 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const currentSelectedUser = passSelectedUser.name || lastMessagedUser;
   const currentUser = "meow";
 
+  
+  // pusherClient. = true;
+
+  const [selectedChannel, setSelectedChannel] = useState([]);
+  // const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+
+    pusherClient.subscribe("my-channel")
+    pusherClient.bind("my-event", function (data: any ) {
+      console.log(data);
+    });
+
+    return () => {
+      pusherClient.unsubscribe("my-channel");
+      pusherClient.unbind("my-event");
+      pusherClient.disconnect();
+    };
+
+  }, []);
 
 
 
