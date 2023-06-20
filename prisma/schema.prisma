@@ -45,7 +45,7 @@ model User {
     HC_Notifications   HC_Notifications[]
     verificationTokens VerificationToken[]
     HC_Message         HC_Message[]
-    HC_PusherChannel   HC_PusherChannel[]
+    HC_FriendList   HC_FriendList[]
 }
 
 //currently not used.
@@ -104,24 +104,32 @@ model HC_Notifications {
     // @@index([userId])
 }
 
+model HC_FriendList {
+    id          String   @id @default(cuid())
+    caregiverId String?
+    patientId   String?
+    createdAt   DateTime @default(now())
+    pusherChannelName String?
+    userId      String @unique//this is whoever created the channel
+
+    User        User?    @relation(fields: [userId], references: [id])
+    @@index([userId])
+}
+
+
 model HC_Message {
     id          String   @id @default(cuid())
-    userId      String   @unique //this is id in user table
+    senderId    String   @unique
+    receiverId  String
     createdAt   DateTime @default(now())
-    channelName String
+    channelName String?
     content     String   @db.Text
+    userId      String? //this is whoever created the message
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    // @@index([userId])
+    User        User?    @relation(fields: [userId], references: [id])
+    @@index([userId])
 }
 
-model HC_PusherChannel {
-    id          String   @id @default(cuid())
-    userId      String   @unique //this is id in user table //user id of the person who created the channel
-    caregiverId String
-    patientId   String
-    createdAt   DateTime @default(now())
-    channelName String
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+
+

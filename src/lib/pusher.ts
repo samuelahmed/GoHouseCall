@@ -9,6 +9,6 @@ import PusherClient from "pusher-js";
 //   useTLS: true,
 // });
 
-export const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
-  cluster: "us3",
-});
+// export const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
+//   cluster: "us3",
+// });
