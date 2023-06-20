@@ -4,7 +4,9 @@ import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { useState } from "react";
 import { useEffect } from "react";
-import { pusherClient } from "~/lib/pusher";
+// import { pusherClient } from "~/lib/pusher";
+import PusherClient from "pusher-js";
+
 
 
 //demo message data
@@ -60,6 +62,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
 
 
   const currentSelectedUser = passSelectedUser.name || lastMessagedUser;
+
   const currentUser = "meow";
 
   
@@ -68,9 +71,15 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const [selectedChannel, setSelectedChannel] = useState([]);
   // const [messages, setMessages] = useState([]);
 
+
   useEffect(() => {
 
+    const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
+      cluster: "us3",
+    });
+    
     pusherClient.subscribe("my-channel")
+
     pusherClient.bind("my-event", function (data: any ) {
       console.log(data);
     });
@@ -82,9 +91,6 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     };
 
   }, []);
-
-
-
 
 
   return (
