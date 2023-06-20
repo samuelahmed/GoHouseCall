@@ -44,6 +44,8 @@ model User {
     HC_Account         HC_Account[]
     HC_Notifications   HC_Notifications[]
     verificationTokens VerificationToken[]
+    HC_Message         HC_Message[]
+    HC_PusherChannel   HC_PusherChannel[]
 }
 
 //currently not used.
@@ -91,16 +93,35 @@ model HC_Account {
 }
 
 model HC_Notifications {
-    id                  String   @id @default(cuid())
-    userId              String   @unique
+    id                   String   @id @default(cuid())
+    userId               String   @unique
     messageNotifications Boolean? @default(true)
-    messageFrequency    String? //allMessages / newConversation
-    // allMessages         Boolean? @default(false)
-    // newConversation        Boolean? @default(true)
-    sessionApplications Boolean? @default(true)
-    payments            Boolean? @default(true)
+    messageFrequency     String?
+    sessionApplications  Boolean? @default(true)
+    payments             Boolean? @default(true)
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
     // @@index([userId])
+}
+
+model HC_Message {
+    id          String   @id @default(cuid())
+    userId      String   @unique //this is id in user table
+    createdAt   DateTime @default(now())
+    channelName String
+    content     String   @db.Text
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // @@index([userId])
+}
+
+model HC_PusherChannel {
+    id          String   @id @default(cuid())
+    userId      String   @unique //this is id in user table //user id of the person who created the channel
+    caregiverId String
+    patientId   String
+    createdAt   DateTime @default(now())
+    channelName String
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

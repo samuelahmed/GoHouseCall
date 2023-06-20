@@ -1,10 +1,9 @@
-"use client";
-
 import { Button } from "../ui/button";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
+//demo message data
 const messages = [
   {
     id: "1",
@@ -54,24 +53,33 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export function MessageContent({ passSelectedUser }: ContactsNavProps) {
+
+
   const currentSelectedUser = passSelectedUser.name || lastMessagedUser;
   const currentUser = "meow";
+
+
+
+
+
 
   return (
     <>
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="w-full pr-2">
+            {/* get selected 'contact' from contact nav  */}
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
                 {passSelectedUser.name || lastMessagedUser}
               </CardTitle>
             </Card>
+
             <Card className="min-h-65vh w-full rounded-none border border-t-0 py-4">
               <CardContent className="-p-1 px-1">
                 <div className="flex flex-col space-y-2 overflow-auto">
                   {messages.map((message) => {
-                    //messages sent
+                    // messages sent
                     if (
                       message.sender === currentUser &&
                       message.receiver === currentSelectedUser
@@ -91,6 +99,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                         </div>
                       );
                     }
+
                     //messages received
                     if (
                       message.sender === currentSelectedUser &&
@@ -115,6 +124,8 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 </div>
               </CardContent>
             </Card>
+
+            {/* input and send button */}
             <div className="flex flex-row items-center space-x-2">
               <Input
                 className="my-2 px-4 py-4"
@@ -125,6 +136,8 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               </div>
             </div>
           </div>
+
+          {/* far right menu */}
           <div className="hidden w-72 md:block">
             <div className="flex items-center justify-center pt-4">
               <Avatar>

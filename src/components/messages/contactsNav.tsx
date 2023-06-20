@@ -1,9 +1,10 @@
-"use client";
-
 import { useState } from "react";
 import { MessageContent } from "./messageContent";
 import { Card } from "~/components/ui/card";
 import { Button } from "../ui/button";
+
+
+
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -13,12 +14,21 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   }[];
 }
 
+
+
+
 export function ContactsNav({ items }: ContactsNavProps) {
+
+
+
+  //manage selected user
   const [selectedUser, setSelectedUser] = useState({
     name: "",
     title: "",
     user: "",
   });
+
+
 
   const [state, setState] = useState(0);
 
@@ -34,7 +44,7 @@ export function ContactsNav({ items }: ContactsNavProps) {
               <div
                 key={item.name}
                 onClick={() => {
-                  void setSelectedUser(item);
+                  setSelectedUser(item);
                 }}
               >
                 <Card
