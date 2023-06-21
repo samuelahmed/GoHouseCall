@@ -73,11 +73,9 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
                   {messages?.map((message) => {
-
-
                     if (
-                      message.receiverId === currentUser?.userId &&
-                      message.senderId === currentSelectedUser
+                      message.senderId === currentUser?.userId &&
+                      message.receiverId === currentSelectedUser
                     ) {
                       return (
                         <div
@@ -94,26 +92,10 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                         </div>
                       );
                     }
-
                     if (
-                      message.senderId === currentUser?.userId
-                    )
-                      return (
-                        <div
-                          className="flex flex-row-reverse items-center justify-start space-y-2 bg-orange-500 text-end"
-                          key={message.id}
-                        >
-                          <Avatar className="mx-1 mt-1">
-                            <AvatarImage src="https://lh3.googleusercontent.com/a/AGNmyxbdo5KPhSRdaHNUKqGun6H40eqqTz3zbUCf0oCA=s96-c" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
-                            {message.content}
-                          </div>
-                        </div>
-                      );
-
-                    if (message.senderId !== currentUser?.userId) {
+                      message.senderId !== currentUser?.userId &&
+                      message.receiverId === currentSelectedUser
+                    ) {
                       return (
                         <div
                           className="flex flex-row items-center justify-start space-y-2 bg-yellow-300 text-end"
@@ -129,8 +111,6 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                         </div>
                       );
                     }
-
-
                   })}
                 </div>
               </CardContent>
