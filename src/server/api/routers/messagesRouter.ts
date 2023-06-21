@@ -12,6 +12,28 @@ export const messagesRouter = createTRPCRouter({
     return user;
   }),
 
+  getUserImage: protectedProcedure
+  .input(
+    z.object({
+      userId: z.string(),
+    })
+  )
+  
+  .query(async ({ ctx, input }) => {
+    const { userId } = input;
+    const user = await ctx.prisma.hC_Account.findUnique({
+      where: {
+        userId: userId
+      },
+      select: {
+        image: true
+      }
+    });
+    return user;
+  }),
+
+      
+
   //Add to friend_list
   createNewFriend: protectedProcedure
     .input(

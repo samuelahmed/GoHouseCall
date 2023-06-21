@@ -22,6 +22,12 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const [input, setInput] = useState<string>("");
   const { mutate } = api.messagesAPI.createMessage.useMutation();
 
+  const { data: selectedUserImage } = api.messagesAPI.getUserImage.useQuery({
+    userId: currentSelectedUser,
+  });
+
+  console.log(selectedUserImage);
+
   const { data: messages } =
     api.messagesAPI.readAllMessagesBySelectedUser.useQuery({
       receiverId: currentSelectedUser,
@@ -83,7 +89,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                           key={message.id}
                         >
                           <Avatar className="mx-1 mt-1">
-                            <AvatarImage src="https://lh3.googleusercontent.com/a/AGNmyxbdo5KPhSRdaHNUKqGun6H40eqqTz3zbUCf0oCA=s96-c" />
+                            <AvatarImage src={currentUser.image || ""} />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
                           <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
@@ -102,7 +108,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                           key={message.id}
                         >
                           <Avatar className="mx-1 mt-1">
-                            <AvatarImage src="https://lh3.googleusercontent.com/a/AAcHTtc4YvX9jKd0aR3FDN0GrP848CYTjuZgb7Yicq6K=s96-c" />
+                            <AvatarImage src={selectedUserImage?.image || ""} />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
                           <CardContent className="-p-4 rounded bg-gray-300 p-1 text-sm">
