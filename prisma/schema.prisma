@@ -119,10 +119,12 @@ model HC_FriendList {
 
 model HC_Message {
     id          String   @id @default(cuid())
-    senderId    String   @unique
+    senderId    String   
     receiverId  String
     createdAt   DateTime @default(now())
     channelName String?
+        channelId         String?
+
     content     String   @db.Text
     userId      String? //this is whoever created the message
 

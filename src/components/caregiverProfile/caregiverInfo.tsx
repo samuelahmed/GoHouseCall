@@ -12,28 +12,19 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
 export function CaregiverInfo() {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const {data: user} = api.messagesAPI.me.useQuery();
-  console.log(user)
-  
-  // if (!user) {
-  //   return null;
-  // }
+  const { data: user } = api.messagesAPI.me.useQuery();
+  // console.log(user)
 
   const { mutate } = api.messagesAPI.createNewFriend.useMutation();
 
   const publish = () => {
-    mutate(
-      {
-        caregiverId: 'climxehhu0008uq3cqk4tx67b',
-        patientId: user?.id || '',
-      },
-    );
+    mutate({
+      caregiverId: "climxehhu0008uq3cqk4tx67b",
+      patientId: user?.id || "",
+    });
   };
-
-
-
 
   return (
     <>
