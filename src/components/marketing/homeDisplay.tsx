@@ -125,9 +125,8 @@ export function HomeDisplay() {
                 <div className="w-full rounded-xl bg-white p-4 md:p-10">
                   <h1 className="py-4 text-3xl font-semibold lg:text-5xl">
                     Directly connecting{" "}
-                    <span className="text-blue11">caregivers </span>
-                    with <span className="text-blue11">patients</span> and their
-                    loved ones
+                    <span className="text-blue11">patients </span>
+                    with <span className="text-blue11">caregivers</span>
                   </h1>
                   <div className="flex justify-end space-x-2 py-4 ">
                     <Button
