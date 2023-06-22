@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Button } from "../ui/button";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
@@ -6,10 +8,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
-import { set } from "date-fns";
+
+//Currently not working live
+//Does save to database
+//can connect to pusher channel and recieve messages from their debugger but does not display them, nor can I send any out.
 
 const lastMessagedUser = "John Doe";
-
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
     name: string;
@@ -28,15 +32,13 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     userId: currentSelectedUser,
   });
 
-  // console.log(passSelectedUser.pusherChannelName);
-
-  const { data: messages } =
+  const { data: readMessages } =
     api.messagesAPI.readAllMessagesBySelectedUser.useQuery({
       receiverId: currentSelectedUser,
       senderId: currentUser?.userId || "",
     });
 
-  // const [messagesMeow, setMessagesMeow] = useState("");
+  const [messages, setMessages] = useState<any[]>([]);
 
   const sendMessage = () => {
     mutate({
@@ -46,30 +48,26 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     setInput("");
   };
 
-
   const [selectedChannel, setSelectedChannel] = useState("");
-  
   useEffect(() => {
-  setSelectedChannel(passSelectedUser.pusherChannelName || "");
-  console.log(passSelectedUser.pusherChannelName)
-  }, [passSelectedUser.pusherChannelName])
+    setSelectedChannel(passSelectedUser.pusherChannelName || "");
+  }, [passSelectedUser.pusherChannelName]);
 
-
-  const channel = selectedChannel
-  console.log(channel)
-  // passSelectedUser.pusherChannelName;
-  // console.log(passSelectedUser.pusherChannelName)
+  const channel = selectedChannel;
 
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    //pick channel name
     pusherClient.subscribe(channel);
 
     pusherClient.bind("my-event", function (data: any) {
-      console.log(data);
+      console.log("data", data);
+      setMessages((prev) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return [input, ...prev];
+      });
     });
 
     return () => {
@@ -79,7 +77,13 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     };
   }, [channel]);
 
+  console.log(channel);
 
+  useEffect(() => {
+    if (readMessages) {
+      setMessages(readMessages);
+    }
+  }, [readMessages]);
 
   return (
     <>
@@ -97,17 +101,14 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
                   {messages?.map((message) => {
-                    if (
-                      message.senderId === currentUser?.userId &&
-                      message.receiverId === currentSelectedUser
-                    ) {
+                    if (message.senderId === currentUser?.userId) {
                       return (
                         <div
                           className="flex flex-row-reverse items-center justify-start space-y-2 text-end"
                           key={message.id}
                         >
                           <Avatar className="mx-1 mt-1">
-                            <AvatarImage src={currentUser.image || ""} />
+                            <AvatarImage src={currentUser?.image || ""} />
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
                           <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
@@ -116,10 +117,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                         </div>
                       );
                     }
-                    if (
-                      message.senderId !== currentUser?.userId &&
-                      message.receiverId === currentSelectedUser
-                    ) {
+                    if (message.receiverId !== currentUser?.userId) {
                       return (
                         <div
                           className="flex flex-row items-center justify-start space-y-2 text-end"
@@ -130,6 +128,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                             <AvatarFallback>CN</AvatarFallback>
                           </Avatar>
                           <CardContent className="-p-4 rounded bg-gray-300 p-1 text-sm">
+                            {/* {liveMessages} */}
                             {message.content}
                           </CardContent>
                         </div>
