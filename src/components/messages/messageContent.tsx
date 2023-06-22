@@ -24,7 +24,9 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const { data: currentUser } = api.messagesAPI.me.useQuery();
+
   const currentSelectedUser = passSelectedUser.id || lastMessagedUser;
+  
   const [input, setInput] = useState<string>("");
   const { mutate } = api.messagesAPI.createMessage.useMutation();
 
@@ -43,6 +45,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const sendMessage = () => {
     mutate({
       receiverId: passSelectedUser.id,
+      pusherChannelName: passSelectedUser.pusherChannelName,
       content: input,
     });
     setInput("");
@@ -62,11 +65,16 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
 
     pusherClient.subscribe(channel);
 
+    // const channel = pusher.subscribe(selectedChannel.channelName);
+
+    // const messageHandler = (message: any) => {
+    // }
+
     pusherClient.bind("my-event", function (data: any) {
-      console.log("data", data);
       setMessages((prev) => {
+        console.log(data)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return [input, ...prev];
+        return [data, ...prev];
       });
     });
 
@@ -113,6 +121,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                           </Avatar>
                           <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
                             {message.content}
+                            {/* {message.} */}
                           </div>
                         </div>
                       );
@@ -168,6 +177,9 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               </div>
             </div>
           </div>
+
+
+
 
           {/* far right menu */}
           <div className="hidden w-72 md:block">

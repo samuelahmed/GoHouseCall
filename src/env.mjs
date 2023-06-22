@@ -27,6 +27,10 @@ export const env = createEnv({
     GOOGLE_PASS: z.string(),
     AWS_ACCESS_KEY_ID: z.string(),
     AWS_SECRET_ACCESS_KEY: z.string(),
+    APP_ID: z.string(),
+    APP_KEY: z.string(),
+    APP_SECRET: z.string(),
+    APP_CLUSTER: z.string(),
   },
 
   /**
@@ -57,6 +61,12 @@ export const env = createEnv({
     GOOGLE_PASS: process.env.GOOGLE_PASS,
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+
+    APP_ID: process.env.APP_ID,
+    APP_KEY: process.env.APP_KEY,
+    APP_SECRET: process.env.APP_SECRET,
+    APP_CLUSTER: process.env.APP_CLUSTER,
+
 
   },
 });
