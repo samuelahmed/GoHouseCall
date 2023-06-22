@@ -44,6 +44,8 @@ model User {
     HC_Account         HC_Account[]
     HC_Notifications   HC_Notifications[]
     verificationTokens VerificationToken[]
+    HC_Message         HC_Message[]
+    HC_FriendList   HC_FriendList[]
 }
 
 //currently not used.
@@ -91,16 +93,45 @@ model HC_Account {
 }
 
 model HC_Notifications {
-    id                  String   @id @default(cuid())
-    userId              String   @unique
+    id                   String   @id @default(cuid())
+    userId               String   @unique
     messageNotifications Boolean? @default(true)
-    messageFrequency    String? //allMessages / newConversation
-    // allMessages         Boolean? @default(false)
-    // newConversation        Boolean? @default(true)
-    sessionApplications Boolean? @default(true)
-    payments            Boolean? @default(true)
+    messageFrequency     String?
+    sessionApplications  Boolean? @default(true)
+    payments             Boolean? @default(true)
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
     // @@index([userId])
 }
+
+model HC_FriendList {
+    id          String   @id @default(cuid())
+    caregiverId String?
+    patientId   String?
+    createdAt   DateTime @default(now())
+    pusherChannelName String?
+    userId      String @unique//this is whoever created the channel
+
+    User        User?    @relation(fields: [userId], references: [id])
+    @@index([userId])
+}
+
+
+model HC_Message {
+    id          String   @id @default(cuid())
+    senderId    String   
+    receiverId  String
+    createdAt   DateTime @default(now())
+    channelName String?
+        channelId         String?
+
+    content     String   @db.Text
+    userId      String? //this is whoever created the message
+
+    User        User?    @relation(fields: [userId], references: [id])
+    @@index([userId])
+}
+
+
+
+

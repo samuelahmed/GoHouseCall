@@ -2,7 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const notificationsRouter = createTRPCRouter({
-
   userHC_Notifications: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.hC_Notifications.findUnique({
       where: {
@@ -12,15 +11,12 @@ export const notificationsRouter = createTRPCRouter({
     return user;
   }),
 
-  
   updateNotifications: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
         messageNotifications: z.boolean(),
         messageFrequency: z.string(),
-        // allMessages: z.boolean(),
-        // newConversation: z.boolean(),
         sessionApplications: z.boolean(),
         payments: z.boolean(),
       })
@@ -30,8 +26,6 @@ export const notificationsRouter = createTRPCRouter({
         userId,
         messageNotifications,
         messageFrequency,
-        // allMessages,
-        // newConversation,
         sessionApplications,
         payments,
       } = input;
@@ -40,8 +34,6 @@ export const notificationsRouter = createTRPCRouter({
           userId: userId,
           messageNotifications: messageNotifications,
           messageFrequency: messageFrequency,
-          // allMessages: allMessages,
-          // newConversation: newConversation,
           sessionApplications: sessionApplications,
           payments: payments,
         },
@@ -49,8 +41,6 @@ export const notificationsRouter = createTRPCRouter({
           userId: userId,
           messageNotifications: messageNotifications,
           messageFrequency: messageFrequency,
-          // allMessages: allMessages,
-          // newConversation: newConversation,
           sessionApplications: sessionApplications,
           payments: payments,
         },

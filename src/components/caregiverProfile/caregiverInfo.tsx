@@ -9,9 +9,22 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "../ui/button";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 export function CaregiverInfo() {
-  const router = useRouter();
+  // const router = useRouter();
+
+  const { data: user } = api.messagesAPI.me.useQuery();
+  // console.log(user)
+
+  const { mutate } = api.messagesAPI.createNewFriend.useMutation();
+
+  const publish = () => {
+    mutate({
+      caregiverId: "climxehhu0008uq3cqk4tx67b",
+      patientId: user?.id || "",
+    });
+  };
 
   return (
     <>
@@ -48,7 +61,8 @@ export function CaregiverInfo() {
         <div className="flex flex-row items-center justify-start space-x-4">
           <Button
             onClick={() => {
-              void router.push("/messages");
+              publish();
+              // void router.push("/messages");
             }}
             variant="outline"
             size="sm"
