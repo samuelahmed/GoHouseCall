@@ -85,7 +85,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                     ) {
                       return (
                         <div
-                          className="flex flex-row-reverse items-center justify-start space-y-2 bg-pink-300 text-end"
+                          className="flex flex-row-reverse items-center justify-start space-y-2 text-end"
                           key={message.id}
                         >
                           <Avatar className="mx-1 mt-1">
@@ -104,7 +104,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                     ) {
                       return (
                         <div
-                          className="flex flex-row items-center justify-start space-y-2 bg-yellow-300 text-end"
+                          className="flex flex-row items-center justify-start space-y-2 text-end"
                           key={message.id}
                         >
                           <Avatar className="mx-1 mt-1">

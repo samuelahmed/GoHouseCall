@@ -11,28 +11,24 @@ export const messagesRouter = createTRPCRouter({
     });
     return user;
   }),
-
   getUserImage: protectedProcedure
-  .input(
-    z.object({
-      userId: z.string(),
-    })
-  )
-  
-  .query(async ({ ctx, input }) => {
-    const { userId } = input;
-    const user = await ctx.prisma.hC_Account.findUnique({
-      where: {
-        userId: userId
-      },
-      select: {
-        image: true
-      }
-    });
-    return user;
-  }),
-
-      
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { userId } = input;
+      const user = await ctx.prisma.hC_Account.findUnique({
+        where: {
+          userId: userId,
+        },
+        select: {
+          image: true,
+        },
+      });
+      return user;
+    }),
 
   //Add to friend_list
   createNewFriend: protectedProcedure
@@ -75,7 +71,6 @@ export const messagesRouter = createTRPCRouter({
     }
     const friendList = await ctx.prisma.hC_FriendList.findMany({
       where: {
-        //check to make sure this doesn't do anything weird
         OR: [
           { userId: user.id },
           { caregiverId: user.id },
@@ -136,7 +131,6 @@ export const messagesRouter = createTRPCRouter({
     }),
 
   //read all messages by user
-
   readAllMessagesBySelectedUser: protectedProcedure
     .input(
       z.object({
@@ -159,11 +153,7 @@ export const messagesRouter = createTRPCRouter({
       const { receiverId, senderId } = input;
       const readAllMessages = await ctx.prisma.hC_Message.findMany({
         where: {
-          OR: [
-            // { userId: user.id },
-            { receiverId: receiverId },
-            { senderId: senderId },
-          ],
+          OR: [{ receiverId: receiverId }, { senderId: senderId }],
         },
       });
       return readAllMessages;
