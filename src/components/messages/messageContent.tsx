@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
+import { set } from "date-fns";
 
 const lastMessagedUser = "John Doe";
 
@@ -45,28 +46,40 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     setInput("");
   };
 
-  // const [selectedChannel, setSelectedChannel] = useState([]);
+
+  const [selectedChannel, setSelectedChannel] = useState("");
+  
+  useEffect(() => {
+  setSelectedChannel(passSelectedUser.pusherChannelName || "");
+  console.log(passSelectedUser.pusherChannelName)
+  }, [passSelectedUser.pusherChannelName])
+
+
+  const channel = selectedChannel
+  console.log(channel)
+  // passSelectedUser.pusherChannelName;
+  // console.log(passSelectedUser.pusherChannelName)
 
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
+
     //pick channel name
-    pusherClient.subscribe(passSelectedUser.pusherChannelName);
+    pusherClient.subscribe(channel);
 
     pusherClient.bind("my-event", function (data: any) {
-
-
-
       console.log(data);
     });
 
     return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
+      pusherClient.unsubscribe(channel);
       pusherClient.unbind("my-event");
       pusherClient.disconnect();
     };
-  }, []);
+  }, [channel]);
+
+
 
   return (
     <>
