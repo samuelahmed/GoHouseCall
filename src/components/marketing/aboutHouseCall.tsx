@@ -21,7 +21,7 @@ export function AboutHouseCall() {
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="flex w-full items-center justify-center px-4 py-4">
           <h1 className="overflow-hidden py-4 text-6xl font-bold xl:text-8xl">
-            Care in the comfort <span className="text-blue11">comfort </span>
+            Care in the <span className="text-blue11">comfort </span>
             of your <span className="text-blue11">home</span>
           </h1>
         </div>
@@ -118,11 +118,6 @@ export function AboutHouseCall() {
               We built House Call to help patients improve their quality of
               life. Anyone who needs help with their daily activities is welcome
               to join House Call and create sessions that describe their needs.
-              While we are not a medical service, we do allow patients to create
-              sessions that describe their needs and what they are looking for
-              in a caregiver, so they can fill any gaps in their heath plans. We
-              encourage patients to consult with their doctor before creating a
-              session.{" "}
             </CardDescription>
           </CardHeader>
         </Card>
