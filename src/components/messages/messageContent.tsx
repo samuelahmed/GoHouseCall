@@ -13,6 +13,7 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
     name: string;
     id: string;
+    pusherChannelName: string;
   };
 }
 
@@ -26,13 +27,15 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     userId: currentSelectedUser,
   });
 
-  console.log(selectedUserImage);
+  // console.log(passSelectedUser.pusherChannelName);
 
   const { data: messages } =
     api.messagesAPI.readAllMessagesBySelectedUser.useQuery({
       receiverId: currentSelectedUser,
       senderId: currentUser?.userId || "",
     });
+
+  // const [messagesMeow, setMessagesMeow] = useState("");
 
   const sendMessage = () => {
     mutate({
@@ -43,25 +46,27 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   };
 
   // const [selectedChannel, setSelectedChannel] = useState([]);
-  // useEffect(() => {
 
-  //   const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
-  //     cluster: "us3",
-  //   });
+  useEffect(() => {
+    const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
+      cluster: "us3",
+    });
+    //pick channel name
+    pusherClient.subscribe(passSelectedUser.pusherChannelName);
 
-  //   pusherClient.subscribe("my-channel")
+    pusherClient.bind("my-event", function (data: any) {
 
-  //   pusherClient.bind("my-event", function (data: any ) {
-  //     console.log(data);
-  //   });
 
-  //   return () => {
-  //     pusherClient.unsubscribe("my-channel");
-  //     pusherClient.unbind("my-event");
-  //     pusherClient.disconnect();
-  //   };
 
-  // }, []);
+      console.log(data);
+    });
+
+    return () => {
+      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
+      pusherClient.unbind("my-event");
+      pusherClient.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -131,7 +136,10 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                     sendMessage();
                   }
                 }}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  // setMessagesMeow(e.target.value);
+                  setInput(e.target.value);
+                }}
                 value={input}
                 className="my-2 px-4 py-4"
                 aria-label="Input for message"

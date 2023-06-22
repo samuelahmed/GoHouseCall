@@ -11,6 +11,7 @@ export function ContactsNav() {
   const [selectedUser, setSelectedUser] = useState({
     name: "",
     id: "",
+    pusherChannelName: "",
     // channelId: "",
   });
 
@@ -33,7 +34,7 @@ export function ContactsNav() {
                   setSelectedUser({
                     name: friendList.caregiverName || "",
                     id: friendList.id || "",
-                    // channelId: friendList.id || "",
+                    pusherChannelName: friendList.pusherChannelName || "",
                   })
                 }
               >

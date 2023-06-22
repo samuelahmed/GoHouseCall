@@ -47,13 +47,24 @@ export const messagesRouter = createTRPCRouter({
       if (!user) {
         throw new Error("User not found");
       }
+      const existingChannel = await ctx.prisma.hC_FriendList.findFirst({
+        where: {
+          pusherChannelName: `${input.patientId}-${input.caregiverId}`,
+        },
+      });
+      if (existingChannel) {
+        throw new Error("Channel already exists");
+      }
+
       const { patientId, caregiverId } = input;
       const createFriendList = await ctx.prisma.hC_FriendList.create({
         data: {
           userId: user.id,
           caregiverId: caregiverId,
           patientId: patientId,
+          pusherChannelName: `${input.patientId}-${input.caregiverId}`,
         },
+
       });
       return createFriendList;
     }),
@@ -69,6 +80,7 @@ export const messagesRouter = createTRPCRouter({
     if (!user) {
       throw new Error("User not found");
     }
+
     const friendList = await ctx.prisma.hC_FriendList.findMany({
       where: {
         OR: [
@@ -78,6 +90,7 @@ export const messagesRouter = createTRPCRouter({
         ],
       },
     });
+
     const friendsName = await Promise.all(
       friendList.map(async (friend) => {
         const caregiver = await ctx.prisma.hC_Account.findUnique({
@@ -94,6 +107,7 @@ export const messagesRouter = createTRPCRouter({
           id: caregiver?.userId,
           caregiverName: caregiver?.name,
           patientName: patient?.name,
+          pusherChannelName: friend.pusherChannelName,
         };
       })
     );
