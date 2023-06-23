@@ -6,8 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
-
-const lastMessagedUser = "John Doe";
+import { FC, useRef } from "react";
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
@@ -17,56 +16,69 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   };
 }
 
+interface Messages {
+  id: string;
+  content: string;
+}
+
 export function MessageContent({ passSelectedUser }: ContactsNavProps) {
-  const { data: currentUser } = api.messagesAPI.me.useQuery();
-  const currentSelectedUser = passSelectedUser.id || lastMessagedUser;
   const [input, setInput] = useState<string>("");
+  const [messages, setMessages] = useState<Messages[]>([]);
+
+  const { data: currentUser } = api.messagesAPI.me.useQuery();
   const { mutate } = api.messagesAPI.createMessage.useMutation();
+  const { data: readMessages } = api.messagesAPI.readMessagesByChannel.useQuery(
+    {
+      channelName: passSelectedUser.pusherChannelName,
+    }
+  );
 
-  const { data: selectedUserImage } = api.messagesAPI.getUserImage.useQuery({
-    userId: currentSelectedUser,
-  });
+  useEffect(() => {
+    if (readMessages) {
+      setMessages(readMessages);
+    }
+  }, [readMessages]);
 
-  // console.log(passSelectedUser.pusherChannelName);
-
-  const { data: messages } =
-    api.messagesAPI.readAllMessagesBySelectedUser.useQuery({
-      receiverId: currentSelectedUser,
-      senderId: currentUser?.userId || "",
-    });
-
-  // const [messagesMeow, setMessagesMeow] = useState("");
-
-  const sendMessage = () => {
-    mutate({
-      receiverId: passSelectedUser.id,
-      content: input,
-    });
-    setInput("");
+  const messageHandler = (message: Messages) => {
+    setMessages((prev) => [...prev, message]);
   };
-
-  // const [selectedChannel, setSelectedChannel] = useState([]);
 
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
-    //pick channel name
-    pusherClient.subscribe(passSelectedUser.pusherChannelName);
 
-    pusherClient.bind("my-event", function (data: any) {
-
-
-
-      console.log(data);
-    });
+    pusherClient.subscribe(passSelectedUser.pusherChannelName || "");
+    pusherClient.bind("my-event", messageHandler);
 
     return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
-      pusherClient.unbind("my-event");
+      pusherClient.unsubscribe(passSelectedUser.pusherChannelName || "");
+      pusherClient.unbind("my-event", messageHandler);
       pusherClient.disconnect();
     };
   }, []);
+
+  const sendMessage = () => {
+    messageHandler({
+      content: input,
+      //giving it random id.... probably need a better way to do this
+      id: new Date().toISOString(),
+    });
+    mutate({
+      receiverId: passSelectedUser.id,
+      pusherChannelName: passSelectedUser.pusherChannelName,
+      content: input,
+    });
+    setInput("");
+  };
+
+
+  const scrollDownRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (scrollDownRef.current) {
+      scrollDownRef.current.scrollIntoView({});
+    }
+  });
 
   return (
     <>
@@ -76,7 +88,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
             {/* get selected 'contact' from contact nav  */}
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
-                {passSelectedUser.name || lastMessagedUser}
+                {passSelectedUser.name}
               </CardTitle>
             </Card>
 
@@ -84,44 +96,22 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
                   {messages?.map((message) => {
-                    if (
-                      message.senderId === currentUser?.userId &&
-                      message.receiverId === currentSelectedUser
-                    ) {
-                      return (
-                        <div
-                          className="flex flex-row-reverse items-center justify-start space-y-2 text-end"
-                          key={message.id}
-                        >
-                          <Avatar className="mx-1 mt-1">
-                            <AvatarImage src={currentUser.image || ""} />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
-                            {message.content}
-                          </div>
+                    return (
+                      <div
+                        className="flex flex-row-reverse items-center justify-start space-y-2 text-end"
+                        key={message.id}
+                      >
+                        <div ref={scrollDownRef} />
+
+                        <Avatar className="mx-1 mt-1">
+                          <AvatarImage src={currentUser?.image || ""} />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
+                          {message.content}
                         </div>
-                      );
-                    }
-                    if (
-                      message.senderId !== currentUser?.userId &&
-                      message.receiverId === currentSelectedUser
-                    ) {
-                      return (
-                        <div
-                          className="flex flex-row items-center justify-start space-y-2 text-end"
-                          key={message.id}
-                        >
-                          <Avatar className="mx-1 mt-1">
-                            <AvatarImage src={selectedUserImage?.image || ""} />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <CardContent className="-p-4 rounded bg-gray-300 p-1 text-sm">
-                            {message.content}
-                          </CardContent>
-                        </div>
-                      );
-                    }
+                      </div>
+                    );
                   })}
                 </div>
               </CardContent>
@@ -165,9 +155,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
-            <div className="py-2 text-center">
-              {passSelectedUser.name || lastMessagedUser}
-            </div>
+            <div className="py-2 text-center">{passSelectedUser.name}</div>
             <div className="flex flex-row items-center justify-center space-x-1 px-4 text-lg">
               <Button variant="outline" size="sm">
                 Profile

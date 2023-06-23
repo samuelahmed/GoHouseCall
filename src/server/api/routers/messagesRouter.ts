@@ -1,5 +1,16 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import Pusher from "pusher";
+import { env } from "~/env.mjs";
+
+
+const pusher = new Pusher({
+  appId: env.APP_ID,
+  key: env.APP_KEY,
+  secret: env.APP_SECRET,
+  cluster: env.APP_CLUSTER,
+  useTLS: true,
+});
 
 export const messagesRouter = createTRPCRouter({
   //gets user info for the current user
@@ -11,6 +22,7 @@ export const messagesRouter = createTRPCRouter({
     });
     return user;
   }),
+
   getUserImage: protectedProcedure
     .input(
       z.object({
@@ -69,6 +81,8 @@ export const messagesRouter = createTRPCRouter({
       return createFriendList;
     }),
 
+
+
   //get all friends by name
   getFriends: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.user.findUnique({
@@ -90,7 +104,6 @@ export const messagesRouter = createTRPCRouter({
         ],
       },
     });
-
     const friendsName = await Promise.all(
       friendList.map(async (friend) => {
         const caregiver = await ctx.prisma.hC_Account.findUnique({
@@ -120,26 +133,37 @@ export const messagesRouter = createTRPCRouter({
       z.object({
         content: z.string(),
         receiverId: z.string(),
+        pusherChannelName: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
+      const user = await ctx.prisma.hC_Account.findUnique({
         where: {
-          id: ctx.session.user.id,
+          userId: ctx.session.user.id,
         },
       });
       if (!user) {
         throw new Error("User not found");
       }
 
-      const { content, receiverId } = input;
+      const { content, receiverId, pusherChannelName } = input;
+      
       const createMessage = await ctx.prisma.hC_Message.create({
         data: {
           senderId: user.id,
           receiverId: receiverId,
           userId: user.id,
           content: content,
+          channelName: pusherChannelName,
         },
+      });
+
+      await pusher.trigger(pusherChannelName, "my-event", {
+        message: content,
+        senderId: user.userId,
+        channelName: pusherChannelName,
+        createdAt: new Date(),
+        // senderName: senderName,
       });
       return createMessage;
     }),
@@ -172,6 +196,38 @@ export const messagesRouter = createTRPCRouter({
       });
       return readAllMessages;
     }),
+
+
+
+    readMessagesByChannel: protectedProcedure
+    .input(
+      z.object({
+        channelName: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { channelName } = input;
+      const messages = await ctx.prisma.hC_Message.findMany({
+        where: {
+          channelName: channelName,
+        },
+      });
+      const messagesWithSenderNames = await Promise.all(
+        messages.map(async (message) => {
+          const sender = await ctx.prisma.user.findUnique({
+            where: {
+              id: message.senderId,
+            },
+          });
+          return {
+            ...message,
+            senderName: sender?.name,
+          };
+        })
+      );
+      return messagesWithSenderNames;
+    }),
+
 
   //read all current user pusher channels
   //read messages by channel
