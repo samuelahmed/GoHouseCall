@@ -2,7 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import Pusher from "pusher";
 import { env } from "~/env.mjs";
-import { privateDecrypt } from "crypto";
 
 
 const pusher = new Pusher({
@@ -197,6 +196,7 @@ export const messagesRouter = createTRPCRouter({
       });
       return readAllMessages;
     }),
+
 
 
     readMessagesByChannel: protectedProcedure
