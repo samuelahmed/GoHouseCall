@@ -15,7 +15,7 @@ export function ContactsNav() {
     // channelId: "",
   });
 
-  console.log(selectedUser)
+  // console.log(selectedUser)
 
   const [state, setState] = useState(0);
 

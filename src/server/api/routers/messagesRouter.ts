@@ -2,6 +2,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import Pusher from "pusher";
 import { env } from "~/env.mjs";
+import { privateDecrypt } from "crypto";
 
 
 const pusher = new Pusher({
@@ -22,6 +23,7 @@ export const messagesRouter = createTRPCRouter({
     });
     return user;
   }),
+
   getUserImage: protectedProcedure
     .input(
       z.object({
@@ -80,6 +82,8 @@ export const messagesRouter = createTRPCRouter({
       return createFriendList;
     }),
 
+
+
   //get all friends by name
   getFriends: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.user.findUnique({
@@ -101,7 +105,6 @@ export const messagesRouter = createTRPCRouter({
         ],
       },
     });
-
     const friendsName = await Promise.all(
       friendList.map(async (friend) => {
         const caregiver = await ctx.prisma.hC_Account.findUnique({
@@ -152,6 +155,7 @@ export const messagesRouter = createTRPCRouter({
           receiverId: receiverId,
           userId: user.id,
           content: content,
+          channelName: pusherChannelName,
         },
       });
 
@@ -193,6 +197,37 @@ export const messagesRouter = createTRPCRouter({
       });
       return readAllMessages;
     }),
+
+
+    readMessagesByChannel: protectedProcedure
+    .input(
+      z.object({
+        channelName: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { channelName } = input;
+      const messages = await ctx.prisma.hC_Message.findMany({
+        where: {
+          channelName: channelName,
+        },
+      });
+      const messagesWithSenderNames = await Promise.all(
+        messages.map(async (message) => {
+          const sender = await ctx.prisma.user.findUnique({
+            where: {
+              id: message.senderId,
+            },
+          });
+          return {
+            ...message,
+            senderName: sender?.name,
+          };
+        })
+      );
+      return messagesWithSenderNames;
+    }),
+
 
   //read all current user pusher channels
   //read messages by channel
