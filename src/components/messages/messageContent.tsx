@@ -6,7 +6,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
-import { FC, useRef } from "react";
+import { useRef } from "react";
+import { z } from "zod";
+import { set } from "date-fns";
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
@@ -16,10 +18,14 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   };
 }
 
-interface Messages {
-  id: string;
-  content: string;
-}
+//use this to somehow validate the message to be at least size of 1
+const Messages = z.object({
+  id: z.string(),
+  content: z.string(),
+  senderId: z.string(),
+});
+
+type Messages = z.infer<typeof Messages>;
 
 export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const [input, setInput] = useState<string>("");
@@ -33,37 +39,51 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   );
 
+  const userImg = currentUser?.image || "";
+
   useEffect(() => {
     if (readMessages) {
       setMessages(readMessages);
     }
   }, [readMessages]);
 
-  const messageHandler = (message: Messages) => {
-    setMessages((prev) => [...prev, message]);
-  };
-
+  
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    pusherClient.subscribe(passSelectedUser.pusherChannelName || "");
-    pusherClient.bind("my-event", messageHandler);
-
-    return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName || "");
-      pusherClient.unbind("my-event", messageHandler);
-      pusherClient.disconnect();
+    pusherClient.subscribe(passSelectedUser.pusherChannelName);
+    //sends message to pusher server i think
+    //seeems to still travel if i comment this out
+    const messageHandler = (message: Messages) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          content: input,
+          senderId: currentUser?.id || "",
+          id: new Date().toISOString(),
+        },
+      ]);
     };
-  }, []);
+    pusherClient.bind("my-event", messageHandler);
+    return () => {
+      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
+      pusherClient.unbind("my-event", messageHandler);
+    };
+  }, [passSelectedUser.pusherChannelName]);
+
 
   const sendMessage = () => {
-    messageHandler({
-      content: input,
-      //giving it random id.... probably need a better way to do this
-      id: new Date().toISOString(),
-    });
+    //sets it in the state right away
+    setMessages((prev) => [
+      ...prev,
+      {
+        content: input,
+        senderId: currentUser?.id || "",
+        id: new Date().toISOString(),
+      },
+    ]);
     mutate({
       receiverId: passSelectedUser.id,
       pusherChannelName: passSelectedUser.pusherChannelName,
@@ -72,7 +92,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     setInput("");
   };
 
-
+  //shots page to the bottom and scrolls down messages 
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (scrollDownRef.current) {
@@ -97,20 +117,43 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
                   {messages?.map((message) => {
                     return (
-                      <div
-                        className="flex flex-row-reverse items-center justify-start space-y-2 text-end"
-                        key={message.id}
-                      >
-                        <div ref={scrollDownRef} />
+                      <>
+                        {message.senderId === currentUser?.id && (
+                          <div
+                            className="flex flex-row-reverse items-center justify-start space-y-2 text-end "
+                            key={message.id}
+                          >
+                            <div ref={scrollDownRef} />
 
-                        <Avatar className="mx-1 mt-1">
-                          <AvatarImage src={currentUser?.image || ""} />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="-p-6 rounded bg-blue-300 p-1 text-sm">
-                          {message.content}
-                        </div>
-                      </div>
+                            <Avatar className="mx-1 mt-1">
+                              <AvatarImage src={userImg} />
+                              <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                            {/* //replace overflow with thicker text box */}
+                            <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
+                              <div>{message.content}</div>
+                            </div>
+                          </div>
+                        )}
+
+                        {message.senderId !== currentUser?.id && (
+                          <div
+                            className="flex flex-row items-center justify-start space-y-2  text-start "
+                            key={message.id}
+                          >
+                            <div ref={scrollDownRef} />
+
+                            <Avatar className="mx-1 mt-1">
+                              <AvatarImage src={userImg} />
+                              <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                            {/* //replace overflow with thicker text box */}
+                            <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
+                              <div>{message.content}</div>
+                            </div>
+                          </div>
+                        )}
+                      </>
                     );
                   })}
                 </div>
@@ -148,7 +191,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
           </div>
 
           {/* far right menu */}
-          <div className="hidden w-72 md:block">
+          <div className="hidden w-72 lg:block">
             <div className="flex items-center justify-center pt-4">
               <Avatar>
                 <AvatarImage src="https://lh3.googleusercontent.com/a/AAcHTtc4YvX9jKd0aR3FDN0GrP848CYTjuZgb7Yicq6K=s96-c" />
