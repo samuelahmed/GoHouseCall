@@ -131,7 +131,7 @@ export const messagesRouter = createTRPCRouter({
   createMessage: protectedProcedure
     .input(
       z.object({
-        content: z.string(),
+        content: z.string().min(1),
         receiverId: z.string(),
         pusherChannelName: z.string(),
       })
