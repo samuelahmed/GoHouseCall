@@ -8,6 +8,7 @@ import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
 import { useRef } from "react";
 import { z } from "zod";
+import { set } from "date-fns";
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
@@ -40,38 +41,49 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
 
   const userImg = currentUser?.image || "";
 
-  const messageHandler = (message: Messages) => {
-    setMessages((prev) => [...prev, message]);
-  };
-
   useEffect(() => {
     if (readMessages) {
       setMessages(readMessages);
     }
   }, [readMessages]);
 
+  
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    pusherClient.subscribe(passSelectedUser.pusherChannelName || "");
-    pusherClient.bind("my-event", messageHandler);
-
-    return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName || "");
-      pusherClient.unbind("my-event", messageHandler);
-      pusherClient.disconnect();
+    pusherClient.subscribe(passSelectedUser.pusherChannelName);
+    //sends message to pusher server i think
+    //seeems to still travel if i comment this out
+    const messageHandler = (message: Messages) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          content: input,
+          senderId: currentUser?.id || "",
+          id: new Date().toISOString(),
+        },
+      ]);
     };
-  }, []);
+    pusherClient.bind("my-event", messageHandler);
+    return () => {
+      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
+      pusherClient.unbind("my-event", messageHandler);
+    };
+  }, [passSelectedUser.pusherChannelName]);
+
 
   const sendMessage = () => {
-    messageHandler({
-      content: input,
-      senderId: currentUser?.id || "",
-      //giving it random id.... probably need a better way to do this
-      id: new Date().toISOString(),
-    });
+    //sets it in the state right away
+    setMessages((prev) => [
+      ...prev,
+      {
+        content: input,
+        senderId: currentUser?.id || "",
+        id: new Date().toISOString(),
+      },
+    ]);
     mutate({
       receiverId: passSelectedUser.id,
       pusherChannelName: passSelectedUser.pusherChannelName,
@@ -80,6 +92,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     setInput("");
   };
 
+  //shots page to the bottom and scrolls down messages 
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (scrollDownRef.current) {
@@ -87,7 +100,6 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   });
 
-  console.log(messages);
   return (
     <>
       <div className="flex flex-col">
