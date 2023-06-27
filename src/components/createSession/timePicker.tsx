@@ -12,12 +12,20 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { ClockIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../ui/button"
+import { set } from "date-fns";
 
-export default function TimePicker() {
-  const [startHour, setStartHour] = React.useState<string | null>(null);
-  const [startMinute, setStartMinute] = React.useState<string | null>(null);
-  const [startAMPM, setStartAMPM] = React.useState<string | null>(null);
+
+interface TimePickerProps {
+  startTime?: string | null;
+  onSelect: (startTime: string | null | undefined) => void;
+}
+
+export default function TimePicker({ startTime, onSelect }: TimePickerProps) {
+
+  const [startHour, setStartHour] = React.useState<string | null>('00');
+  const [startMinute, setStartMinute] = React.useState<string | null>('00');
+  const [startAMPM, setStartAMPM] = React.useState<string | null>('AM');
 
   const hours: string[] = [];
   for (let i = 0; i <= 12; i++) {
@@ -31,10 +39,41 @@ export default function TimePicker() {
     } else minutes.push(i.toString());
   }
 
+
+
+  const handleHourChange = (value: string) => {
+    setStartHour(value);
+    handleSelect();
+  };
+  
+  const handleMinuteChange = (value: string) => {
+    setStartMinute(value);
+    handleSelect();
+  };
+  
+  const handleAMPMChange = (value: string) => {
+    setStartAMPM(value);
+    handleSelect();
+  };
+
+  const handleSelect = () => {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    const startTime = startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM");
+    onSelect(startTime);
+  
+  };
+
+    
+    
+
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"outline"} className="w-full">
+        <Button variant={"outline"} className="w-full" 
+        onClick={handleSelect}
+        // onChange={handleSelect}
+        >
           {startHour ? (
             startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
           ) : (
@@ -48,7 +87,11 @@ export default function TimePicker() {
       <PopoverContent>
         <div className="pb-2 text-center text-sm">Start Time</div>
         <div className="flex space-x-1">
-          <Select onValueChange={setStartHour}>
+        <Select 
+        onValueChange={handleHourChange}
+
+          // onChange={handleHourChange}
+        >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Hour" />
             </SelectTrigger>
@@ -60,7 +103,7 @@ export default function TimePicker() {
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={setStartMinute}>
+          <Select onValueChange={handleMinuteChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Minute" />
             </SelectTrigger>
@@ -72,7 +115,7 @@ export default function TimePicker() {
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={setStartAMPM}>
+          <Select onValueChange={handleAMPMChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="AM" />
             </SelectTrigger>
@@ -86,3 +129,4 @@ export default function TimePicker() {
     </Popover>
   );
 }
+

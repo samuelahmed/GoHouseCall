@@ -33,8 +33,8 @@ const careSessionFormSchema = z.object({
   userId: z.string(),
   status: z.string(),
   date: z.date(),
-  // startTime: z.string(),
-  // endTime: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
   sessionType: z.string(),
   title: z.string(),
   description: z.string(),
@@ -53,14 +53,16 @@ export function CreateSessionForm() {
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
   const [selectedDate, setSelectedDate] = React.useState<Date>();
+  const [startTime, setStartTime] = React.useState<string | null | undefined>();
 
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
       userId: user?.userId,
       status: "",
-      // startTime: "",
-      // endTime: "",
+      startTime: startTime || "",
+      date: selectedDate,
+      endTime: "",
       sessionType: "",
       title: "",
       description: "",
@@ -78,9 +80,8 @@ export function CreateSessionForm() {
       form.setValue("userId", user.userId);
       form.setValue("status", "");
       form.setValue("date", selectedDate as Date);
-
-      // form.setValue("startTime", "");
-      // form.setValue("endTime", "");
+      form.setValue("startTime", startTime as string);
+      form.setValue("endTime", "");
       form.setValue("sessionType", "");
       form.setValue("title", "");
       form.setValue("description", "");
@@ -91,15 +92,17 @@ export function CreateSessionForm() {
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [user, selectedDate, form]);
+  }, [user, selectedDate, setStartTime, startTime, form]);
 
-  console.log(form.getValues("date"));
-  console.log(selectedDate);
+  console.log(form.getValues("startTime"));
+  // console.log(startTime);
 
   function onSubmit(field: CareSessionFormValues) {
     mutation.mutate(field);
     // console.log(data);
   }
+
+
 
   return (
     <>
@@ -140,7 +143,7 @@ export function CreateSessionForm() {
               <FormField
                 control={form.control}
                 name="date"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="w-full">
                     <FormLabel>Date</FormLabel>
                     <CreateSessionDatePicker
@@ -151,19 +154,22 @@ export function CreateSessionForm() {
                 )}
               />
               {/* umm start time / end time seem a bit messy here */}
-              {/* <FormField
+              <FormField
                 control={form.control}
                 name="startTime"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="w-full">
                     <FormLabel>Time</FormLabel>
                     <div className="flex space-x-2">
-                      <TimePicker />
-                      <EndTimePicker />
+                      <TimePicker 
+                        startTime={startTime}
+                        onSelect={setStartTime}
+                      />
+                      {/* <EndTimePicker /> */}
                     </div>
                   </FormItem>
                 )}
-              /> */}
+              />
             </div>
           </div>
           <FormField

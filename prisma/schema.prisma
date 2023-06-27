@@ -138,7 +138,7 @@ model HC_CareSession {
     createdAt   DateTime  @default(now())
     status     String?   //pending, accepted, declined, completed
     date        DateTime?
-    startTime   DateTime?
+    startTime   String?
     endTime     DateTime?
     sessionType String?
     title       String?
