@@ -2,8 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const settingsRouter = createTRPCRouter({
-
-
   userHC_Account: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.hC_Account.findUnique({
       where: {
@@ -12,8 +10,6 @@ export const settingsRouter = createTRPCRouter({
     });
     return user;
   }),
-
-
 
   updateUser: protectedProcedure
     .input(

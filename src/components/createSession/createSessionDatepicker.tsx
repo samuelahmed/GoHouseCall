@@ -12,8 +12,18 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 
-export function CreateSessionDatePicker() {
-  const [date, setDate] = React.useState<Date>();
+interface CreateSessionDatePickerProps {
+  date?: Date;
+  onSelect: (date: Date | undefined) => void;
+
+}
+
+
+export function CreateSessionDatePicker({
+  date,
+  onSelect,
+}: CreateSessionDatePickerProps) {
+  // const [date, setDate] = React.useState<Date>();
 
   return (
     <Popover>
@@ -35,7 +45,7 @@ export function CreateSessionDatePicker() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={onSelect}
           initialFocus
         />
       </PopoverContent>

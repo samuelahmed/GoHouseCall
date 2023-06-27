@@ -25,47 +25,80 @@ import { Textarea } from "~/components/ui/textarea";
 import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
+import { api } from "~/utils/api";
+import { useEffect } from "react";
+import React from "react";
 
-const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  address: z.string().min(2, {
-    message: "Address must be at least 2 characters.",
-  }),
-  city: z.string().min(2, {
-    message: "City must be at least 2 characters.",
-  }),
-  zip: z.string().min(2, {
-    message: "Zip Code must be at least 2 characters.",
-  }),
-  sessionType: z.string().min(2, {
-    message: "Session Type must be at least 2 characters.",
-  }),
+const careSessionFormSchema = z.object({
+  userId: z.string(),
+  status: z.string(),
+  date: z.date(),
+  // startTime: z.string(),
+  // endTime: z.string(),
+  sessionType: z.string(),
+  title: z.string(),
+  description: z.string(),
+  hourlyRate: z.string(),
+  duration: z.string(),
+  total: z.string(),
+  address: z.string(),
+  city: z.string(),
+  zip: z.string(),
 });
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
-const defaultValues: Partial<AccountFormValues> = {
-  name: "",
-  address: "",
-  city: "",
-  zip: "",
-  sessionType: "",
-};
+type CareSessionFormValues = z.infer<typeof careSessionFormSchema>;
 
 export function CreateSessionForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
-    defaultValues,
+  const { data: user } = api.careSessionAPI.me.useQuery();
+  const mutation = api.careSessionAPI.createNewCareSession.useMutation();
+
+  const [selectedDate, setSelectedDate] = React.useState<Date>();
+
+  const form = useForm<CareSessionFormValues>({
+    resolver: zodResolver(careSessionFormSchema),
+    defaultValues: {
+      userId: user?.userId,
+      status: "",
+      // startTime: "",
+      // endTime: "",
+      sessionType: "",
+      title: "",
+      description: "",
+      hourlyRate: "",
+      duration: "",
+      total: "",
+      address: user?.address || "",
+      city: user?.city || "",
+      zip: user?.zip || "",
+    },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    console.log(data);
+  useEffect(() => {
+    if (user) {
+      form.setValue("userId", user.userId);
+      form.setValue("status", "");
+      form.setValue("date", selectedDate as Date);
+
+      // form.setValue("startTime", "");
+      // form.setValue("endTime", "");
+      form.setValue("sessionType", "");
+      form.setValue("title", "");
+      form.setValue("description", "");
+      form.setValue("hourlyRate", "");
+      form.setValue("duration", "");
+      form.setValue("total", "");
+      form.setValue("address", user.address || "");
+      form.setValue("city", user.city || "");
+      form.setValue("zip", user.zip || "");
+    }
+  }, [user, selectedDate, form]);
+
+  console.log(form.getValues("date"));
+  console.log(selectedDate);
+
+  function onSubmit(field: CareSessionFormValues) {
+    mutation.mutate(field);
+    // console.log(data);
   }
 
   return (
@@ -106,18 +139,21 @@ export function CreateSessionForm() {
             <div className="w-full ">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="date"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Date</FormLabel>
-
-                    <CreateSessionDatePicker />
+                    <CreateSessionDatePicker
+                      date={selectedDate}
+                      onSelect={setSelectedDate}
+                    />
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* umm start time / end time seem a bit messy here */}
+              {/* <FormField
                 control={form.control}
-                name="sessionType"
+                name="startTime"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Time</FormLabel>
@@ -127,12 +163,12 @@ export function CreateSessionForm() {
                     </div>
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
           </div>
           <FormField
             control={form.control}
-            name="name"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Session Title</FormLabel>
@@ -148,7 +184,7 @@ export function CreateSessionForm() {
           />
           <FormField
             control={form.control}
-            name="name"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Session Description</FormLabel>
@@ -168,7 +204,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="hourlyRate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Hourly Rate</FormLabel>
@@ -183,7 +219,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="duration"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
@@ -198,7 +234,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="total"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Total Cost</FormLabel>
@@ -257,7 +293,13 @@ export function CreateSessionForm() {
             </div>
           </div>
           <div className="flex flex-col items-start space-y-4">
-            <Button variant="outline" type="submit">
+            <Button
+              variant="outline"
+              type="submit"
+              onClick={() => {
+                onSubmit(form.getValues());
+              }}
+            >
               Create Session
             </Button>
           </div>
