@@ -46,6 +46,7 @@ model User {
     verificationTokens VerificationToken[]
     HC_Message         HC_Message[]
     HC_FriendList      HC_FriendList[]
+    HC_CareSession     HC_CareSession[]
 }
 
 //currently not used.
@@ -123,10 +124,33 @@ model HC_Message {
     receiverId  String
     createdAt   DateTime @default(now())
     channelName String?
-    // channelId         String?
+    content     String   @db.Text
+    userId      String? //this is whoever created the message
 
-    content String  @db.Text
-    userId  String? //this is whoever created the message
+    User User? @relation(fields: [userId], references: [id])
+
+    @@index([userId])
+}
+
+model HC_CareSession {
+    id              String    @id @default(cuid())
+    userId          String? //this is whoever created the sessio
+    createdAt       DateTime  @default(now())
+    status          String? //pending, accepted, declined, completed
+    date            DateTime?
+    startTimeAsDate DateTime?
+    endTimeAsDate   DateTime?
+    startTime       String?
+    endTime         String?
+    sessionType     String?
+    title           String?
+    description     String?   @db.Text
+    hourlyRate      String?
+    duration        String?
+    total           String?
+    address         String?
+    city            String?
+    zip             String?
 
     User User? @relation(fields: [userId], references: [id])
 

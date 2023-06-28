@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -25,47 +23,156 @@ import { Textarea } from "~/components/ui/textarea";
 import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
+import { api } from "~/utils/api";
+import { useEffect } from "react";
+import React from "react";
 
-const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  address: z.string().min(2, {
-    message: "Address must be at least 2 characters.",
-  }),
-  city: z.string().min(2, {
-    message: "City must be at least 2 characters.",
-  }),
-  zip: z.string().min(2, {
-    message: "Zip Code must be at least 2 characters.",
-  }),
-  sessionType: z.string().min(2, {
-    message: "Session Type must be at least 2 characters.",
-  }),
+const careSessionFormSchema = z.object({
+  userId: z.string(),
+  status: z.string(),
+  date: z.date(),
+  startTimeAsDate: z.date(),
+  endTimeAsDate: z.date(),
+  startTime: z.string(),
+  endTime: z.string(),
+  sessionType: z.string(),
+  title: z.string(),
+  description: z.string(),
+  hourlyRate: z.string(),
+  duration: z.string(),
+  total: z.string(),
+  address: z.string(),
+  city: z.string(),
+  zip: z.string(),
 });
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
-const defaultValues: Partial<AccountFormValues> = {
-  name: "",
-  address: "",
-  city: "",
-  zip: "",
-  sessionType: "",
-};
+type CareSessionFormValues = z.infer<typeof careSessionFormSchema>;
 
 export function CreateSessionForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
-    defaultValues,
+  const { data: user } = api.careSessionAPI.me.useQuery();
+  const mutation = api.careSessionAPI.createNewCareSession.useMutation();
+
+  const [selectedDate, setSelectedDate] = React.useState<Date>();
+
+  const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
+  const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
+
+  const [startTime, setStartTime] = React.useState<string | null | undefined>();
+  const [startHour, setStartHour] = React.useState<string>("00");
+  const [startMinute, setStartMinute] = React.useState<string>("00");
+  const [startAMPM, setStartAMPM] = React.useState<string>("AM");
+
+  const [endTime, setEndTime] = React.useState<string | null | undefined>();
+  const [endHour, setEndHour] = React.useState<string>("00");
+  const [endMinute, setEndMinute] = React.useState<string>("00");
+  const [endAMPM, setEndAMPM] = React.useState<string>("AM");
+
+  let startHourAsNumber = 0;
+  if (startHour !== "00" && startAMPM === "AM") {
+    startHourAsNumber = parseInt(startHour, 10);
+  } else if (startHour !== "00" && startAMPM === "PM") {
+    startHourAsNumber = parseInt(startHour, 10) + 12;
+  }
+  let startMinuteAsNumber = 0;
+  if (startMinute !== "00") {
+    startMinuteAsNumber = parseInt(startMinute, 10);
+  } else if (startMinute === "00" && startAMPM === "PM") {
+    startMinuteAsNumber = parseInt(startMinute, 10) + 12;
+  }
+  let endHourAsNumber = 0;
+  if (endHour !== "00" && endAMPM === "AM") {
+    endHourAsNumber = parseInt(endHour, 10);
+  } else if (endHour !== "00" && endAMPM === "PM") {
+    endHourAsNumber = parseInt(endHour, 10) + 12;
+  }
+  let endMinuteAsNumber = 0;
+  if (endMinute !== "00") {
+    endMinuteAsNumber = parseInt(endMinute, 10);
+  } else if (endMinute === "00" && endAMPM === "PM") {
+    endMinuteAsNumber = parseInt(endMinute, 10) + 12;
+  }
+
+  const form = useForm<CareSessionFormValues>({
+    resolver: zodResolver(careSessionFormSchema),
+    defaultValues: {
+      userId: user?.userId,
+      status: "",
+      date: selectedDate,
+      startTimeAsDate: startTimeAsDateTime,
+      endTimeAsDate: endTimeAsDateTime,
+      startTime: startTime || "",
+      endTime: endTime || "",
+      sessionType: "",
+      title: "",
+      description: "",
+      hourlyRate: "",
+      duration: "",
+      total: "",
+      address: user?.address || "",
+      city: user?.city || "",
+      zip: user?.zip || "",
+    },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    console.log(data);
+  useEffect(() => {
+    if (user) {
+      form.setValue("userId", user.userId);
+      form.setValue("status", "");
+      form.setValue("date", selectedDate as Date);
+      form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
+      form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
+      form.setValue("startTime", startTime as string);
+      form.setValue("endTime", endTime as string);
+      form.setValue("sessionType", "");
+      form.setValue("title", "");
+      form.setValue("description", "");
+      form.setValue("hourlyRate", "");
+      form.setValue("duration", "");
+      form.setValue("total", "");
+      form.setValue("address", user.address || "");
+      form.setValue("city", user.city || "");
+      form.setValue("zip", user.zip || "");
+    }
+  }, [
+    user,
+    selectedDate,
+    setStartTime,
+    startTime,
+    endTime,
+    setEndTime,
+    form,
+    startTimeAsDateTime,
+    endTimeAsDateTime,
+  ]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(startHourAsNumber, startMinuteAsNumber, 0, 0);
+      setStartTimeAsDateTime(newDate);
+    }
+  }, [selectedDate, startHourAsNumber, startMinuteAsNumber]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(endHourAsNumber, endMinuteAsNumber, 0, 0);
+      setEndTimeAsDateTime(newDate);
+    }
+  }, [selectedDate, endHourAsNumber, endMinuteAsNumber]);
+
+  useEffect(() => {
+    setStartTime(
+      startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
+    );
+  }, [startHour, startMinute, startAMPM]);
+
+  useEffect(() => {
+    setEndTime(endHour + ":" + (endMinute || "00") + " " + (endAMPM || "AM"));
+  }, [endHour, endMinute, endAMPM]);
+
+  function onSubmit(field: CareSessionFormValues) {
+    mutation.mutate(field);
   }
 
   return (
@@ -106,33 +213,62 @@ export function CreateSessionForm() {
             <div className="w-full ">
               <FormField
                 control={form.control}
-                name="sessionType"
-                render={({ field }) => (
+                name="date"
+                render={() => (
                   <FormItem className="w-full">
                     <FormLabel>Date</FormLabel>
-
-                    <CreateSessionDatePicker />
+                    <CreateSessionDatePicker
+                      date={selectedDate}
+                      onSelect={setSelectedDate}
+                    />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="sessionType"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Time</FormLabel>
-                    <div className="flex space-x-2">
-                      <TimePicker />
-                      <EndTimePicker />
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div className="flex space-x-2">
+                <FormField
+                  control={form.control}
+                  name="startTime"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormLabel>Start Time</FormLabel>
+                      <div className="flex space-x-2">
+                        <TimePicker
+                          startHour={startHour}
+                          onHourChange={setStartHour}
+                          startMinute={startMinute}
+                          onMinuteChange={setStartMinute}
+                          startAMPM={startAMPM}
+                          onAMPMChange={setStartAMPM}
+                        />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endTime"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormLabel>End Time</FormLabel>
+                      <div className="flex space-x-2">
+                        <EndTimePicker
+                          endHour={endHour}
+                          onHourChange={setEndHour}
+                          endMinute={endMinute}
+                          onMinuteChange={setEndMinute}
+                          endAMPM={endAMPM}
+                          onAMPMChange={setEndAMPM}
+                        />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
           <FormField
             control={form.control}
-            name="name"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Session Title</FormLabel>
@@ -148,14 +284,12 @@ export function CreateSessionForm() {
           />
           <FormField
             control={form.control}
-            name="name"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Session Description</FormLabel>
                 <FormControl>
                   <Textarea placeholder="" {...field} />
-
-                  {/* <Input placeholder="" {...field} /> */}
                 </FormControl>
                 <FormDescription>
                   Describe your session and goals in detail.
@@ -168,7 +302,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="hourlyRate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Hourly Rate</FormLabel>
@@ -183,7 +317,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="duration"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
@@ -198,7 +332,7 @@ export function CreateSessionForm() {
             <div className="w-full">
               <FormField
                 control={form.control}
-                name="sessionType"
+                name="total"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Total Cost</FormLabel>
@@ -257,7 +391,13 @@ export function CreateSessionForm() {
             </div>
           </div>
           <div className="flex flex-col items-start space-y-4">
-            <Button variant="outline" type="submit">
+            <Button
+              variant="outline"
+              type="submit"
+              onClick={() => {
+                onSubmit(form.getValues());
+              }}
+            >
               Create Session
             </Button>
           </div>

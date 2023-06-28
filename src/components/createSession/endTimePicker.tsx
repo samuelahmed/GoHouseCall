@@ -14,11 +14,24 @@ import {
 import { ClockIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function EndTimePicker() {
-  const [startHour, setStartHour] = React.useState<string | null>(null);
-  const [startMinute, setStartMinute] = React.useState<string | null>(null);
-  const [startAMPM, setStartAMPM] = React.useState<string | null>(null);
+interface EndTimePickerProps {
+  endHour: string;
+  endMinute: string;
+  endAMPM: string;
+  onHourChange: (hour: string) => void;
+  onMinuteChange: (minute: string) => void;
+  onAMPMChange: (ampm: string) => void;
+}
 
+export default function EndTimePicker({
+  endHour,
+  endMinute,
+  endAMPM,
+  onHourChange,
+  onMinuteChange,
+  onAMPMChange,
+}: EndTimePickerProps) {
+  
   const hours: string[] = [];
   for (let i = 0; i <= 12; i++) {
     hours.push(i.toString());
@@ -35,8 +48,8 @@ export default function EndTimePicker() {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant={"outline"} className="w-full">
-          {startHour ? (
-            startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
+          {endHour ? (
+            endHour + ":" + (endMinute || "00") + " " + (endAMPM || "AM")
           ) : (
             <span className="flex items-center font-normal text-muted-foreground">
               <ClockIcon className="mr-2 h-4 w-4 " />
@@ -48,7 +61,7 @@ export default function EndTimePicker() {
       <PopoverContent>
         <div className="pb-2 text-center text-sm">End Time</div>
         <div className="flex space-x-1">
-          <Select onValueChange={setStartHour}>
+          <Select onValueChange={onHourChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Hour" />
             </SelectTrigger>
@@ -60,7 +73,7 @@ export default function EndTimePicker() {
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={setStartMinute}>
+          <Select onValueChange={onMinuteChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Minute" />
             </SelectTrigger>
@@ -72,7 +85,7 @@ export default function EndTimePicker() {
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={setStartAMPM}>
+          <Select onValueChange={onAMPMChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="AM" />
             </SelectTrigger>
