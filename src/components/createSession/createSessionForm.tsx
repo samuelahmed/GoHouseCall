@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -26,14 +24,15 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import React from "react";
-import { set } from "date-fns";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
   status: z.string(),
   date: z.date(),
+  startTimeAsDate: z.date(),
+  endTimeAsDate: z.date(),
   startTime: z.string(),
   endTime: z.string(),
   sessionType: z.string(),
@@ -55,6 +54,9 @@ export function CreateSessionForm() {
 
   const [selectedDate, setSelectedDate] = React.useState<Date>();
 
+  const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
+  const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
+
   const [startTime, setStartTime] = React.useState<string | null | undefined>();
   const [startHour, setStartHour] = React.useState<string>("00");
   const [startMinute, setStartMinute] = React.useState<string>("00");
@@ -65,13 +67,40 @@ export function CreateSessionForm() {
   const [endMinute, setEndMinute] = React.useState<string>("00");
   const [endAMPM, setEndAMPM] = React.useState<string>("AM");
 
+  let startHourAsNumber = 0;
+  if (startHour !== "00" && startAMPM === "AM") {
+    startHourAsNumber = parseInt(startHour, 10);
+  } else if (startHour !== "00" && startAMPM === "PM") {
+    startHourAsNumber = parseInt(startHour, 10) + 12;
+  }
+  let startMinuteAsNumber = 0;
+  if (startMinute !== "00") {
+    startMinuteAsNumber = parseInt(startMinute, 10);
+  } else if (startMinute === "00" && startAMPM === "PM") {
+    startMinuteAsNumber = parseInt(startMinute, 10) + 12;
+  }
+  let endHourAsNumber = 0;
+  if (endHour !== "00" && endAMPM === "AM") {
+    endHourAsNumber = parseInt(endHour, 10);
+  } else if (endHour !== "00" && endAMPM === "PM") {
+    endHourAsNumber = parseInt(endHour, 10) + 12;
+  }
+  let endMinuteAsNumber = 0;
+  if (endMinute !== "00") {
+    endMinuteAsNumber = parseInt(endMinute, 10);
+  } else if (endMinute === "00" && endAMPM === "PM") {
+    endMinuteAsNumber = parseInt(endMinute, 10) + 12;
+  }
+
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
       userId: user?.userId,
       status: "",
-      startTime: startTime || "",
       date: selectedDate,
+      startTimeAsDate: startTimeAsDateTime,
+      endTimeAsDate: endTimeAsDateTime,
+      startTime: startTime || "",
       endTime: endTime || "",
       sessionType: "",
       title: "",
@@ -86,20 +115,12 @@ export function CreateSessionForm() {
   });
 
   useEffect(() => {
-    setStartTime(
-      startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
-    );
-  }, [startHour, startMinute, startAMPM]);
-
-  useEffect(() => {
-    setEndTime(endHour + ":" + (endMinute || "00") + " " + (endAMPM || "AM"));
-  }, [endHour, endMinute, endAMPM]);
-
-  useEffect(() => {
     if (user) {
       form.setValue("userId", user.userId);
       form.setValue("status", "");
       form.setValue("date", selectedDate as Date);
+      form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
+      form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
       form.setValue("startTime", startTime as string);
       form.setValue("endTime", endTime as string);
       form.setValue("sessionType", "");
@@ -112,7 +133,43 @@ export function CreateSessionForm() {
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [user, selectedDate, setStartTime, startTime, endTime, setEndTime, form]);
+  }, [
+    user,
+    selectedDate,
+    setStartTime,
+    startTime,
+    endTime,
+    setEndTime,
+    form,
+    startTimeAsDateTime,
+    endTimeAsDateTime,
+  ]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(startHourAsNumber, startMinuteAsNumber, 0, 0);
+      setStartTimeAsDateTime(newDate);
+    }
+  }, [selectedDate, startHourAsNumber, startMinuteAsNumber]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(endHourAsNumber, endMinuteAsNumber, 0, 0);
+      setEndTimeAsDateTime(newDate);
+    }
+  }, [selectedDate, endHourAsNumber, endMinuteAsNumber]);
+
+  useEffect(() => {
+    setStartTime(
+      startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
+    );
+  }, [startHour, startMinute, startAMPM]);
+
+  useEffect(() => {
+    setEndTime(endHour + ":" + (endMinute || "00") + " " + (endAMPM || "AM"));
+  }, [endHour, endMinute, endAMPM]);
 
   function onSubmit(field: CareSessionFormValues) {
     mutation.mutate(field);
@@ -183,8 +240,6 @@ export function CreateSessionForm() {
                           startAMPM={startAMPM}
                           onAMPMChange={setStartAMPM}
                         />
-
-                        {/* <EndTimePicker /> */}
                       </div>
                     </FormItem>
                   )}
@@ -196,8 +251,6 @@ export function CreateSessionForm() {
                     <FormItem className="w-full">
                       <FormLabel>End Time</FormLabel>
                       <div className="flex space-x-2">
-            
-
                         <EndTimePicker
                           endHour={endHour}
                           onHourChange={setEndHour}
@@ -237,8 +290,6 @@ export function CreateSessionForm() {
                 <FormLabel>Session Description</FormLabel>
                 <FormControl>
                   <Textarea placeholder="" {...field} />
-
-                  {/* <Input placeholder="" {...field} /> */}
                 </FormControl>
                 <FormDescription>
                   Describe your session and goals in detail.

@@ -15,15 +15,12 @@ import {
 interface CreateSessionDatePickerProps {
   date?: Date;
   onSelect: (date: Date | undefined) => void;
-
 }
-
 
 export function CreateSessionDatePicker({
   date,
   onSelect,
 }: CreateSessionDatePickerProps) {
-  // const [date, setDate] = React.useState<Date>();
 
   return (
     <Popover>

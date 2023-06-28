@@ -133,22 +133,24 @@ model HC_Message {
 }
 
 model HC_CareSession {
-    id          String    @id @default(cuid())
-    userId      String? //this is whoever created the sessio
-    createdAt   DateTime  @default(now())
-    status     String?   //pending, accepted, declined, completed
-    date        DateTime?
-    startTime   String?
-    endTime     String?
-    sessionType String?
-    title       String?
-    description String?   @db.Text
-    hourlyRate  String?
-    duration    String?
-    total       String?
-    address     String?
-    city        String?
-    zip         String?
+    id              String    @id @default(cuid())
+    userId          String? //this is whoever created the sessio
+    createdAt       DateTime  @default(now())
+    status          String? //pending, accepted, declined, completed
+    date            DateTime?
+    startTimeAsDate DateTime?
+    endTimeAsDate   DateTime?
+    startTime       String?
+    endTime         String?
+    sessionType     String?
+    title           String?
+    description     String?   @db.Text
+    hourlyRate      String?
+    duration        String?
+    total           String?
+    address         String?
+    city            String?
+    zip             String?
 
     User User? @relation(fields: [userId], references: [id])
 
