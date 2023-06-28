@@ -1,6 +1,5 @@
 import { Separator } from "~/components/ui/separator";
 
-
 interface CreateSessionProps {
   children: React.ReactNode;
 }
