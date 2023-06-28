@@ -26,8 +26,9 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import React from "react";
+import { set } from "date-fns";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -53,7 +54,16 @@ export function CreateSessionForm() {
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
   const [selectedDate, setSelectedDate] = React.useState<Date>();
+
   const [startTime, setStartTime] = React.useState<string | null | undefined>();
+  const [startHour, setStartHour] = React.useState<string>("00");
+  const [startMinute, setStartMinute] = React.useState<string>("00");
+  const [startAMPM, setStartAMPM] = React.useState<string>("AM");
+
+  const [endTime, setEndTime] = React.useState<string | null | undefined>();
+  const [endHour, setEndHour] = React.useState<string>("00");
+  const [endMinute, setEndMinute] = React.useState<string>("00");
+  const [endAMPM, setEndAMPM] = React.useState<string>("AM");
 
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
@@ -62,7 +72,7 @@ export function CreateSessionForm() {
       status: "",
       startTime: startTime || "",
       date: selectedDate,
-      endTime: "",
+      endTime: endTime || "",
       sessionType: "",
       title: "",
       description: "",
@@ -76,12 +86,22 @@ export function CreateSessionForm() {
   });
 
   useEffect(() => {
+    setStartTime(
+      startHour + ":" + (startMinute || "00") + " " + (startAMPM || "AM")
+    );
+  }, [startHour, startMinute, startAMPM]);
+
+  useEffect(() => {
+    setEndTime(endHour + ":" + (endMinute || "00") + " " + (endAMPM || "AM"));
+  }, [endHour, endMinute, endAMPM]);
+
+  useEffect(() => {
     if (user) {
       form.setValue("userId", user.userId);
       form.setValue("status", "");
       form.setValue("date", selectedDate as Date);
       form.setValue("startTime", startTime as string);
-      form.setValue("endTime", "");
+      form.setValue("endTime", endTime as string);
       form.setValue("sessionType", "");
       form.setValue("title", "");
       form.setValue("description", "");
@@ -92,17 +112,11 @@ export function CreateSessionForm() {
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [user, selectedDate, setStartTime, startTime, form]);
-
-  console.log(form.getValues("startTime"));
-  // console.log(startTime);
+  }, [user, selectedDate, setStartTime, startTime, endTime, setEndTime, form]);
 
   function onSubmit(field: CareSessionFormValues) {
     mutation.mutate(field);
-    // console.log(data);
   }
-
-
 
   return (
     <>
@@ -153,23 +167,50 @@ export function CreateSessionForm() {
                   </FormItem>
                 )}
               />
-              {/* umm start time / end time seem a bit messy here */}
-              <FormField
-                control={form.control}
-                name="startTime"
-                render={() => (
-                  <FormItem className="w-full">
-                    <FormLabel>Time</FormLabel>
-                    <div className="flex space-x-2">
-                      <TimePicker 
-                        startTime={startTime}
-                        onSelect={setStartTime}
-                      />
-                      {/* <EndTimePicker /> */}
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div className="flex space-x-2">
+                <FormField
+                  control={form.control}
+                  name="startTime"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormLabel>Start Time</FormLabel>
+                      <div className="flex space-x-2">
+                        <TimePicker
+                          startHour={startHour}
+                          onHourChange={setStartHour}
+                          startMinute={startMinute}
+                          onMinuteChange={setStartMinute}
+                          startAMPM={startAMPM}
+                          onAMPMChange={setStartAMPM}
+                        />
+
+                        {/* <EndTimePicker /> */}
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endTime"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormLabel>End Time</FormLabel>
+                      <div className="flex space-x-2">
+            
+
+                        <EndTimePicker
+                          endHour={endHour}
+                          onHourChange={setEndHour}
+                          endMinute={endMinute}
+                          onMinuteChange={setEndMinute}
+                          endAMPM={endAMPM}
+                          onAMPMChange={setEndAMPM}
+                        />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
           <FormField

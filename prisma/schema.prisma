@@ -139,7 +139,7 @@ model HC_CareSession {
     status     String?   //pending, accepted, declined, completed
     date        DateTime?
     startTime   String?
-    endTime     DateTime?
+    endTime     String?
     sessionType String?
     title       String?
     description String?   @db.Text
