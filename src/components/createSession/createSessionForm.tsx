@@ -38,9 +38,9 @@ const careSessionFormSchema = z.object({
   sessionType: z.string(),
   title: z.string(),
   description: z.string(),
-  hourlyRate: z.string(),
-  duration: z.string(),
-  total: z.string(),
+  hourlyRate: z.number(),
+  duration: z.number(),
+  total: z.number(),
   address: z.string(),
   city: z.string(),
   zip: z.string(),
@@ -67,6 +67,8 @@ export function CreateSessionForm() {
   const [endMinute, setEndMinute] = React.useState<string>("00");
   const [endAMPM, setEndAMPM] = React.useState<string>("AM");
 
+  const [hourlyRate, setHourlyRate] = React.useState<number>(30);
+
   let startHourAsNumber = 0;
   if (startHour !== "00" && startAMPM === "AM") {
     startHourAsNumber = parseInt(startHour, 10);
@@ -92,6 +94,21 @@ export function CreateSessionForm() {
     endMinuteAsNumber = parseInt(endMinute, 10) + 12;
   }
 
+  let totalDuration = endHourAsNumber - startHourAsNumber;
+  if (totalDuration < 0) {
+    totalDuration = 0;
+  }
+  let totalMinutes = endMinuteAsNumber - startMinuteAsNumber;
+  if (totalMinutes < 0) {
+    totalMinutes = 0;
+  }
+  totalDuration = totalDuration + totalMinutes / 60;
+
+  const displayDuration = Math.ceil(totalDuration);
+  const totalCost = Math.ceil(totalDuration * hourlyRate);
+
+  console.log(totalDuration);
+
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
@@ -105,9 +122,9 @@ export function CreateSessionForm() {
       sessionType: "",
       title: "",
       description: "",
-      hourlyRate: "",
-      duration: "",
-      total: "",
+      hourlyRate: hourlyRate,
+      duration: totalDuration,
+      total: totalCost,
       address: user?.address || "",
       city: user?.city || "",
       zip: user?.zip || "",
@@ -126,24 +143,14 @@ export function CreateSessionForm() {
       form.setValue("sessionType", "");
       form.setValue("title", "");
       form.setValue("description", "");
-      form.setValue("hourlyRate", "");
-      form.setValue("duration", "");
-      form.setValue("total", "");
+      form.setValue("hourlyRate", hourlyRate);
+      form.setValue("duration", displayDuration);
+      form.setValue("total", totalCost);
       form.setValue("address", user.address || "");
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [
-    user,
-    selectedDate,
-    setStartTime,
-    startTime,
-    endTime,
-    setEndTime,
-    form,
-    startTimeAsDateTime,
-    endTimeAsDateTime,
-  ]);
+  }, [user, selectedDate, setStartTime, startTime, endTime, setEndTime, form, startTimeAsDateTime, endTimeAsDateTime, totalDuration, totalCost, displayDuration, hourlyRate]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -322,7 +329,11 @@ export function CreateSessionForm() {
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input
+                        {...field}
+                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                        value={field.value + " hours"}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -337,7 +348,11 @@ export function CreateSessionForm() {
                   <FormItem>
                     <FormLabel>Total Cost</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input
+                        {...field}
+                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                        value={"$ " + field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
