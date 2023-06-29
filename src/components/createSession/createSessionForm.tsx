@@ -133,7 +133,7 @@ export function CreateSessionForm() {
   useEffect(() => {
     if (user) {
       form.setValue("userId", user.userId);
-      form.setValue("status", "");
+      form.setValue("status", "new");
       form.setValue("date", selectedDate as Date);
       form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
       form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
