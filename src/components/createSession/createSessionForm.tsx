@@ -26,6 +26,7 @@ import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
 import React from "react";
+import HourlyRatePicker from "./hourlyRatePicker";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -38,9 +39,9 @@ const careSessionFormSchema = z.object({
   sessionType: z.string(),
   title: z.string(),
   description: z.string(),
-  hourlyRate: z.string(),
-  duration: z.string(),
-  total: z.string(),
+  hourlyRate: z.number(),
+  duration: z.number(),
+  total: z.number(),
   address: z.string(),
   city: z.string(),
   zip: z.string(),
@@ -53,19 +54,18 @@ export function CreateSessionForm() {
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
   const [selectedDate, setSelectedDate] = React.useState<Date>();
-
+  const [sessionType, setSessionType] = React.useState<string>("");
   const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
   const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
-
   const [startTime, setStartTime] = React.useState<string | null | undefined>();
   const [startHour, setStartHour] = React.useState<string>("00");
   const [startMinute, setStartMinute] = React.useState<string>("00");
   const [startAMPM, setStartAMPM] = React.useState<string>("AM");
-
   const [endTime, setEndTime] = React.useState<string | null | undefined>();
   const [endHour, setEndHour] = React.useState<string>("00");
   const [endMinute, setEndMinute] = React.useState<string>("00");
   const [endAMPM, setEndAMPM] = React.useState<string>("AM");
+  const [hourlyRate, setHourlyRate] = React.useState<string>("30");
 
   let startHourAsNumber = 0;
   if (startHour !== "00" && startAMPM === "AM") {
@@ -92,22 +92,38 @@ export function CreateSessionForm() {
     endMinuteAsNumber = parseInt(endMinute, 10) + 12;
   }
 
+  let totalDuration = endHourAsNumber - startHourAsNumber;
+  if (totalDuration < 0) {
+    totalDuration = 0;
+  }
+  let totalMinutes = endMinuteAsNumber - startMinuteAsNumber;
+  if (totalMinutes < 0) {
+    totalMinutes = 0;
+  }
+  totalDuration = totalDuration + totalMinutes / 60;
+
+  const displayDuration = Math.ceil(totalDuration);
+  const hourlyRateAsNumber = parseInt(hourlyRate, 10);
+  const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
+
+  console.log(totalDuration);
+
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
       userId: user?.userId,
-      status: "",
+      status: "new",
       date: selectedDate,
       startTimeAsDate: startTimeAsDateTime,
       endTimeAsDate: endTimeAsDateTime,
       startTime: startTime || "",
       endTime: endTime || "",
-      sessionType: "",
+      sessionType: sessionType || "",
       title: "",
       description: "",
-      hourlyRate: "",
-      duration: "",
-      total: "",
+      hourlyRate: hourlyRateAsNumber,
+      duration: totalDuration,
+      total: totalCost,
       address: user?.address || "",
       city: user?.city || "",
       zip: user?.zip || "",
@@ -117,18 +133,18 @@ export function CreateSessionForm() {
   useEffect(() => {
     if (user) {
       form.setValue("userId", user.userId);
-      form.setValue("status", "");
+      form.setValue("status", "new");
       form.setValue("date", selectedDate as Date);
       form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
       form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
       form.setValue("startTime", startTime as string);
       form.setValue("endTime", endTime as string);
-      form.setValue("sessionType", "");
+      form.setValue("sessionType", sessionType);
       form.setValue("title", "");
       form.setValue("description", "");
-      form.setValue("hourlyRate", "");
-      form.setValue("duration", "");
-      form.setValue("total", "");
+      form.setValue("hourlyRate", hourlyRateAsNumber);
+      form.setValue("duration", displayDuration);
+      form.setValue("total", totalCost);
       form.setValue("address", user.address || "");
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
@@ -143,6 +159,12 @@ export function CreateSessionForm() {
     form,
     startTimeAsDateTime,
     endTimeAsDateTime,
+    totalDuration,
+    totalCost,
+    displayDuration,
+    hourlyRate,
+    hourlyRateAsNumber,
+    sessionType,
   ]);
 
   useEffect(() => {
@@ -185,7 +207,7 @@ export function CreateSessionForm() {
               name="sessionType"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <Select>
+                  <Select onValueChange={setSessionType}>
                     <FormLabel>Session Type</FormLabel>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue
@@ -303,11 +325,14 @@ export function CreateSessionForm() {
               <FormField
                 control={form.control}
                 name="hourlyRate"
-                render={({ field }) => (
+                render={({}) => (
                   <FormItem>
                     <FormLabel>Hourly Rate</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <HourlyRatePicker
+                        hourlyRate={hourlyRate}
+                        onHourlyRateChange={setHourlyRate}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -322,7 +347,13 @@ export function CreateSessionForm() {
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input
+                        className="disabled:opacity-100"
+                        {...field}
+                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                        value={field.value + " hours"}
+                        disabled
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -337,7 +368,13 @@ export function CreateSessionForm() {
                   <FormItem>
                     <FormLabel>Total Cost</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input
+                        className="disabled:opacity-100"
+                        disabled
+                        {...field}
+                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                        value={"$ " + field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
