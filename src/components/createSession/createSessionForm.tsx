@@ -24,8 +24,9 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import React from "react";
+import { set } from "date-fns";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -150,7 +151,27 @@ export function CreateSessionForm() {
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [user, selectedDate, setStartTime, startTime, endTime, setEndTime, form, startTimeAsDateTime, endTimeAsDateTime, totalDuration, totalCost, displayDuration, hourlyRate]);
+  }, [
+    user,
+    selectedDate,
+    setStartTime,
+    startTime,
+    endTime,
+    setEndTime,
+    form,
+    startTimeAsDateTime,
+    endTimeAsDateTime,
+    totalDuration,
+    totalCost,
+    displayDuration,
+    hourlyRate,
+  ]);
+
+
+  //update hourly rate when user changes it
+
+
+
 
   useEffect(() => {
     if (selectedDate) {
@@ -314,7 +335,23 @@ export function CreateSessionForm() {
                   <FormItem>
                     <FormLabel>Hourly Rate</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input
+                        // className="disabled:opacity-100"
+                        // disabled
+
+                        //onchange set hourly rate
+                        // onChange={(e) => {
+                        //   setHourlyRate(parseInt(e.target.value, 10));
+                        // }}
+
+
+
+
+                        placeholder=""
+                        {...field}
+
+
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -330,9 +367,11 @@ export function CreateSessionForm() {
                     <FormLabel>Duration</FormLabel>
                     <FormControl>
                       <Input
+                        className="disabled:opacity-100"
                         {...field}
                         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                         value={field.value + " hours"}
+                        disabled
                       />
                     </FormControl>
                     <FormMessage />
@@ -349,6 +388,8 @@ export function CreateSessionForm() {
                     <FormLabel>Total Cost</FormLabel>
                     <FormControl>
                       <Input
+                        className="disabled:opacity-100"
+                        disabled
                         {...field}
                         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                         value={"$ " + field.value}
