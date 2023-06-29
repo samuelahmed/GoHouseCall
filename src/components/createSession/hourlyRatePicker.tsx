@@ -1,18 +1,11 @@
 import * as React from "react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { ClockIcon } from "lucide-react";
-import { Button } from "../ui/button";
 
 interface HourlyRatePickerProps {
   hourlyRate: string;
@@ -20,7 +13,6 @@ interface HourlyRatePickerProps {
 }
 
 export default function HourlyRatePicker({
-  hourlyRate,
   onHourlyRateChange,
 }: HourlyRatePickerProps) {
   const rate: string[] = [];
@@ -29,18 +21,16 @@ export default function HourlyRatePicker({
   }
 
   return (
-    <Select onValueChange={onHourlyRateChange}>
+    <Select defaultValue="30" onValueChange={onHourlyRateChange}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Hour" />
+        <SelectValue placeholder="" />
       </SelectTrigger>
       <SelectContent className="h-56">
         {rate.map((hour) => (
           <SelectItem key={hour} value={hour}>
-            {hour}
+            $ {hour}
           </SelectItem>
         ))}
-        {/* <SelectItem>
-          </SelectItem> */}
       </SelectContent>
     </Select>
   );

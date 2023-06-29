@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -21,7 +19,6 @@ export function CreateSessionDatePicker({
   date,
   onSelect,
 }: CreateSessionDatePickerProps) {
-
   return (
     <Popover>
       <PopoverTrigger asChild>

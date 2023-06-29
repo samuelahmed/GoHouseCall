@@ -54,21 +54,18 @@ export function CreateSessionForm() {
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
   const [selectedDate, setSelectedDate] = React.useState<Date>();
-
+  const [sessionType, setSessionType] = React.useState<string>("");
   const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
   const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
-
   const [startTime, setStartTime] = React.useState<string | null | undefined>();
   const [startHour, setStartHour] = React.useState<string>("00");
   const [startMinute, setStartMinute] = React.useState<string>("00");
   const [startAMPM, setStartAMPM] = React.useState<string>("AM");
-
   const [endTime, setEndTime] = React.useState<string | null | undefined>();
   const [endHour, setEndHour] = React.useState<string>("00");
   const [endMinute, setEndMinute] = React.useState<string>("00");
   const [endAMPM, setEndAMPM] = React.useState<string>("AM");
-
-  const [hourlyRate, setHourlyRate] = React.useState<number>(30);
+  const [hourlyRate, setHourlyRate] = React.useState<string>("30");
 
   let startHourAsNumber = 0;
   if (startHour !== "00" && startAMPM === "AM") {
@@ -106,7 +103,8 @@ export function CreateSessionForm() {
   totalDuration = totalDuration + totalMinutes / 60;
 
   const displayDuration = Math.ceil(totalDuration);
-  const totalCost = Math.ceil(totalDuration * hourlyRate);
+  const hourlyRateAsNumber = parseInt(hourlyRate, 10);
+  const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
 
   console.log(totalDuration);
 
@@ -114,16 +112,16 @@ export function CreateSessionForm() {
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
       userId: user?.userId,
-      status: "",
+      status: "new",
       date: selectedDate,
       startTimeAsDate: startTimeAsDateTime,
       endTimeAsDate: endTimeAsDateTime,
       startTime: startTime || "",
       endTime: endTime || "",
-      sessionType: "",
+      sessionType: sessionType || "",
       title: "",
       description: "",
-      hourlyRate: hourlyRate,
+      hourlyRate: hourlyRateAsNumber,
       duration: totalDuration,
       total: totalCost,
       address: user?.address || "",
@@ -141,10 +139,10 @@ export function CreateSessionForm() {
       form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
       form.setValue("startTime", startTime as string);
       form.setValue("endTime", endTime as string);
-      form.setValue("sessionType", "");
+      form.setValue("sessionType", sessionType);
       form.setValue("title", "");
       form.setValue("description", "");
-      form.setValue("hourlyRate", hourlyRate);
+      form.setValue("hourlyRate", hourlyRateAsNumber);
       form.setValue("duration", displayDuration);
       form.setValue("total", totalCost);
       form.setValue("address", user.address || "");
@@ -165,13 +163,9 @@ export function CreateSessionForm() {
     totalCost,
     displayDuration,
     hourlyRate,
+    hourlyRateAsNumber,
+    sessionType,
   ]);
-
-
-  //update hourly rate when user changes it
-
-
-
 
   useEffect(() => {
     if (selectedDate) {
@@ -213,7 +207,7 @@ export function CreateSessionForm() {
               name="sessionType"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <Select>
+                  <Select onValueChange={setSessionType}>
                     <FormLabel>Session Type</FormLabel>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue
@@ -327,36 +321,17 @@ export function CreateSessionForm() {
             )}
           />
           <div className="flex w-full space-x-4">
-          <HourlyRatePicker
-              hourlyRate={hourlyRate}
-              onHourlyRateChange={setHourlyRate}
-          
-          />
-
             <div className="w-full">
               <FormField
                 control={form.control}
                 name="hourlyRate"
-                render={({ field }) => (
+                render={({}) => (
                   <FormItem>
                     <FormLabel>Hourly Rate</FormLabel>
                     <FormControl>
-                      <Input
-                        // className="disabled:opacity-100"
-                        // disabled
-
-                        //onchange set hourly rate
-                        // onChange={(e) => {
-                        //   setHourlyRate(parseInt(e.target.value, 10));
-                        // }}
-
-
-
-
-                        placeholder=""
-                        {...field}
-
-
+                      <HourlyRatePicker
+                        hourlyRate={hourlyRate}
+                        onHourlyRateChange={setHourlyRate}
                       />
                     </FormControl>
                     <FormMessage />

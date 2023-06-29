@@ -31,7 +31,6 @@ export default function EndTimePicker({
   onMinuteChange,
   onAMPMChange,
 }: EndTimePickerProps) {
-  
   const hours: string[] = [];
   for (let i = 0; i <= 12; i++) {
     hours.push(i.toString());

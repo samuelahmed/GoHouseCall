@@ -14,7 +14,7 @@ export default function CreateSessionLayout({ children }: CreateSessionProps) {
           </h2>
         </div>
         <Separator className="my-6" />
-        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 px-4">
+        <div className="flex flex-col space-y-8 px-4 lg:flex-row lg:space-x-12 lg:space-y-0">
           <div className="flex-1 lg:max-w-2xl">{children}</div>
         </div>
       </div>
