@@ -24,9 +24,9 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import React from "react";
-import { set } from "date-fns";
+import HourlyRatePicker from "./hourlyRatePicker";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -327,6 +327,12 @@ export function CreateSessionForm() {
             )}
           />
           <div className="flex w-full space-x-4">
+          <HourlyRatePicker
+              hourlyRate={hourlyRate}
+              onHourlyRateChange={setHourlyRate}
+          
+          />
+
             <div className="w-full">
               <FormField
                 control={form.control}
