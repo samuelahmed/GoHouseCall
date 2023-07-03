@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -24,7 +25,7 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
 
@@ -49,7 +50,7 @@ const careSessionFormSchema = z.object({
 
 type CareSessionFormValues = z.infer<typeof careSessionFormSchema>;
 
-export function CreateSessionForm() {
+export function CreateSessionForm(props: any) {
   const { data: user } = api.careSessionAPI.me.useQuery();
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
@@ -106,7 +107,7 @@ export function CreateSessionForm() {
   const hourlyRateAsNumber = parseInt(hourlyRate, 10);
   const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
 
-  console.log(totalDuration);
+  // console.log(totalDuration);
 
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
@@ -196,6 +197,20 @@ export function CreateSessionForm() {
   function onSubmit(field: CareSessionFormValues) {
     mutation.mutate(field);
   }
+
+  //send address to google maps
+  //doesn't seem to work on first render
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    props.CallBack(
+      form.getValues().address +
+      " " +
+      form.getValues().city +
+      " " +
+      form.getValues().zip
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form, props, form.getValues().address, form.getValues().city, form.getValues().zip]);
 
   return (
     <>
@@ -427,6 +442,7 @@ export function CreateSessionForm() {
               />
             </div>
           </div>
+
           <div className="flex flex-col items-start space-y-4">
             <Button
               variant="outline"
