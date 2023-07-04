@@ -2,7 +2,6 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { env } from "~/env.mjs";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { useEffect } from "react";
 
 interface GoogleMapsProps {
@@ -14,22 +13,40 @@ interface LatLng {
 }
 
 const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
+  //This works overall but is making WAY too many calls to the google API
+
   const [lat, setLat] = useState(37.33548);
   const [lng, setLng] = useState(-121.893028);
   const [address, setAddress] = useState("");
   const [selected, setSelected] = useState<LatLng | null>(null);
+  const [addressLoaded, setAddressLoaded] = useState(false);
 
   useEffect(() => {
     if (googleAddress) {
       setAddress(googleAddress);
+      setAddressLoaded(true);
     }
   }, [googleAddress]);
 
   const handleAddress = async () => {
+    if (!googleAddress) {
+      setAddress("san jose");
+      return;
+    }
     if (!address) {
+      setAddress("san jose");
       return;
     }
     if (address === undefined) {
+      setAddress("san jose");
+      return;
+    }
+    if (addressLoaded === false) {
+      setAddress("san jose");
+      return;
+    }
+    if (address === "") {
+      setAddress("san jose");
       return;
     }
 
@@ -45,6 +62,11 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
     }
     setSelected({ lat, lng });
   };
+
+  useEffect(() => {
+    console.log("meow");
+    void handleAddress();
+  }, [address]);
 
   const containerStyle = {
     width: "100%",
@@ -75,13 +97,6 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
 
           <Marker position={center} />
         </GoogleMap>
-        <Button
-          variant="outline"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={handleAddress}
-        >
-          Update Address
-        </Button>
       </div>
     </>
   );
