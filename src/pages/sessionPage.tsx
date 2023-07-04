@@ -36,7 +36,9 @@ const Sessions: NextPage = () => {
           </div>
         </div>
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
-          <GoogleMaps />
+          <GoogleMaps 
+            googleAddress="1234 Main St, San Francisco, CA 94122, USA"
+          />
         </div>
       </div>
     </>

@@ -27,6 +27,7 @@ import { api } from "~/utils/api";
 import { useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
+import { useState } from "react";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -49,23 +50,23 @@ const careSessionFormSchema = z.object({
 
 type CareSessionFormValues = z.infer<typeof careSessionFormSchema>;
 
-export function CreateSessionForm() {
+export function CreateSessionForm(props: any) {
   const { data: user } = api.careSessionAPI.me.useQuery();
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
-  const [selectedDate, setSelectedDate] = React.useState<Date>();
-  const [sessionType, setSessionType] = React.useState<string>("");
-  const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
-  const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
-  const [startTime, setStartTime] = React.useState<string | null | undefined>();
-  const [startHour, setStartHour] = React.useState<string>("00");
-  const [startMinute, setStartMinute] = React.useState<string>("00");
-  const [startAMPM, setStartAMPM] = React.useState<string>("AM");
-  const [endTime, setEndTime] = React.useState<string | null | undefined>();
-  const [endHour, setEndHour] = React.useState<string>("00");
-  const [endMinute, setEndMinute] = React.useState<string>("00");
-  const [endAMPM, setEndAMPM] = React.useState<string>("AM");
-  const [hourlyRate, setHourlyRate] = React.useState<string>("30");
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [sessionType, setSessionType] = useState<string>("");
+  const [startTimeAsDateTime, setStartTimeAsDateTime] = useState<Date>();
+  const [endTimeAsDateTime, setEndTimeAsDateTime] = useState<Date>();
+  const [startTime, setStartTime] = useState<string | null | undefined>();
+  const [startHour, setStartHour] = useState<string>("00");
+  const [startMinute, setStartMinute] = useState<string>("00");
+  const [startAMPM, setStartAMPM] = useState<string>("AM");
+  const [endTime, setEndTime] = useState<string | null | undefined>();
+  const [endHour, setEndHour] = useState<string>("00");
+  const [endMinute, setEndMinute] = useState<string>("00");
+  const [endAMPM, setEndAMPM] = useState<string>("AM");
+  const [hourlyRate, setHourlyRate] = useState<string>("30");
 
   let startHourAsNumber = 0;
   if (startHour !== "00" && startAMPM === "AM") {
@@ -106,8 +107,6 @@ export function CreateSessionForm() {
   const hourlyRateAsNumber = parseInt(hourlyRate, 10);
   const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
 
-  console.log(totalDuration);
-
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
@@ -134,37 +133,35 @@ export function CreateSessionForm() {
     if (user) {
       form.setValue("userId", user.userId);
       form.setValue("status", "new");
-      form.setValue("date", selectedDate as Date);
-      form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
-      form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
-      form.setValue("startTime", startTime as string);
-      form.setValue("endTime", endTime as string);
       form.setValue("sessionType", sessionType);
       form.setValue("title", "");
       form.setValue("description", "");
-      form.setValue("hourlyRate", hourlyRateAsNumber);
-      form.setValue("duration", displayDuration);
-      form.setValue("total", totalCost);
       form.setValue("address", user.address || "");
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
+  }, [form, sessionType, user]);
+
+  useEffect(() => {
+    form.setValue("date", selectedDate as Date);
+    form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
+    form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
+    form.setValue("startTime", startTime as string);
+    form.setValue("endTime", endTime as string);
+    form.setValue("hourlyRate", hourlyRateAsNumber);
+    form.setValue("duration", displayDuration);
+    form.setValue("total", totalCost);
   }, [
-    user,
     selectedDate,
-    setStartTime,
-    startTime,
-    endTime,
-    setEndTime,
-    form,
     startTimeAsDateTime,
     endTimeAsDateTime,
-    totalDuration,
-    totalCost,
-    displayDuration,
+    startTime,
+    endTime,
     hourlyRate,
     hourlyRateAsNumber,
-    sessionType,
+    displayDuration,
+    totalCost,
+    form,
   ]);
 
   useEffect(() => {
@@ -196,6 +193,35 @@ export function CreateSessionForm() {
   function onSubmit(field: CareSessionFormValues) {
     mutation.mutate(field);
   }
+
+  const [exportAddress, setExportAddress] = useState<
+    string | null | undefined
+  >();
+  const [exportCity, setExportCity] = useState<string | null | undefined>();
+  const [exportZip, setExportZip] = useState<string | null | undefined>();
+
+  useEffect(() => {
+    setExportAddress(form.getValues().address || user?.address);
+    setExportCity(form.getValues().city || user?.city);
+    setExportZip(form.getValues().zip || user?.zip);
+  }, [
+    form,
+    user?.address,
+    user?.city,
+    user?.zip,
+    form.getValues().address,
+    form.getValues().city,
+    form.getValues().zip,
+  ]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    props.CallBack(
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      exportAddress + " " + exportCity + " " + exportZip
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exportAddress, exportCity, exportZip]);
 
   return (
     <>
@@ -427,6 +453,7 @@ export function CreateSessionForm() {
               />
             </div>
           </div>
+
           <div className="flex flex-col items-start space-y-4">
             <Button
               variant="outline"
