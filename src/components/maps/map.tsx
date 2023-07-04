@@ -1,10 +1,9 @@
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { env } from "~/env.mjs";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
-import { use, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { useEffect } from "react";
-import { set } from "date-fns";
 
 interface GoogleMapsProps {
   googleAddress: string;
@@ -25,11 +24,7 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
       setAddress(googleAddress);
     }
   }, [googleAddress]);
-  // setAddress(googleAddress);
 
-  console.log("googleAddress", googleAddress);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleAddress = async () => {
     if (!address) {
       return;
@@ -37,8 +32,9 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
     if (address === undefined) {
       return;
     }
+
     const results = await getGeocode({
-      address,
+      address: address,
       region: "us",
     });
 
@@ -47,20 +43,8 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
       setLat(lat);
       setLng(lng);
     }
-
     setSelected({ lat, lng });
   };
-
-  useEffect(() => {
-    if (!address) {
-      return;
-    }
-    if (address === undefined) {
-      return;
-    }
-    void handleAddress();
-    console.log("meow");
-  }, []);
 
   const containerStyle = {
     width: "100%",
@@ -83,7 +67,7 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
       <div className="h-full w-full ">
         {googleAddress && (
           <div className="flex flex-col items-center justify-center">
-            <p className="">{googleAddress}</p>
+            <p className="">{address}</p>
           </div>
         )}
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={17}>
@@ -104,6 +88,3 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
 };
 
 export default GoogleMaps;
-
-//BUGS
-// changing other fields resets the address

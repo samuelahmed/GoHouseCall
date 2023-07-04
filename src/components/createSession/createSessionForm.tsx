@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -25,7 +24,7 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
 import { useState } from "react";
@@ -108,8 +107,6 @@ export function CreateSessionForm(props: any) {
   const hourlyRateAsNumber = parseInt(hourlyRate, 10);
   const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
 
-  // console.log(totalDuration);
-
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
     defaultValues: {
@@ -136,37 +133,35 @@ export function CreateSessionForm(props: any) {
     if (user) {
       form.setValue("userId", user.userId);
       form.setValue("status", "new");
-      form.setValue("date", selectedDate as Date);
-      form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
-      form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
-      form.setValue("startTime", startTime as string);
-      form.setValue("endTime", endTime as string);
       form.setValue("sessionType", sessionType);
       form.setValue("title", "");
       form.setValue("description", "");
-      form.setValue("hourlyRate", hourlyRateAsNumber);
-      form.setValue("duration", displayDuration);
-      form.setValue("total", totalCost);
       form.setValue("address", user.address || "");
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
+  }, [form, sessionType, user]);
+
+  useEffect(() => {
+    form.setValue("date", selectedDate as Date);
+    form.setValue("startTimeAsDate", startTimeAsDateTime as Date);
+    form.setValue("endTimeAsDate", endTimeAsDateTime as Date);
+    form.setValue("startTime", startTime as string);
+    form.setValue("endTime", endTime as string);
+    form.setValue("hourlyRate", hourlyRateAsNumber);
+    form.setValue("duration", displayDuration);
+    form.setValue("total", totalCost);
   }, [
-    user,
     selectedDate,
-    setStartTime,
-    startTime,
-    endTime,
-    setEndTime,
-    form,
     startTimeAsDateTime,
     endTimeAsDateTime,
-    totalDuration,
-    totalCost,
-    displayDuration,
+    startTime,
+    endTime,
     hourlyRate,
     hourlyRateAsNumber,
-    sessionType,
+    displayDuration,
+    totalCost,
+    form,
   ]);
 
   useEffect(() => {
@@ -199,36 +194,35 @@ export function CreateSessionForm(props: any) {
     mutation.mutate(field);
   }
 
-  console.log(form.getValues().address || user?.address)
-  //send address to google maps
-  //doesn't seem to work on first render
-
-  const [exportAddress, setExportAddress] = useState<string | null | undefined>();
+  const [exportAddress, setExportAddress] = useState<
+    string | null | undefined
+  >();
   const [exportCity, setExportCity] = useState<string | null | undefined>();
   const [exportZip, setExportZip] = useState<string | null | undefined>();
 
   useEffect(() => {
-    setExportAddress(form.getValues().address || user?.address)
-    setExportCity(form.getValues().city || user?.city)
-    setExportZip(form.getValues().zip || user?.zip)
-  }, [form, user?.address, user?.city, user?.zip, form.getValues().address, form.getValues().city, form.getValues().zip])
-
-
+    setExportAddress(form.getValues().address || user?.address);
+    setExportCity(form.getValues().city || user?.city);
+    setExportZip(form.getValues().zip || user?.zip);
+  }, [
+    form,
+    user?.address,
+    user?.city,
+    user?.zip,
+    form.getValues().address,
+    form.getValues().city,
+    form.getValues().zip,
+  ]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     props.CallBack(
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      exportAddress +
-      " " +
-      exportCity +
-      " " +
-      exportZip
+      exportAddress + " " + exportCity + " " + exportZip
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exportAddress, exportCity, exportZip]);
 
-  
   return (
     <>
       <Form {...form}>
