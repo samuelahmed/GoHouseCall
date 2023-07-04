@@ -28,6 +28,7 @@ import { api } from "~/utils/api";
 import { use, useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
+import { useState } from "react";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -54,19 +55,19 @@ export function CreateSessionForm(props: any) {
   const { data: user } = api.careSessionAPI.me.useQuery();
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();
 
-  const [selectedDate, setSelectedDate] = React.useState<Date>();
-  const [sessionType, setSessionType] = React.useState<string>("");
-  const [startTimeAsDateTime, setStartTimeAsDateTime] = React.useState<Date>();
-  const [endTimeAsDateTime, setEndTimeAsDateTime] = React.useState<Date>();
-  const [startTime, setStartTime] = React.useState<string | null | undefined>();
-  const [startHour, setStartHour] = React.useState<string>("00");
-  const [startMinute, setStartMinute] = React.useState<string>("00");
-  const [startAMPM, setStartAMPM] = React.useState<string>("AM");
-  const [endTime, setEndTime] = React.useState<string | null | undefined>();
-  const [endHour, setEndHour] = React.useState<string>("00");
-  const [endMinute, setEndMinute] = React.useState<string>("00");
-  const [endAMPM, setEndAMPM] = React.useState<string>("AM");
-  const [hourlyRate, setHourlyRate] = React.useState<string>("30");
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [sessionType, setSessionType] = useState<string>("");
+  const [startTimeAsDateTime, setStartTimeAsDateTime] = useState<Date>();
+  const [endTimeAsDateTime, setEndTimeAsDateTime] = useState<Date>();
+  const [startTime, setStartTime] = useState<string | null | undefined>();
+  const [startHour, setStartHour] = useState<string>("00");
+  const [startMinute, setStartMinute] = useState<string>("00");
+  const [startAMPM, setStartAMPM] = useState<string>("AM");
+  const [endTime, setEndTime] = useState<string | null | undefined>();
+  const [endHour, setEndHour] = useState<string>("00");
+  const [endMinute, setEndMinute] = useState<string>("00");
+  const [endAMPM, setEndAMPM] = useState<string>("AM");
+  const [hourlyRate, setHourlyRate] = useState<string>("30");
 
   let startHourAsNumber = 0;
   if (startHour !== "00" && startAMPM === "AM") {
@@ -201,18 +202,31 @@ export function CreateSessionForm(props: any) {
   console.log(form.getValues().address || user?.address)
   //send address to google maps
   //doesn't seem to work on first render
+
+  const [exportAddress, setExportAddress] = useState<string | null | undefined>();
+  const [exportCity, setExportCity] = useState<string | null | undefined>();
+  const [exportZip, setExportZip] = useState<string | null | undefined>();
+
+  useEffect(() => {
+    setExportAddress(form.getValues().address || user?.address)
+    setExportCity(form.getValues().city || user?.city)
+    setExportZip(form.getValues().zip || user?.zip)
+  }, [form, user?.address, user?.city, user?.zip, form.getValues().address, form.getValues().city, form.getValues().zip])
+
+
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     props.CallBack(
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      (form.getValues().address || user?.address) +
+      exportAddress +
       " " +
-      (form.getValues().city || user?.city) +
+      exportCity +
       " " +
-      (form.getValues().zip || user?.zip)
+      exportZip
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form, props, form.getValues().address, form.getValues().city, form.getValues().zip, user?.address, user?.city, user?.zip]);
+  }, [exportAddress, exportCity, exportZip]);
 
   
   return (

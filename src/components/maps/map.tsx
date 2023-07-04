@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { env } from "~/env.mjs";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Button } from "../ui/button";
-import { useMemo } from "react";
 import { useEffect } from "react";
+import { set } from "date-fns";
 
 interface GoogleMapsProps {
   googleAddress: string;
@@ -18,17 +17,30 @@ interface LatLng {
 const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
   const [lat, setLat] = useState(37.33548);
   const [lng, setLng] = useState(-121.893028);
+  const [address, setAddress] = useState("");
   const [selected, setSelected] = useState<LatLng | null>(null);
 
   useEffect(() => {
     if (googleAddress) {
-      void handleAddress();
+      setAddress(googleAddress);
     }
-  }, [ googleAddress]);
+  }, [googleAddress]);
+  // setAddress(googleAddress);
 
+  console.log("googleAddress", googleAddress);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleAddress = async () => {
-    const results = await getGeocode({ address: googleAddress });
-  
+    if (!address) {
+      return;
+    }
+    if (address === undefined) {
+      return;
+    }
+    const results = await getGeocode({
+      address,
+      region: "us",
+    });
 
     if (results && results.length > 0 && results[0]) {
       const { lat, lng } = getLatLng(results[0]);
@@ -38,6 +50,17 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
 
     setSelected({ lat, lng });
   };
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    }
+    if (address === undefined) {
+      return;
+    }
+    void handleAddress();
+    console.log("meow");
+  }, []);
 
   const containerStyle = {
     width: "100%",
@@ -58,12 +81,21 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
   return (
     <>
       <div className="h-full w-full ">
+        {googleAddress && (
+          <div className="flex flex-col items-center justify-center">
+            <p className="">{googleAddress}</p>
+          </div>
+        )}
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={17}>
           {selected && <Marker position={selected} />}
 
           <Marker position={center} />
         </GoogleMap>
-        <Button variant="outline" onClick={handleAddress}>
+        <Button
+          variant="outline"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleAddress}
+        >
           Update Address
         </Button>
       </div>
