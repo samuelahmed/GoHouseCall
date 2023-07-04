@@ -198,20 +198,23 @@ export function CreateSessionForm(props: any) {
     mutation.mutate(field);
   }
 
+  console.log(form.getValues().address || user?.address)
   //send address to google maps
   //doesn't seem to work on first render
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     props.CallBack(
-      form.getValues().address +
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      (form.getValues().address || user?.address) +
       " " +
-      form.getValues().city +
+      (form.getValues().city || user?.city) +
       " " +
-      form.getValues().zip
+      (form.getValues().zip || user?.zip)
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form, props, form.getValues().address, form.getValues().city, form.getValues().zip]);
+  }, [form, props, form.getValues().address, form.getValues().city, form.getValues().zip, user?.address, user?.city, user?.zip]);
 
+  
   return (
     <>
       <Form {...form}>
