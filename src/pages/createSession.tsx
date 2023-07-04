@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
 import { CreateSessionForm } from "~/components/createSession/createSessionForm";
 import CreateSessionLayout from "~/components/createSession/createSessionLayout";
 import GoogleMaps from "~/components/maps/map";
@@ -36,10 +35,6 @@ const Sessions: NextPage = () => {
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
           <GoogleMaps
             googleAddress={loadedAddress}
-            // address
-
-            // googleAddress={address}
-            //import address from form and pass it to google maps
           />
         </div>
       </div>
