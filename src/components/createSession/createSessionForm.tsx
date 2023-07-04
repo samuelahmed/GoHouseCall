@@ -24,7 +24,7 @@ import { CreateSessionDatePicker } from "./createSessionDatepicker";
 import TimePicker from "./timePicker";
 import EndTimePicker from "./endTimePicker";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
 import { useState } from "react";
@@ -131,16 +131,21 @@ export function CreateSessionForm(props: any) {
 
   useEffect(() => {
     if (user) {
+      form.setValue("sessionType", sessionType);
+    }
+  }, [form, sessionType, user]);
+
+  useEffect(() => {
+    if (user) {
       form.setValue("userId", user.userId);
       form.setValue("status", "new");
-      form.setValue("sessionType", sessionType);
       form.setValue("title", "");
       form.setValue("description", "");
       form.setValue("address", user.address || "");
       form.setValue("city", user.city || "");
       form.setValue("zip", user.zip || "");
     }
-  }, [form, sessionType, user]);
+  }, [form, user]);
 
   useEffect(() => {
     form.setValue("date", selectedDate as Date);
