@@ -50,6 +50,7 @@ const careSessionFormSchema = z.object({
 
 type CareSessionFormValues = z.infer<typeof careSessionFormSchema>;
 
+//fix props with explicit type
 export function CreateSessionForm(props: any) {
   const { data: user } = api.careSessionAPI.me.useQuery();
   const mutation = api.careSessionAPI.createNewCareSession.useMutation();

@@ -1,5 +1,3 @@
-"use client";
-
 import { type ColumnDef } from "@tanstack/react-table";
 import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
@@ -22,14 +20,14 @@ export const columns: ColumnDef<SessionSchema>[] = [
         return null;
       }
       return (
-        <div 
-        //on click push to session page
-        onClick={() => {
-          window.location.href = "/sessionPage";
-        //  href/
-        }}
-
-        className="flex w-[100px] items-center hover:cursor-pointer hover:underline font-semibold">
+        <div
+          //on click push to session page
+          onClick={() => {
+            window.location.href = "/sessionPage";
+            //  href/
+          }}
+          className="flex w-[100px] items-center font-semibold hover:cursor-pointer hover:underline"
+        >
           <span>{sessionType.label}</span>
         </div>
       );

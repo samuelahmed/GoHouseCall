@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   type ColumnDef,
@@ -29,7 +27,7 @@ import { DataTablePagination } from "./dataTablePagination";
 import { DataTableToolbar } from "./dataTableToolbar";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columns: ColumnDef<TData, TValue>[]
   data: TData[];
 }
 

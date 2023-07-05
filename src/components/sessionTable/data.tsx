@@ -1,45 +1,52 @@
+//Add types here for the session table
+
 export const sessiontypes = [
   {
-    value: "Mobility Support",
+    value: "mobility support",
     label: "Mobility Support",
   },
   {
-    value: "Personal Care",
+    value: "personal care",
     label: "Personal Care",
   },
   {
-    value: "Home Care",
+    value: "home care",
     label: "Home Care",
   },
   {
-    value: "Transportation",
+    value: "transportation",
     label: "Transportation",
   },
   {
-    value: "Other",
+    value: "other",
     label: "Other",
   },
+  {
+    value: "transportation",
+    label: "Transportation",
+  }
+  
 ];
 
 export const statuses = [
   {
-    value: "New",
+    value: "new",
     label: "New",
   },
-  {
-    value: "Open",
-    label: "Open",
-  },
-  {
-    value: "Scheduled",
-    label: "Scheduled",
-  },
-  {
-    value: "Completed",
-    label: "Completed",
-  },
-  {
-    value: "Canceled",
-    label: "Canceled",
-  },
+  // {
+  //   value: "Open",
+  //   label: "Open",
+  // },
+  // {
+  //   value: "Scheduled",
+  //   label: "Scheduled",
+  // },
+  // {
+  //   value: "Completed",
+  //   label: "Completed",
+  // },
+  // {
+  //   value: "Canceled",
+  //   label: "Canceled",
+  // },
 ];
