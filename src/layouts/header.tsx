@@ -22,6 +22,9 @@ export function Header() {
             void router.push("/");
           }}
         >
+          <text className="font-robotoSlab">Go</text>
+
+          
           <Image
             src="/faviconLarge.png"
             alt="HC Logo"
