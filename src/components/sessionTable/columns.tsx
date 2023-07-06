@@ -82,9 +82,7 @@ export const columns: ColumnDef<SessionSchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="City" />
     ),
-    cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("city")}</div>
-    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("city")}</div>,
     enableSorting: true,
     enableHiding: true,
   },
@@ -94,7 +92,7 @@ export const columns: ColumnDef<SessionSchema>[] = [
       <DataTableColumnHeader column={column} title="Date" />
     ),
     cell: ({ row }) => {
-      const date = row.getValue("date") ;
+      const date = row.getValue("date");
       if (!date) {
         return null;
       }
@@ -118,18 +116,27 @@ export const columns: ColumnDef<SessionSchema>[] = [
     enableHiding: true,
   },
   {
-    accessorKey: "endTime",
+    accessorKey: "duration",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="End Time" />
+      <DataTableColumnHeader column={column} title="Duration" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("endTime")}</div>
+      <div className="w-[80px]">{row.getValue("duration")} hours</div>
     ),
     enableSorting: true,
     enableHiding: true,
   },
-
-
+  {
+    accessorKey: "total",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">$ {row.getValue("total")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
 
   {
     id: "actions",

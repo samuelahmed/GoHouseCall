@@ -24,8 +24,7 @@ export const sessiontypes = [
   {
     value: "transportation",
     label: "Transportation",
-  }
-  
+  },
 ];
 
 export const statuses = [
@@ -33,20 +32,4 @@ export const statuses = [
     value: "new",
     label: "New",
   },
-  // {
-  //   value: "Open",
-  //   label: "Open",
-  // },
-  // {
-  //   value: "Scheduled",
-  //   label: "Scheduled",
-  // },
-  // {
-  //   value: "Completed",
-  //   label: "Completed",
-  // },
-  // {
-  //   value: "Canceled",
-  //   label: "Canceled",
-  // },
 ];

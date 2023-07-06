@@ -8,7 +8,8 @@ export const sessionSchema = z.object({
   city: z.string().nullable(),
   date: z.date().nullable(),
   startTime: z.string().nullable(),
-  endTime: z.string().nullable(),
+  duration: z.string().nullable(),
+  total: z.string().nullable(),
 });
 
 export type SessionSchema = z.infer<typeof sessionSchema>;
