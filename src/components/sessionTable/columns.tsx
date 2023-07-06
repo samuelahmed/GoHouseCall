@@ -68,11 +68,69 @@ export const columns: ColumnDef<SessionSchema>[] = [
       <DataTableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("description")}</div>
+      <div className="w-[300px]">{row.getValue("description")}</div>
     ),
     enableSorting: true,
     enableHiding: true,
   },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
+  {
+    accessorKey: "city",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="City" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">{row.getValue("city")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "date",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
+    cell: ({ row }) => {
+      const date = row.getValue("date") ;
+      if (!date) {
+        return null;
+      }
+      const day = (date as Date).getDate();
+      const month = (date as Date).getMonth() + 1;
+      return <div className="w-[80px]">{`${month} / ${day}`}</div>;
+    },
+    enableSorting: true,
+    enableHiding: true,
+  },
+
+  {
+    accessorKey: "startTime",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Start Time" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">{row.getValue("startTime")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "endTime",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="End Time" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">{row.getValue("endTime")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+
+
+
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

@@ -84,6 +84,10 @@ export const careSessionRouter = createTRPCRouter({
         sessionType: true,
         description: true,
         status: true,
+        city: true,
+        date: true,
+        startTime: true,
+        endTime: true,
       },
     });
 

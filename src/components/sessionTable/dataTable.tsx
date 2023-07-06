@@ -27,7 +27,7 @@ import { DataTablePagination } from "./dataTablePagination";
 import { DataTableToolbar } from "./dataTableToolbar";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
+  columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="relative space-y-4 px-4 mb-4">
+    <div className="relative mb-4 space-y-4 px-4">
       <div className="overflow-auto px-1 py-1">
         <DataTableToolbar table={table} />
       </div>
@@ -77,8 +77,7 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                     key={header.id}>
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
