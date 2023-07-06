@@ -95,4 +95,16 @@ export const careSessionRouter = createTRPCRouter({
     return allCareSessions;
   }),
   
+  getCareSessionById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { id } = input;
+      const careSession = await ctx.prisma.hC_CareSession.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      return careSession;
+    }
+  ),
 });
