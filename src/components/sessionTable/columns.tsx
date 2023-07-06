@@ -1,5 +1,3 @@
-"use client";
-
 import { type ColumnDef } from "@tanstack/react-table";
 import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
@@ -22,14 +20,14 @@ export const columns: ColumnDef<SessionSchema>[] = [
         return null;
       }
       return (
-        <div 
-        //on click push to session page
-        onClick={() => {
-          window.location.href = "/sessionPage";
-        //  href/
-        }}
-
-        className="flex w-[100px] items-center hover:cursor-pointer hover:underline font-semibold">
+        <div
+          //on click push to session page
+          onClick={() => {
+            window.location.href = "/sessionPage";
+            //  href/
+          }}
+          className="flex w-[100px] items-center font-semibold hover:cursor-pointer hover:underline"
+        >
           <span>{sessionType.label}</span>
         </div>
       );
@@ -70,11 +68,76 @@ export const columns: ColumnDef<SessionSchema>[] = [
       <DataTableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("description")}</div>
+      <div className="w-[300px]">{row.getValue("description")}</div>
     ),
     enableSorting: true,
     enableHiding: true,
   },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
+  {
+    accessorKey: "city",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="City" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("city")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "date",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
+    cell: ({ row }) => {
+      const date = row.getValue("date");
+      if (!date) {
+        return null;
+      }
+      const day = (date as Date).getDate();
+      const month = (date as Date).getMonth() + 1;
+      return <div className="w-[80px]">{`${month} / ${day}`}</div>;
+    },
+    enableSorting: true,
+    enableHiding: true,
+  },
+
+  {
+    accessorKey: "startTime",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Start Time" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">{row.getValue("startTime")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "duration",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Duration" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">{row.getValue("duration")} hours</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "total",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">$ {row.getValue("total")}</div>
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
+
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

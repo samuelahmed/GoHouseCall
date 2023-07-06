@@ -75,4 +75,24 @@ export const careSessionRouter = createTRPCRouter({
       });
       return newCareSession;
     }),
+
+  //get all care sessions
+  getAllCareSessions: protectedProcedure.query(async ({ ctx }) => {
+    const allCareSessions = await ctx.prisma.hC_CareSession.findMany({
+      select: {
+        id: true,
+        sessionType: true,
+        description: true,
+        status: true,
+        city: true,
+        date: true,
+        startTime: true,
+        duration: true,
+        total: true,
+      },
+    });
+
+    return allCareSessions;
+  }),
+  
 });
