@@ -1,6 +1,16 @@
 import { Card, CardContent } from "~/components/ui/card";
 
-export function SessionInfo() {
+export function SessionInfo({
+  sessionStatus,
+  sessionDate,
+}: {
+  sessionStatus: string;
+  sessionDate: Date;
+}) {
+
+  
+  const formattedDate = sessionDate?.toLocaleDateString();
+
   return (
     <>
       <div className="px-4">
@@ -9,13 +19,13 @@ export function SessionInfo() {
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Status: </span>
-                <span className="text-sm">Open</span>
+                <span className="text-sm">{sessionStatus}</span>
               </p>
             </CardContent>
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Date: </span>
-                <span className="text-sm">5/31/2023</span>
+                <span className="text-sm">{formattedDate}</span>
               </p>
             </CardContent>
             <CardContent>

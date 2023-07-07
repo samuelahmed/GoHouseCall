@@ -38,7 +38,11 @@ const CareSession: NextPage = () => {
                 <span className=""> {currentSession?.title}</span>
               </h2>
             </div>
-            <SessionInfo />
+            <SessionInfo
+                sessionStatus={currentSession?.status as string}
+                sessionDate={currentSession?.date as Date}
+            
+            />
             <SessionActions />
           </div>
           <div className="w-full">
