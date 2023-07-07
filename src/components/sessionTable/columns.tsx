@@ -3,9 +3,16 @@ import { sessiontypes, statuses } from "./data";
 import { type SessionSchema } from "./sessionSchema";
 import { DataTableColumnHeader } from "./dataTableColumnHeader";
 import { DataTableRowActions } from "./dataTableRowActions";
-// import { useRouter } from "next/router";
 
 export const columns: ColumnDef<SessionSchema>[] = [
+  //this is only here to get the id of the session
+  //it is not displayed on the table
+  //it does create a like 5 px wide invisible column
+  {
+    accessorKey: "id",
+    header: ({}) => <></>,
+    cell: ({}) => <></>,
+  },
   {
     accessorKey: "sessionType",
     header: ({ column }) => (
@@ -21,10 +28,9 @@ export const columns: ColumnDef<SessionSchema>[] = [
       }
       return (
         <div
-          //on click push to session page
           onClick={() => {
-            window.location.href = "/sessionPage";
-            //  href/
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            window.location.href = `/caresession/${row.getValue("id")}`;
           }}
           className="flex w-[100px] items-center font-semibold hover:cursor-pointer hover:underline"
         >
@@ -73,10 +79,6 @@ export const columns: ColumnDef<SessionSchema>[] = [
     enableSorting: true,
     enableHiding: true,
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
   {
     accessorKey: "city",
     header: ({ column }) => (
