@@ -41,6 +41,11 @@ const CareSession: NextPage = () => {
             <SessionInfo
                 sessionStatus={currentSession?.status as string}
                 sessionDate={currentSession?.date as Date}
+                sessionDescription={currentSession?.description as string}
+                sessionStart={currentSession?.startTime as string}
+                sessionEnd={currentSession?.endTime as string}
+                sessionDuration={currentSession?.duration as number}
+
             
             />
             <SessionActions />

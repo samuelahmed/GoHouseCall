@@ -3,12 +3,20 @@ import { Card, CardContent } from "~/components/ui/card";
 export function SessionInfo({
   sessionStatus,
   sessionDate,
+  sessionDescription,
+  sessionStart,
+  sessionEnd,
+  sessionDuration
 }: {
   sessionStatus: string;
   sessionDate: Date;
+  sessionDescription: string;
+  sessionStart: string;
+  sessionEnd: string;
+  sessionDuration: number;
 }) {
 
-  
+
   const formattedDate = sessionDate?.toLocaleDateString();
 
   return (
@@ -31,7 +39,7 @@ export function SessionInfo({
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Overview: </span>
-                <span className="text-sm">help around the house </span>
+                <span className="text-sm">{sessionDescription} </span>
               </p>
             </CardContent>
           </div>
@@ -39,19 +47,19 @@ export function SessionInfo({
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Session Start: </span>
-                <span className="text-sm">2:00 AM</span>
+                <span className="text-sm">{sessionStart}</span>
               </p>
             </CardContent>
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Session End: </span>
-                <span className="text-sm">5:00 AM</span>
+                <span className="text-sm">{sessionEnd}</span>
               </p>
             </CardContent>
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Duration: </span>
-                <span className="text-sm">3 hours 0 minutes</span>
+                <span className="text-sm">{sessionDuration} hours</span>
               </p>
             </CardContent>
           </div>
