@@ -66,12 +66,6 @@ export function SessionInfo({
                 <span className="text-sm">{sessionEnd}</span>
               </p>
             </CardContent>
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Duration: </span>
-                <span className="text-sm">{sessionDuration} hours</span>
-              </p>
-            </CardContent>
           </div>
         </Card>
         <Card className="flex-col-2 flex ">
@@ -82,12 +76,12 @@ export function SessionInfo({
                 <span className="text-sm">${sessionHourlyRate}</span>
               </p>
             </CardContent>
-            {/* <CardContent>
+            <CardContent>
               <p>
-                <span className="text-sm font-semibold">Total Hours: </span>
-                <span className="text-sm">3</span>
+                <span className="text-sm font-semibold">Duration: </span>
+                <span className="text-sm">{sessionDuration} hours</span>
               </p>
-            </CardContent> */}
+            </CardContent>
             <CardContent>
               <p>
                 <span className="text-sm font-semibold">Total Cost: </span>
