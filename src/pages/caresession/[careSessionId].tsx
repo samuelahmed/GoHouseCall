@@ -20,6 +20,14 @@ const CareSession: NextPage = () => {
 
   //push the session data to the right components
 
+  const googleAddress =
+    (currentSession?.address || "") +
+    " " +
+    (currentSession?.city || "") +
+    " " +
+    (currentSession?.zip || "");
+
+    
   return (
     <>
       <Head>
@@ -39,14 +47,17 @@ const CareSession: NextPage = () => {
               </h2>
             </div>
             <SessionInfo
-                sessionStatus={currentSession?.status as string}
-                sessionDate={currentSession?.date as Date}
-                sessionDescription={currentSession?.description as string}
-                sessionStart={currentSession?.startTime as string}
-                sessionEnd={currentSession?.endTime as string}
-                sessionDuration={currentSession?.duration as number}
-
-            
+              sessionStatus={currentSession?.status as string}
+              sessionDate={currentSession?.date as Date}
+              sessionDescription={currentSession?.description as string}
+              sessionStart={currentSession?.startTime as string}
+              sessionEnd={currentSession?.endTime as string}
+              sessionDuration={currentSession?.duration as number}
+              sessionHourlyRate={currentSession?.hourlyRate as number}
+              sessionTotal={currentSession?.total as number}
+              sessionAddress={currentSession?.address as string}
+              sessionCity={currentSession?.city as string}
+              sessionZip={currentSession?.zip as string}
             />
             <SessionActions />
           </div>
@@ -57,7 +68,7 @@ const CareSession: NextPage = () => {
           </div>
         </div>
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
-          <GoogleMaps googleAddress="1234 Main St, San Francisco, CA 94122, USA" />
+          <GoogleMaps googleAddress={googleAddress} />
         </div>
       </div>
     </>
