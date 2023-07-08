@@ -39,22 +39,24 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
       return;
     }
     if (!address) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     if (address === undefined) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     //This is a hacky fix for the address not loading in time
     if (addressLoaded === false) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     if (address === "") {
       setAddress("san jose");
       return;
     }
+
+
 
     const results = await getGeocode({
       address: address,
