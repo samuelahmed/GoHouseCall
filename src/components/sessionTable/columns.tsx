@@ -30,7 +30,7 @@ export const columns: ColumnDef<SessionSchema>[] = [
         <div
           onClick={() => {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            window.location.href = `/caresession/${row.getValue("id")}`;
+            window.location.href = `/careSession/${row.getValue("id")}`;
           }}
           className="flex w-[100px] items-center font-semibold hover:cursor-pointer hover:underline"
         >

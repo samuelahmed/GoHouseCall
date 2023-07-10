@@ -27,7 +27,6 @@ const CareSession: NextPage = () => {
     " " +
     (currentSession?.zip || "");
 
-    
   return (
     <>
       <Head>
