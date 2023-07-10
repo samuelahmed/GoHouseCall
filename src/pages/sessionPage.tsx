@@ -26,12 +26,12 @@ const Sessions: NextPage = () => {
                 <span className=""> Help around my house</span>
               </h2>
             </div>
-            <SessionInfo />
-            <SessionActions />
+            {/* <SessionInfo /> */}
+            {/* <SessionActions /> */}
           </div>
           <div className="w-full">
             <div className="px-4 py-4">
-              <PotentialCaregiverTable />
+              {/* <PotentialCaregiverTable /> */}
             </div>
           </div>
         </div>

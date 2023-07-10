@@ -19,6 +19,8 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
   const [marker, setMarker] = useState<boolean>(false);
   const [addressLoaded, setAddressLoaded] = useState(false);
 
+  // console.log("GOOGLE ADDRESS", googleAddress);
+
   useEffect(() => {
     if (googleAddress) {
       setAddress(googleAddress);
@@ -27,27 +29,34 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
   }, [googleAddress]);
 
   const handleAddress = async () => {
+    // if (typeof getGeocode !== 'function') {
+    //   console.error('getGeocode is not defined');
+    //   return;
+    // }
+
     if (!googleAddress) {
       setAddress("san jose");
       return;
     }
     if (!address) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     if (address === undefined) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     //This is a hacky fix for the address not loading in time
     if (addressLoaded === false) {
-      setAddress("san jose");
+      setAddress("");
       return;
     }
     if (address === "") {
       setAddress("san jose");
       return;
     }
+
+
 
     const results = await getGeocode({
       address: address,
@@ -60,7 +69,7 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ googleAddress }) => {
       setLng(lng);
     }
     setMarker(true);
-    console.log("MARKER", marker);
+    // console.log("MARKER", marker);
   };
 
   useEffect(() => {
