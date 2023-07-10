@@ -7,6 +7,7 @@ import { notificationsRouter } from "./routers/notifications";
 import { imageRouter } from "./routers/imageRouter";
 import { messagesRouter } from "./routers/messagesRouter";
 import { careSessionRouter } from "./routers/careSessionRouter";
+import { userRouter } from "./routers/userRouter";
 
 export const appRouter = createTRPCRouter({
   settingsAPI: settingsRouter,
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   imageAPI: imageRouter, 
   messagesAPI: messagesRouter,
   careSessionAPI: careSessionRouter,
+  userAPI: userRouter,
 });
 
 export type AppRouter = typeof appRouter;
