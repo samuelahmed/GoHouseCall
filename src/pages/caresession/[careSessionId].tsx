@@ -14,6 +14,7 @@ const CareSession: NextPage = () => {
 
   //find the session by id
   const id = router.query.careSessionId;
+  console.log('id', id)
   //get the session data using the id
   const { data: currentSession } =
     api.careSessionAPI.getCareSessionById.useQuery({ id: id as string });
