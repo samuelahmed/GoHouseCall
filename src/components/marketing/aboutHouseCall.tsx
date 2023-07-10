@@ -25,48 +25,10 @@ export function AboutHouseCall() {
             of your <span className="text-blue11">home</span>
           </h1>
         </div>
-        <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-2">
-          <div className="flex h-full flex-col content-around space-y-2 px-2">
-            <div className="h-full">
-              <Card className="shadow hover:shadow-inner">
-                <CardHeader>
-                  <CardTitle className="text-center ">
-                    Find the perfect caregiver
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
-            <div className="h-full">
-              <Card className="shadow hover:shadow-inner">
-                <CardHeader>
-                  <CardTitle className="text-center">
-                    Control your sessions
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
-            <div className="h-full">
-              <Card className="shadow hover:shadow-inner">
-                <CardHeader>
-                  <CardTitle className="text-center">
-                    Build lifelong relationships
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
-            <div className="h-full">
-              <Card className="shadow hover:shadow-inner">
-                <CardHeader>
-                  <CardTitle className="text-center">
-                    Discover patients who need your help
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
+        <div className="grid w-full grid-cols-1 px-4 py-4 md:grid-cols-1">
           <div className="w-full">
             <div className="px-2 py-2">
-              <AspectRatio ratio={16 / 9} className="bg-muted ">
+              <AspectRatio ratio={16 / 7} className="bg-muted ">
                 {img1Loaded === false && (
                   <Image
                     src="/aboutSquare2small.jpg"
@@ -86,7 +48,7 @@ export function AboutHouseCall() {
               </AspectRatio>
             </div>
             <div className="px-2 py-2">
-              <AspectRatio ratio={16 / 9} className="bg-muted">
+              <AspectRatio ratio={16 / 7} className="bg-muted">
                 {img2Loaded === false && (
                   <Image
                     src="/aboutSquare1small.jpg"
@@ -115,9 +77,10 @@ export function AboutHouseCall() {
               Patients
             </CardTitle>
             <CardDescription className="text-lg">
-              We built House Call to help patients improve their quality of
-              life. Anyone who needs help with their daily activities is welcome
-              to join House Call and create sessions that describe their needs.
+              House Call’s mission is to improve your quality of life by
+              connecting patients and caregivers. If you or a loved one needs
+              help, you can create care sessions, by describing your needs and
+              be directly connected to local caregivers to hire.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -127,10 +90,9 @@ export function AboutHouseCall() {
               Caregivers
             </CardTitle>
             <CardDescription className="text-lg">
-              Caregivers are the backbone of House Call. They are passionate to
-              help patients improve their quality of life and make a real
-              difference. Anyone who feels the drive to help those in need is
-              welcome to apply to become a caregiver.
+              Caregivers are passionate and have the skills to help patients
+              with their needs. They can apply directly to care sessions created
+              by patients and be hired for one time jobs.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -140,42 +102,66 @@ export function AboutHouseCall() {
               Sessions
             </CardTitle>
             <CardDescription className="text-lg">
-              Care sessions are the core of House Call. They are created by
-              patients to describe their needs. Caregivers can apply to sessions
-              that match their skills and interests. When a caregiver applies to
-              a session, the patient will be able to message them to discuss
-              details, make sure they are a good fit, and ultimatelly accept
-              them as their caregiver.
+              Care sessions are the way that Go House Call connects patients and
+              caregivers. They are one-time-jobs in which the patient is the
+              boss seeking to directly hire caregivers. Caregivers can apply to
+              the care sessions which they have the skills to fulfill. After a
+              quick chat to make sure there is alignment, patients can then hire
+              the caregiver which they desire and they meet on the scheduled
+              day, time, and location.
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="shadow hover:shadow-inner">
-          <CardHeader>
-            <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
-              Easily get started right now
-            </CardTitle>
-            <CardContent className="-p-6 text-lg text-muted-foreground">
-              <p className="">
-                You can get started right now with three easy steps:
-              </p>
-              <ul>
-                <li>1. Register your account</li>
-                <li>2. Select your role</li>
-                <li>3. Create or apply to sessions</li>
-              </ul>
-            </CardContent>
-          </CardHeader>
-          <div className="flex px-4 pb-4 ">
-            <Button
-              size="lg"
-              onClick={() => {
-                void router.push("/register");
-              }}
-            >
-              Register
-            </Button>
-          </div>
-        </Card>
+        <div className="flex flex-col justify-between space-y-4 sm:flex-row md:space-x-4 md:space-y-0">
+          <Card className="w-full shadow hover:shadow-inner">
+            <CardHeader>
+              <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+                How does it work?
+              </CardTitle>
+              <CardContent className="-p-6 text-lg text-muted-foreground">
+                <p className="">
+                  You can easily hire caregivers or find patients
+                </p>
+                <ul>
+                  <li>1. Patient creates care session</li>
+                  <li>2. Caregivers apply to care session</li>
+                  <li>3. Patient hires their select caregiver</li>
+                  <li>
+                    4. Caregiver meets patient at their location for session
+                  </li>
+                  <li>5. Caregiver is paid for their work</li>
+                </ul>
+              </CardContent>
+            </CardHeader>
+          </Card>
+          <Card className="w-full shadow hover:shadow-inner">
+            <CardHeader>
+              <CardTitle className="text-center text-xl md:text-2xl lg:text-3xl">
+                Easily get started right now
+              </CardTitle>
+              <CardContent className="-p-6 text-lg text-muted-foreground">
+                <p className="">
+                  You can get started right now with three easy steps
+                </p>
+                <ul>
+                  <li>1. Register your account</li>
+                  <li>2. Select your role</li>
+                  <li>3. Create or apply to sessions</li>
+                </ul>
+              </CardContent>
+            </CardHeader>
+            <div className="flex px-4 pb-4 ">
+              <Button
+                size="lg"
+                onClick={() => {
+                  void router.push("/register");
+                }}
+              >
+                Register
+              </Button>
+            </div>
+          </Card>
+        </div>
       </div>
     </>
   );
