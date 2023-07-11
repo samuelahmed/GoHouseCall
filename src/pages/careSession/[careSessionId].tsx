@@ -14,6 +14,7 @@ const CareSession: NextPage = () => {
   const id = router.query.careSessionId;
   const { data: currentSession } =
     api.careSessionAPI.getCareSessionById.useQuery({ id: id as string });
+
   const googleAddress =
     (currentSession?.address || "") +
     " " +
@@ -23,6 +24,8 @@ const CareSession: NextPage = () => {
 
   const { data: currentUser } = api.userAPI.currentUser.useQuery();
   const currentUserType = currentUser?.type;
+
+  // console.log("Curretn user", currentUser)
 
   return (
     <>

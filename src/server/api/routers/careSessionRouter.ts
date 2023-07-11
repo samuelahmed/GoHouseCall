@@ -2,7 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const careSessionRouter = createTRPCRouter({
-
   me: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.hC_Account.findUnique({
       where: {
@@ -158,5 +157,93 @@ export const careSessionRouter = createTRPCRouter({
         },
       });
       return careSession;
+    }),
+
+  applyToCareSession: protectedProcedure
+    .input(z.object({ id: z.string(), userId: z.string(), note: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id, userId, note } = input;
+      const findSessionApplication =
+        await ctx.prisma.hC_SessionApplication.findFirst({
+          where: {
+            careSessionId: id,
+            userId: userId,
+          },
+        });
+
+      if (
+        findSessionApplication &&
+        findSessionApplication.applicationStatus === "cancelled"
+      ) {
+        const newSessionApplication =
+          await ctx.prisma.hC_SessionApplication.update({
+            where: {
+              id: findSessionApplication.id,
+            },
+            data: {
+              applicationStatus: "pending",
+              note: note,
+            },
+          });
+        return newSessionApplication;
+      }
+
+      const newSessionApplication =
+        await ctx.prisma.hC_SessionApplication.create({
+          data: {
+            careSessionId: id,
+            userId: userId,
+            applicationStatus: "pending",
+            note: note,
+          },
+        });
+      return newSessionApplication;
+    }),
+
+  cancelApplication: protectedProcedure
+    .input(z.object({ id: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id, userId } = input;
+      const findSessionApplication =
+        await ctx.prisma.hC_SessionApplication.findFirst({
+          where: {
+            careSessionId: id,
+            userId: userId,
+          },
+        });
+
+      if (!findSessionApplication) {
+        throw new Error("You have not applied to this care session");
+      }
+
+      const cancelledSessionApplication =
+        await ctx.prisma.hC_SessionApplication.update({
+          where: {
+            id: findSessionApplication.id,
+          },
+          data: {
+            applicationStatus: "cancelled",
+          },
+        });
+      return cancelledSessionApplication;
+    }),
+
+  hasCaregiverApplied: protectedProcedure
+    .input(z.object({ careSessionId: z.string(), userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { careSessionId, userId } = input;
+      const findSessionApplication =
+        await ctx.prisma.hC_SessionApplication.findFirst({
+          where: {
+            careSessionId: careSessionId,
+            userId: userId,
+            applicationStatus: "pending" || "accepted",
+          },
+        });
+
+      if (findSessionApplication) {
+        return true;
+      }
+      return false;
     }),
 });

@@ -32,21 +32,22 @@ model Account {
 
 //this model is also used in useSession() 
 model User {
-    id                 String              @id @default(cuid())
-    name               String?
-    email              String?             @unique
-    emailVerified      DateTime?
-    image              String?
-    image2             String?
-    password           String?
-    accounts           Account[]
-    sessions           Session[]
-    HC_Account         HC_Account[]
-    HC_Notifications   HC_Notifications[]
-    verificationTokens VerificationToken[]
-    HC_Message         HC_Message[]
-    HC_FriendList      HC_FriendList[]
-    HC_CareSession     HC_CareSession[]
+    id                    String                  @id @default(cuid())
+    name                  String?
+    email                 String?                 @unique
+    emailVerified         DateTime?
+    image                 String?
+    image2                String?
+    password              String?
+    accounts              Account[]
+    sessions              Session[]
+    HC_Account            HC_Account[]
+    HC_Notifications      HC_Notifications[]
+    verificationTokens    VerificationToken[]
+    HC_Message            HC_Message[]
+    HC_FriendList         HC_FriendList[]
+    HC_CareSession        HC_CareSession[]
+    HC_SessionApplication HC_SessionApplication[]
 }
 
 //currently not used.
@@ -133,26 +134,43 @@ model HC_Message {
 }
 
 model HC_CareSession {
-    id              String    @id @default(cuid())
-    userId          String? //this is whoever created the sessio
-    createdAt       DateTime  @default(now())
-    status          String? //pending, accepted, declined, completed
-    date            DateTime?
-    startTimeAsDate DateTime?
-    endTimeAsDate   DateTime?
-    startTime       String?
-    endTime         String?
-    sessionType     String?
-    title           String?
-    description     String?   @db.Text
-    hourlyRate      Int?
-    duration        Int?
-    total           Int?
-    address         String?
-    city            String?
-    zip             String?
+    id                    String                  @id @default(cuid())
+    userId                String? //this is whoever created the sessio
+    createdAt             DateTime                @default(now())
+    status                String? //pending, accepted, declined, completed
+    date                  DateTime?
+    startTimeAsDate       DateTime?
+    endTimeAsDate         DateTime?
+    startTime             String?
+    endTime               String?
+    sessionType           String?
+    title                 String?
+    description           String?                 @db.Text
+    hourlyRate            Int?
+    duration              Int?
+    total                 Int?
+    address               String?
+    city                  String?
+    zip                   String?
+    HC_SessionApplication HC_SessionApplication[]
 
     User User? @relation(fields: [userId], references: [id])
 
+    @@index([userId])
+}
+
+model HC_SessionApplication {
+    id               String   @id @default(cuid())
+    careSessionId String? //session ID of the session they are applying to
+    userId           String? //applicant ID
+    createdAt        DateTime @default(now())
+    applicationStatus String? //pending, accepted, declined, completed
+    note              String? @db.Text
+
+    //can I do this so it is tied to both the session and the user?
+    User           User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    HC_CareSession HC_CareSession? @relation(fields: [careSessionId], references: [id])
+
+    @@index([careSessionId])
     @@index([userId])
 }
