@@ -56,7 +56,6 @@ const CareSession: NextPage = () => {
             sessionId={currentSession?.id as string}
             sessionUserId={currentSession?.userId as string}
             sessionStatus={currentSession?.status as string}
-
             userType={currentUserType as string}
             userId={currentUser?.userId as string}
             
