@@ -147,6 +147,43 @@ export const careSessionRouter = createTRPCRouter({
     return allCareSessions;
   }),
 
+  getCareSessionsByUserId: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { userId } = input;
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          userId: userId,
+        },
+        select: {
+          id: true,
+          sessionType: true,
+          description: true,
+          status: true,
+          city: true,
+          date: true,
+          startTime: true,
+          duration: true,
+          total: true,
+        },
+      });
+      return careSessions;
+    }),
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   getCareSessionById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
