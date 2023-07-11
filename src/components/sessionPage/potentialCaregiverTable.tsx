@@ -12,15 +12,12 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
 export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
+  const router = useRouter();
   const { data: careSessionApplications } =
     api.careSessionAPI.careSessionApplications.useQuery({
       sessionId: sessionId,
     });
-  const router = useRouter();
-  console.log(careSessionApplications);
-  // if (!careSessionApplications) {
-  //   return <div>Loading...</div>;
-  // }
+
   return (
     <div className="max-h-96 overflow-auto rounded-md border ">
       <Table>
@@ -29,7 +26,7 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
             <>No Caregivers have applied to your session.</>
           )}
           {careSessionApplications?.length !== undefined && (
-            <> Caregivers who have applied to your session.</>
+            <>Caregivers who have applied to your session.</>
           )}
         </TableCaption>
         <TableHeader>
@@ -72,9 +69,6 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                   </Button>
                   <Button variant="outline" size="sm">
                     Accept
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Deny
                   </Button>
                 </TableCell>
               </TableRow>
