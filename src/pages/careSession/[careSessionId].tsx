@@ -25,7 +25,6 @@ const CareSession: NextPage = () => {
   const { data: currentUser } = api.userAPI.currentUser.useQuery();
   const currentUserType = currentUser?.type;
 
-  // console.log("Curretn user", currentUser)
 
   return (
     <>
@@ -66,7 +65,9 @@ const CareSession: NextPage = () => {
           </div>
           <div className="w-full">
             <div className="px-4 py-4">
-              <PotentialCaregiverTable />
+              <PotentialCaregiverTable
+              sessionId={currentSession?.id as string}
+              />
             </div>
           </div>
         </div>

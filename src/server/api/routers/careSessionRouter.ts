@@ -246,4 +246,40 @@ export const careSessionRouter = createTRPCRouter({
       }
       return false;
     }),
+
+  careSessionApplications: protectedProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { sessionId } = input;
+      const sessionApplications =
+        await ctx.prisma.hC_SessionApplication.findMany({
+          where: {
+            careSessionId: sessionId,
+          },
+        });
+      if (sessionApplications.length === 0) {
+        throw new Error("No applications found");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const userIds = sessionApplications.map((app) => app.userId!);
+      const users = await ctx.prisma.hC_Account.findMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      });
+      const sessionApplicationsWithUsers = sessionApplications.map(
+        (sessionApplicant) => {
+          const user = users.find(
+            (user) => user.userId === sessionApplicant.userId
+          );
+          return {
+            ...sessionApplicant,
+            user,
+          };
+        }
+      );
+      return sessionApplicationsWithUsers;
+    }),
 });

@@ -32,7 +32,7 @@ export const userRouter = createTRPCRouter({
       const { id } = input;
       const user = await ctx.prisma.hC_Account.findUnique({
         where: {
-          id: id,
+          userId: id,
         },
         select: {
           id: true,
