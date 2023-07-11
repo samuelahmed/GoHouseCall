@@ -55,9 +55,6 @@ const CareSession: NextPage = () => {
               sessionDuration={currentSession?.duration as number}
               sessionHourlyRate={currentSession?.hourlyRate as number}
               sessionTotal={currentSession?.total as number}
-              sessionAddress={currentSession?.address as string}
-              sessionCity={currentSession?.city as string}
-              sessionZip={currentSession?.zip as string}
             />
             <SessionActions />
           </div>

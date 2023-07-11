@@ -9,9 +9,6 @@ export function SessionInfo({
   sessionDuration,
   sessionHourlyRate,
   sessionTotal,
-  sessionAddress,
-  sessionCity,
-  sessionZip,
 }: {
   sessionStatus: string;
   sessionDate: Date;
@@ -21,12 +18,7 @@ export function SessionInfo({
   sessionDuration: number;
   sessionHourlyRate: number;
   sessionTotal: number;
-  sessionAddress: string;
-  sessionCity: string;
-  sessionZip: string;
 }) {
-
-
   const formattedDate = sessionDate?.toLocaleDateString();
 
   return (
@@ -68,47 +60,25 @@ export function SessionInfo({
             </CardContent>
           </div>
         </Card>
-        <Card className="flex-col-2 flex ">
-          <div className="col-span-1 w-full pt-4">
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Hourly Rate: </span>
-                <span className="text-sm">${sessionHourlyRate}</span>
-              </p>
-            </CardContent>
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Duration: </span>
-                <span className="text-sm">{sessionDuration} hours</span>
-              </p>
-            </CardContent>
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Total Cost: </span>
-                <span className="text-sm">${sessionTotal}</span>
-              </p>
-            </CardContent>
-          </div>
-          <div className="col-span-1 w-full pt-4">
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Address: </span>
-                <span className="text-sm">{sessionAddress}</span>
-              </p>
-            </CardContent>
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">City: </span>
-                <span className="text-sm">{sessionCity}</span>
-              </p>
-            </CardContent>
-            <CardContent>
-              <p>
-                <span className="text-sm font-semibold">Area Code: </span>
-                <span className="text-sm">{sessionZip}</span>
-              </p>
-            </CardContent>
-          </div>
+        <Card className="flex-row-1 flex justify-between pt-4">
+          <CardContent>
+            <p>
+              <span className="text-sm font-semibold">Hourly Rate: </span>
+              <span className="text-sm">${sessionHourlyRate}</span>
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="text-sm font-semibold">Duration: </span>
+              <span className="text-sm">{sessionDuration} hours</span>
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="text-sm font-semibold">Total Cost: </span>
+              <span className="text-sm">${sessionTotal}</span>
+            </p>
+          </CardContent>
         </Card>
       </div>
     </>
