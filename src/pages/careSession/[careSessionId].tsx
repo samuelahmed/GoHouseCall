@@ -25,7 +25,6 @@ const CareSession: NextPage = () => {
   const { data: currentUser } = api.userAPI.currentUser.useQuery();
   const currentUserType = currentUser?.type;
 
-
   return (
     <>
       <Head>
@@ -54,22 +53,23 @@ const CareSession: NextPage = () => {
               sessionHourlyRate={currentSession?.hourlyRate as number}
               sessionTotal={currentSession?.total as number}
             />
-            <SessionActions 
-            sessionId={currentSession?.id as string}
-            sessionUserId={currentSession?.userId as string}
-            sessionStatus={currentSession?.status as string}
-            userType={currentUserType as string}
-            userId={currentUser?.userId as string}
-            
+            <SessionActions
+              sessionId={currentSession?.id as string}
+              sessionUserId={currentSession?.userId as string}
+              sessionStatus={currentSession?.status as string}
+              userType={currentUserType as string}
+              userId={currentUser?.userId as string}
             />
           </div>
-          <div className="w-full">
-            <div className="px-4 py-4">
-              <PotentialCaregiverTable
-              sessionId={currentSession?.id as string}
-              />
-            </div>
-          </div>
+
+          {currentUser?.type === "patient" &&
+            currentUser.userId === currentSession?.userId && (
+              <div className="w-full">
+                <div className="px-4 py-4">
+                  <PotentialCaregiverTable sessionId={currentSession?.id} />
+                </div>
+              </div>
+            )}
         </div>
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
           <GoogleMaps googleAddress={googleAddress} />
