@@ -32,5 +32,9 @@ export const statuses = [
     value: "new",
     label: "New",
   },
+  {
+    value: "cancelled",
+    label: "Cancelled",
+  },
 ];
 

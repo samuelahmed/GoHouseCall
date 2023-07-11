@@ -4,7 +4,6 @@ import SettingsLayout from "~/components/settings/settingsLayout";
 import { Separator } from "~/components/ui/separator";
 import { PatientProfileForm } from "~/components/settings/patientProfileForm";
 import { useSession } from "next-auth/react";
-import { Button } from "~/components/ui/button";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { CaregiverProfileForm } from "~/components/settings/caregiverProfileForm";
 import { api } from "~/utils/api";
