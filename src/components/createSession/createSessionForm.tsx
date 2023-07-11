@@ -28,6 +28,19 @@ import { use, useEffect } from "react";
 import React from "react";
 import HourlyRatePicker from "./hourlyRatePicker";
 import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alertDialog";
+import { toast } from "../ui/useToast";
+import { useRouter } from "next/router";
 
 const careSessionFormSchema = z.object({
   userId: z.string(),
@@ -107,6 +120,7 @@ export function CreateSessionForm(props: any) {
   const displayDuration = Math.ceil(totalDuration);
   const hourlyRateAsNumber = parseInt(hourlyRate, 10);
   const totalCost = Math.ceil(totalDuration * hourlyRateAsNumber);
+  const router = useRouter();
 
   const form = useForm<CareSessionFormValues>({
     resolver: zodResolver(careSessionFormSchema),
@@ -461,15 +475,36 @@ export function CreateSessionForm(props: any) {
           </div>
 
           <div className="flex flex-col items-start space-y-4">
-            <Button
-              variant="outline"
-              type="submit"
-              onClick={() => {
-                onSubmit(form.getValues());
-              }}
-            >
-              Create Session
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline">Create Session</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Did you enter all the important information for your care
+                    session?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Edit</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      onSubmit(form.getValues());
+
+                      toast({
+                        description: "Session Created",
+                        duration: 5000,
+                      });
+                      void router.push("/sessions");
+                    }}
+                  >
+                    Yes
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </form>
       </Form>
