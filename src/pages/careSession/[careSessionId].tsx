@@ -61,7 +61,6 @@ const CareSession: NextPage = () => {
               userId={currentUser?.userId as string}
             />
           </div>
-
           {currentUser?.type === "patient" &&
             currentUser.userId === currentSession?.userId && (
               <div className="w-full">
