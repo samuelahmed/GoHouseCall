@@ -5,21 +5,35 @@ import { api } from "~/utils/api";
 export default function SessionsTableMain() {
   //this will be replaced with the actual data from the api
   const { data: user } = api.careSessionAPI.me.useQuery();
+
+  const { data: allCareSessionsOfPatient } =
+    api.careSessionAPI.getCareSessionsByUserId.useQuery({
+      userId: user?.userId as string,
+    });
+
   const { data: allCareSessions } =
     api.careSessionAPI.getAllCareSessions.useQuery();
-  console.log(allCareSessions);
 
-  if (!user || !allCareSessions) {
+  if (!user) {
     return <p>Loading...</p>;
   }
 
-  if (!allCareSessions) {
+  if (!user || !allCareSessionsOfPatient || !allCareSessions) {
+    return <p>Loading...</p>;
+  }
+
+  if (!allCareSessionsOfPatient || !allCareSessions) {
     return <p>Loading...</p>;
   }
 
   return (
     <>
-      <DataTable data={allCareSessions} columns={columns} />
+      {user.type === "patient" && (
+        <DataTable data={allCareSessionsOfPatient} columns={columns} />
+      )}
+      {user.type === "caregiver" && (
+        <DataTable data={allCareSessions} columns={columns} />
+      )}
     </>
   );
 }

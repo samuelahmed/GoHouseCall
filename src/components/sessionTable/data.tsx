@@ -21,16 +21,20 @@ export const sessiontypes = [
     value: "other",
     label: "Other",
   },
-  {
-    value: "transportation",
-    label: "Transportation",
-  },
 ];
 
 export const statuses = [
   {
     value: "new",
     label: "New",
+  },
+  {
+    value: "scheduled",
+    label: "Scheduled",
+  },
+  {
+    value: "completed",
+    label: "Completed",
   },
   {
     value: "cancelled",
