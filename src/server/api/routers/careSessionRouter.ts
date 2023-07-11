@@ -12,7 +12,6 @@ export const careSessionRouter = createTRPCRouter({
     return user;
   }),
 
-  //create new care session
   createNewCareSession: protectedProcedure
     .input(
       z.object({
@@ -76,6 +75,37 @@ export const careSessionRouter = createTRPCRouter({
       return newCareSession;
     }),
 
+cancelCareSession: protectedProcedure
+  .input(
+    z.object({
+      id: z.string(),
+      userId: z.string(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const { id, userId } = input;
+
+    const findCareSession = await ctx.prisma.hC_CareSession.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (findCareSession?.userId !== userId) {
+      throw new Error("You are not authorized to cancel this care session");
+    }
+
+    const cancelledCareSession = await ctx.prisma.hC_CareSession.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: "cancelled",
+      },
+    });
+    return cancelledCareSession;
+  }),
+
   //get all care sessions
   getAllCareSessions: protectedProcedure.query(async ({ ctx }) => {
     const allCareSessions = await ctx.prisma.hC_CareSession.findMany({
@@ -91,10 +121,9 @@ export const careSessionRouter = createTRPCRouter({
         total: true,
       },
     });
-
     return allCareSessions;
   }),
-  
+
   getCareSessionById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -105,6 +134,5 @@ export const careSessionRouter = createTRPCRouter({
         },
       });
       return careSession;
-    }
-  ),
+    }),
 });

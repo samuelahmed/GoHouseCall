@@ -13,6 +13,19 @@ export const userRouter = createTRPCRouter({
     return user;
   }),
 
+  currentUser: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.hC_Account.findUnique({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        type: true,
+        userId: true,
+      },
+    });
+    return user;
+  }),
+
   getUserById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {

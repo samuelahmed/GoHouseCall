@@ -11,22 +11,18 @@ import { api } from "~/utils/api";
 
 const CareSession: NextPage = () => {
   const router = useRouter();
-
-  //find the session by id
   const id = router.query.careSessionId;
-  console.log('id', id)
-  //get the session data using the id
   const { data: currentSession } =
     api.careSessionAPI.getCareSessionById.useQuery({ id: id as string });
-
-  //push the session data to the right components
-
   const googleAddress =
     (currentSession?.address || "") +
     " " +
     (currentSession?.city || "") +
     " " +
     (currentSession?.zip || "");
+
+  const { data: currentUser } = api.userAPI.currentUser.useQuery();
+  const currentUserType = currentUser?.type;
 
   return (
     <>
@@ -56,7 +52,13 @@ const CareSession: NextPage = () => {
               sessionHourlyRate={currentSession?.hourlyRate as number}
               sessionTotal={currentSession?.total as number}
             />
-            <SessionActions />
+            <SessionActions 
+            sessionId={currentSession?.id as string}
+            userType={currentUserType as string}
+            userId={currentUser?.userId as string}
+            sessionUserId={currentSession?.userId as string}
+            
+            />
           </div>
           <div className="w-full">
             <div className="px-4 py-4">
