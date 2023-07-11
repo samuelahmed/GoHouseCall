@@ -54,9 +54,11 @@ const CareSession: NextPage = () => {
             />
             <SessionActions 
             sessionId={currentSession?.id as string}
+            sessionUserId={currentSession?.userId as string}
+            sessionStatus={currentSession?.status as string}
+
             userType={currentUserType as string}
             userId={currentUser?.userId as string}
-            sessionUserId={currentSession?.userId as string}
             
             />
           </div>

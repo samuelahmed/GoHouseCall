@@ -2,7 +2,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
 export const careSessionRouter = createTRPCRouter({
-  //gets user info for the current user
+
   me: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.hC_Account.findUnique({
       where: {
@@ -75,38 +75,62 @@ export const careSessionRouter = createTRPCRouter({
       return newCareSession;
     }),
 
-cancelCareSession: protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      userId: z.string(),
-    })
-  )
-  .mutation(async ({ ctx, input }) => {
-    const { id, userId } = input;
+  cancelCareSession: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, userId } = input;
+      const findCareSession = await ctx.prisma.hC_CareSession.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      if (findCareSession?.userId !== userId) {
+        throw new Error("You are not authorized to cancel this care session");
+      }
+      const cancelledCareSession = await ctx.prisma.hC_CareSession.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: "cancelled",
+        },
+      });
+      return cancelledCareSession;
+    }),
 
-    const findCareSession = await ctx.prisma.hC_CareSession.findUnique({
-      where: {
-        id: id,
-      },
-    });
+  activateCareSession: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, userId } = input;
+      const findCareSession = await ctx.prisma.hC_CareSession.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      if (findCareSession?.userId !== userId) {
+        throw new Error("You are not authorized to activate this care session");
+      }
+      const activatedCareSession = await ctx.prisma.hC_CareSession.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: "new",
+        },
+      });
+      return activatedCareSession;
+    }),
 
-    if (findCareSession?.userId !== userId) {
-      throw new Error("You are not authorized to cancel this care session");
-    }
-
-    const cancelledCareSession = await ctx.prisma.hC_CareSession.update({
-      where: {
-        id: id,
-      },
-      data: {
-        status: "cancelled",
-      },
-    });
-    return cancelledCareSession;
-  }),
-
-  //get all care sessions
   getAllCareSessions: protectedProcedure.query(async ({ ctx }) => {
     const allCareSessions = await ctx.prisma.hC_CareSession.findMany({
       select: {
