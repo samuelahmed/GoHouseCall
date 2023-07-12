@@ -355,4 +355,56 @@ export const careSessionRouter = createTRPCRouter({
       );
       return sessionApplicationsWithUsers;
     }),
+
+  acceptCaregiver: protectedProcedure
+    .input(z.object({ applicationId: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { applicationId, userId } = input;
+      const acceptedCaregiver = await ctx.prisma.hC_SessionApplication.update({
+        where: {
+          id: applicationId,
+        },
+        data: {
+          applicationStatus: "accepted",
+        },
+      });
+      return acceptedCaregiver;
+    }),
+
+  cancelOtherApplications: protectedProcedure
+    .input(z.object({ applicationId: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { applicationId, userId } = input;
+      const canceledApplications =
+        await ctx.prisma.hC_SessionApplication.updateMany({
+          where: {
+            id: {
+              not: applicationId,
+            },
+            userId: {
+              not: userId,
+            },
+          },
+          data: {
+            applicationStatus: "canceled",
+          },
+        });
+      return canceledApplications;
+    }),
+
+  updateCareSessionStatus: protectedProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { sessionId } = input;
+
+      const updatedCareSession = await ctx.prisma.hC_CareSession.update({
+        where: {
+          id: sessionId,
+        },
+        data: {
+          status: "scheduled",
+        },
+      });
+      return updatedCareSession;
+    }),
 });

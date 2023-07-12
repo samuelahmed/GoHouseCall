@@ -3,6 +3,7 @@ import { z } from "zod";
 export const sessionSchemaCaregiver = z.object({
   id: z.string(),
   sessionType: z.string().nullable(),
+  title: z.string().nullable(),
   description: z.string().nullable(),
   applicationStatus: z.string().nullable(),
   city: z.string().nullable(),

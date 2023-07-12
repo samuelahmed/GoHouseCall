@@ -18,6 +18,10 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
       sessionId: sessionId,
     });
 
+    const acceptCaregiver = api.careSessionAPI.acceptCaregiver.useMutation({});
+    const cancelOtherApplications = api.careSessionAPI.cancelOtherApplications.useMutation({});
+    const updateCareSessionStatus = api.careSessionAPI.updateCareSessionStatus.useMutation({});
+
   return (
     <div className="max-h-96 overflow-auto rounded-md border ">
       <Table>
@@ -67,7 +71,24 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                   >
                     Message
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    onClick={() => {
+                      acceptCaregiver.mutate({
+                        applicationId: sessionApplicant.id,
+                        userId: sessionApplicant.userId as string,
+                      });
+                      cancelOtherApplications.mutate({
+                        applicationId: sessionApplicant.id,
+                        userId: sessionApplicant.userId as string,
+                      });
+                      updateCareSessionStatus.mutate({
+                        sessionId: sessionId,
+                      });
+                    }}
+
+                    variant="outline"
+                    size="sm"
+                  >
                     Accept
                   </Button>
                 </TableCell>
