@@ -10,6 +10,18 @@ import {
 import { Button } from "../ui/button";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alertDialog";
+import { toast } from "../ui/useToast";
 
 export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
   const router = useRouter();
@@ -18,9 +30,11 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
       sessionId: sessionId,
     });
 
-    const acceptCaregiver = api.careSessionAPI.acceptCaregiver.useMutation({});
-    const cancelOtherApplications = api.careSessionAPI.cancelOtherApplications.useMutation({});
-    const updateCareSessionStatus = api.careSessionAPI.updateCareSessionStatus.useMutation({});
+  const acceptCaregiver = api.careSessionAPI.acceptCaregiver.useMutation({});
+  const cancelOtherApplications =
+    api.careSessionAPI.cancelOtherApplications.useMutation({});
+  const updateCareSessionStatus =
+    api.careSessionAPI.updateCareSessionStatus.useMutation({});
 
   return (
     <div className="max-h-96 overflow-auto rounded-md border ">
@@ -71,30 +85,48 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                   >
                     Message
                   </Button>
-
-
-                  
-                  
-                  <Button
-                    onClick={() => {
-                      acceptCaregiver.mutate({
-                        applicationId: sessionApplicant.id,
-                        userId: sessionApplicant.userId as string,
-                      });
-                      cancelOtherApplications.mutate({
-                        applicationId: sessionApplicant.id,
-                        userId: sessionApplicant.userId as string,
-                      });
-                      updateCareSessionStatus.mutate({
-                        sessionId: sessionId,
-                      });
-                    }}
-
-                    variant="outline"
-                    size="sm"
-                  >
-                    Accept
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button size="sm" variant="outline">
+                        Hire
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          To hire this caregiver you will pay the session cost,
+                          the session will be scheduled, and the caregiver will
+                          be notified.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => {
+                            acceptCaregiver.mutate({
+                              applicationId: sessionApplicant.id,
+                              userId: sessionApplicant.userId as string,
+                            });
+                            cancelOtherApplications.mutate({
+                              applicationId: sessionApplicant.id,
+                              userId: sessionApplicant.userId as string,
+                            });
+                            updateCareSessionStatus.mutate({
+                              sessionId: sessionId,
+                            });
+                            toast({
+                              description: "Session canceled",
+                              duration: 5000,
+                            });
+                            router.reload();
+                          }}
+                        >
+                          Hire
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}
