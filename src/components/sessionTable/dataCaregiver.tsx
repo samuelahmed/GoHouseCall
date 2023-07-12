@@ -30,8 +30,8 @@ export const applicationStatus = [
     label: "Pending",
   },
   {
-    value: "cancelled",
-    label: "Cancelled",
+    value: "canceled",
+    label: "Canceled",
   },
   {
     value: "completed",

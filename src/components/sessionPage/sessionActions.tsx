@@ -47,7 +47,7 @@ export default function SessionActions({
       {/* only shown in user is a patient and the session belongs to them */}
       {userType === "patient" && userId === sessionUserId && (
         <>
-          {sessionStatus === "cancelled" && (
+          {sessionStatus === "canceled" && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline">Reactivate Session</Button>
@@ -80,7 +80,7 @@ export default function SessionActions({
               </AlertDialogContent>
             </AlertDialog>
           )}
-          {sessionStatus !== "cancelled" && (
+          {sessionStatus !== "canceled" && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline">Cancel Session</Button>
@@ -101,7 +101,7 @@ export default function SessionActions({
                         userId: userId,
                       });
                       toast({
-                        description: "Session cancelled",
+                        description: "Session canceled",
                         duration: 5000,
                       });
                       router.reload();
