@@ -21,6 +21,18 @@ export default function SessionsExport() {
           </Button>
         </div>
       )}
+            {user?.type === "caregiver" && (
+        <div className="flex items-center justify-between px-5 py-4">
+          <Button
+            variant="outline"
+            onClick={() => {
+              console.log(router.push("/appliedSessions"));
+            }}
+          >
+            Applied Sessions
+          </Button>
+        </div>
+      )}
 
       <SessionsTableMain />
     </>
