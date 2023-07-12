@@ -71,6 +71,10 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                   >
                     Message
                   </Button>
+
+
+                  
+                  
                   <Button
                     onClick={() => {
                       acceptCaregiver.mutate({

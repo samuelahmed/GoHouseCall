@@ -56,9 +56,9 @@ export function CaregiverInfo({
           >
             Message
           </Button>
-          <Button variant="outline" size="sm" className="mt-4">
+          {/* <Button variant="outline" size="sm" className="mt-4">
             Request Caregiver
-          </Button>
+          </Button> */}
         </div>
       </div>
     </>
