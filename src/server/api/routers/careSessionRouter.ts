@@ -135,6 +135,7 @@ export const careSessionRouter = createTRPCRouter({
       select: {
         id: true,
         sessionType: true,
+        title: true,
         description: true,
         status: true,
         city: true,
@@ -206,6 +207,7 @@ export const careSessionRouter = createTRPCRouter({
         select: {
           id: true,
           sessionType: true,
+          title: true,
           description: true,
           status: true,
           city: true,
