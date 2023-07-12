@@ -1,10 +1,10 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { sessiontypes, statuses } from "./data";
+import { sessiontypes, applicationStatus } from "./dataCaregiver";
 import { type sessionSchemaCaregiver } from "./sessionSchemaCaregiver";
 import { DataTableColumnHeader } from "./dataTableColumnHeader";
 import { DataTableRowActions } from "./dataTableRowActions";
 
-export const columns: ColumnDef<sessionSchemaCaregiver>[] = [
+export const columnsCaregiver: ColumnDef<sessionSchemaCaregiver>[] = [
   //this is only here to get the id of the session
   //it is not displayed on the table
   //it does create a like 5 px wide invisible column
@@ -46,10 +46,10 @@ export const columns: ColumnDef<sessionSchemaCaregiver>[] = [
   {
     accessorKey: "applicationStatus",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="applicationStatus" />
+      <DataTableColumnHeader column={column} title="Application Status" />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
+      const status = applicationStatus.find(
         (status) => status.value === row.getValue("applicationStatus")
       );
 

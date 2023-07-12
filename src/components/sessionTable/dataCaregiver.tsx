@@ -24,21 +24,18 @@ export const sessiontypes = [
 ];
 
 export const applicationStatus = [
+
   {
-    value: "new",
-    label: "New",
-  },
-  {
-    value: "applied",
-    label: "Applied",
-  },
-  {
-    value: "completed",
-    label: "Completed",
+    value: "pending",
+    label: "Pending",
   },
   {
     value: "cancelled",
     label: "Cancelled",
+  },
+  {
+    value: "completed",
+    label: "Completed",
   },
 ];
 
