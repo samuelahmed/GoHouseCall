@@ -147,6 +147,54 @@ export const careSessionRouter = createTRPCRouter({
     return allCareSessions;
   }),
 
+  getAllCareSessionsCaregiver: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { userId } = input;
+      const sessionApplications =
+        await ctx.prisma.hC_SessionApplication.findMany({
+          where: {
+            userId: userId,
+          },
+        });
+
+      if (sessionApplications.length === 0) {
+        throw new Error("No care sessions found");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-return
+      const sessionIds = sessionApplications.map(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        (app: { careSessionId: any }) => app.careSessionId
+      );
+
+      const allCareSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          id: {
+            in: sessionIds,
+          },
+        },
+      });
+
+      // Map the applicationStatus to each corresponding care session
+      const careSessionsWithApplicationStatus = allCareSessions.map(
+        (careSession) => {
+          const correspondingApplication = sessionApplications.find(
+            (app) => app.careSessionId === careSession.id
+          );
+          if (!correspondingApplication)
+            throw new Error("No corresponding application found");
+
+          return {
+            ...careSession,
+            applicationStatus: correspondingApplication.applicationStatus,
+          };
+        }
+      );
+
+      return careSessionsWithApplicationStatus;
+    }),
+
   getCareSessionsByUserId: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -169,20 +217,6 @@ export const careSessionRouter = createTRPCRouter({
       });
       return careSessions;
     }),
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   getCareSessionById: protectedProcedure
     .input(z.object({ id: z.string() }))
