@@ -14,14 +14,15 @@ interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
     name: string;
     id: string;
+    patientId: string;
+    caregiverId: string;
     pusherChannelName: string;
   };
 }
 
-//use this to somehow validate the message to be at least size of 1
 const Messages = z.object({
   id: z.string(),
-  content: z.string(),
+  content: z.string().nonempty(),
   senderId: z.string(),
 });
 
@@ -39,7 +40,37 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   );
 
+  //WHY IS THIS BACKWARDS
+  let friendId = "";
+
+  if (currentUser?.id === passSelectedUser.patientId) {
+    friendId = passSelectedUser.caregiverId;
+  } else if (currentUser?.id === passSelectedUser.caregiverId) {
+    friendId = passSelectedUser.patientId;
+  } else {
+    console.log("not patient or caregiver");
+  }
+
+
+  //check user is patient or caregiver
+
   const userImg = currentUser?.image || "";
+
+  const friendImg = api.messagesAPI.getUserImage.useQuery({
+    userId: friendId,
+  });
+
+  const friendName = api.messagesAPI.getUserName.useQuery({
+    userId: friendId,
+  });
+
+
+
+  // console.log(friendId)
+  console.log(friendImg.data?.image);
+  // const friendId = passSelectedUser.caregiverId || passSelectedUser.patientId;
+  // const friendImg = api.messagesAPI.getUserImage.useQuery();
+
 
   useEffect(() => {
     if (readMessages) {
@@ -47,16 +78,14 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   }, [readMessages]);
 
-  
   useEffect(() => {
     const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
     pusherClient.subscribe(passSelectedUser.pusherChannelName);
-    //sends message to pusher server i think
-    //seeems to still travel if i comment this out
-    const messageHandler = (message: Messages) => {
+
+    const messageHandler = () => {
       setMessages((prev) => [
         ...prev,
         {
@@ -71,8 +100,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
       pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
       pusherClient.unbind("my-event", messageHandler);
     };
-  }, [passSelectedUser.pusherChannelName]);
-
+  }, []);
 
   const sendMessage = () => {
     //sets it in the state right away
@@ -92,70 +120,59 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     setInput("");
   };
 
-  //shots page to the bottom and scrolls down messages 
-  const scrollDownRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (scrollDownRef.current) {
-      scrollDownRef.current.scrollIntoView({});
-    }
-  });
-
   return (
     <>
       <div className="flex flex-col">
         <div className="flex flex-row">
           <div className="w-full pr-2">
-            {/* get selected 'contact' from contact nav  */}
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
-                {passSelectedUser.name}
+                {friendName?.data?.name}
               </CardTitle>
             </Card>
 
             <Card className="min-h-65vh w-full rounded-none border border-t-0 py-4">
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
-                  {messages?.map((message) => {
-                    return (
-                      <>
-                        {message.senderId === currentUser?.id && (
-                          <div
-                            className="flex flex-row-reverse items-center justify-start space-y-2 text-end "
-                            key={message.id}
-                          >
-                            <div ref={scrollDownRef} />
+                  {passSelectedUser.pusherChannelName && (
+                    <>
+                      {messages?.map((message) => {
+                        return (
+                          <>
+                            {message.senderId === currentUser?.id && (
+                              <div
+                                className="flex flex-row-reverse items-center justify-start space-y-2 text-end "
+                                key={message.id}
+                              >
+                                <Avatar className="mx-1 mt-1">
+                                  <AvatarImage src={userImg} />
+                                  <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                                <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
+                                  <div>{message.content}</div>
+                                </div>
+                              </div>
+                            )}
 
-                            <Avatar className="mx-1 mt-1">
-                              <AvatarImage src={userImg} />
-                              <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                            {/* //replace overflow with thicker text box */}
-                            <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
-                              <div>{message.content}</div>
-                            </div>
-                          </div>
-                        )}
-
-                        {message.senderId !== currentUser?.id && (
-                          <div
-                            className="flex flex-row items-center justify-start space-y-2  text-start "
-                            key={message.id}
-                          >
-                            <div ref={scrollDownRef} />
-
-                            <Avatar className="mx-1 mt-1">
-                              <AvatarImage src={userImg} />
-                              <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                            {/* //replace overflow with thicker text box */}
-                            <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
-                              <div>{message.content}</div>
-                            </div>
-                          </div>
-                        )}
-                      </>
-                    );
-                  })}
+                            {message.senderId !== currentUser?.id && (
+                              <div
+                                className="flex flex-row items-center justify-start space-y-2  text-start "
+                                key={message.id}
+                              >
+                                <Avatar className="mx-1 mt-1">
+                                  <AvatarImage src={friendImg.data?.image || ""} />
+                                  <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                                <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
+                                  <div>{message.content}</div>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
                 </div>
               </CardContent>
             </Card>

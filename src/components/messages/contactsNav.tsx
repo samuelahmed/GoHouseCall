@@ -5,19 +5,20 @@ import { Button } from "../ui/button";
 import { api } from "~/utils/api";
 
 export function ContactsNav() {
+
   const { data: me } = api.messagesAPI.me.useQuery();
   const { data: friendList } = api.messagesAPI.getFriends.useQuery();
 
   const [selectedUser, setSelectedUser] = useState({
     name: "",
     id: "",
+    patientId: "",
+    caregiverId: "",
     pusherChannelName: "",
-    // channelId: "",
   });
 
-  // console.log(selectedUser)
-
   const [state, setState] = useState(0);
+
 
   return (
     <>
@@ -34,6 +35,9 @@ export function ContactsNav() {
                   setSelectedUser({
                     name: friendList.caregiverName || "",
                     id: friendList.id || "",
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    patientId: friendList.patientId || "",
+                    caregiverId: friendList.caregiverId || "",
                     pusherChannelName: friendList.pusherChannelName || "",
                   })
                 }
@@ -52,7 +56,7 @@ export function ContactsNav() {
                       setState(index);
                     }}
                   >
-                    {me && me.type === "caregiver"
+                    {me?.type === "caregiver"
                       ? friendList.patientName
                       : friendList.caregiverName}
                   </Button>

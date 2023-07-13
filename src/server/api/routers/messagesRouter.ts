@@ -33,7 +33,7 @@ export const messagesRouter = createTRPCRouter({
       const { userId } = input;
       const user = await ctx.prisma.hC_Account.findUnique({
         where: {
-          userId: userId,
+          id: userId,
         },
         select: {
           image: true,
@@ -42,43 +42,59 @@ export const messagesRouter = createTRPCRouter({
       return user;
     }),
 
+    getUserName: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { userId } = input;
+      const user = await ctx.prisma.hC_Account.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          name: true,
+        },
+      });
+      return user;
+    }),
+    
+
+    
   //Add to friend_list
   createNewFriend: protectedProcedure
     .input(
       z.object({
         caregiverId: z.string(),
-        patientId: z.string(),
+        // patientId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
-        where: {
-          id: ctx.session.user.id,
-        },
-      });
-      if (!user) {
-        throw new Error("User not found");
-      }
+
+      const { caregiverId } = input;
+
       const existingChannel = await ctx.prisma.hC_FriendList.findFirst({
         where: {
-          pusherChannelName: `${input.patientId}-${input.caregiverId}`,
+          pusherChannelName: `${ctx.session.user.id}-${caregiverId}`,
         },
       });
+
       if (existingChannel) {
         throw new Error("Channel already exists");
       }
 
-      const { patientId, caregiverId } = input;
-      const createFriendList = await ctx.prisma.hC_FriendList.create({
+      const createFriendListItem = await ctx.prisma.hC_FriendList.create({
         data: {
-          userId: user.id,
+          userId: ctx.session.user.id,
           caregiverId: caregiverId,
-          patientId: patientId,
-          pusherChannelName: `${input.patientId}-${input.caregiverId}`,
+          patientId: ctx.session.user.id,
+          pusherChannelName: `${ctx.session.user.id}-${caregiverId}`,
         },
 
       });
-      return createFriendList;
+      return createFriendListItem;
     }),
 
 
@@ -120,6 +136,8 @@ export const messagesRouter = createTRPCRouter({
           id: caregiver?.userId,
           caregiverName: caregiver?.name,
           patientName: patient?.name,
+          caregiverId: caregiver?.id,
+          patientId: patient?.id,
           pusherChannelName: friend.pusherChannelName,
         };
       })
