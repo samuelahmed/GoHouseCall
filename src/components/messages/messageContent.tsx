@@ -48,9 +48,8 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   } else if (currentUser?.id === passSelectedUser.caregiverId) {
     friendId = passSelectedUser.patientId;
   } else {
-    console.log("not patient or caregiver");
+    // console.log("not patient or caregiver");
   }
-
 
   //check user is patient or caregiver
 
@@ -64,25 +63,17 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     userId: friendId,
   });
 
-
-
-  // console.log(friendId)
-  console.log(friendImg.data?.image);
-  // const friendId = passSelectedUser.caregiverId || passSelectedUser.patientId;
-  // const friendImg = api.messagesAPI.getUserImage.useQuery();
-
-
   useEffect(() => {
     if (readMessages) {
       setMessages(readMessages);
     }
   }, [readMessages]);
 
-  useEffect(() => {
-    const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
-      cluster: "us3",
-    });
+  const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
+    cluster: "us3",
+  });
 
+  useEffect(() => {
     pusherClient.subscribe(passSelectedUser.pusherChannelName);
 
     const messageHandler = () => {
@@ -95,12 +86,15 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
         },
       ]);
     };
+
     pusherClient.bind("my-event", messageHandler);
+
+    // console.log("connected");
     return () => {
       pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
       pusherClient.unbind("my-event", messageHandler);
     };
-  }, []);
+  }, [passSelectedUser.pusherChannelName]);
 
   const sendMessage = () => {
     //sets it in the state right away
@@ -112,6 +106,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
         id: new Date().toISOString(),
       },
     ]);
+
     mutate({
       receiverId: passSelectedUser.id,
       pusherChannelName: passSelectedUser.pusherChannelName,
@@ -160,7 +155,9 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                                 key={message.id}
                               >
                                 <Avatar className="mx-1 mt-1">
-                                  <AvatarImage src={friendImg.data?.image || ""} />
+                                  <AvatarImage
+                                    src={friendImg.data?.image || ""}
+                                  />
                                   <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                                 <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
