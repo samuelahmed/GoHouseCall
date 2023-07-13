@@ -36,6 +36,8 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
   const updateCareSessionStatus =
     api.careSessionAPI.updateCareSessionStatus.useMutation({});
 
+  const createNewFriend = api.messagesAPI.createNewFriend.useMutation({});
+
   return (
     <div className="max-h-96 overflow-auto rounded-md border ">
       <Table>
@@ -79,7 +81,22 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      void router.push("/messages");
+                      console.log(sessionApplicant);
+                      createNewFriend.mutate({
+                        // patientId: sessionApplicant.userId
+                        caregiverId: sessionApplicant.userId as string,
+                      });
+                    
+                      //can add channel name here /messages/${pusherChannelName}
+                      void router.push("/messages")
+                    
+                      //how to pass the selected user to the contact nav when coming from the session page
+                      //how to set the state of the contact nav to the selected user
+
+
+
+
+
                     }}
                     size="sm"
                   >
