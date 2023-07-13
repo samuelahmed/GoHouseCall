@@ -23,6 +23,7 @@ const CareSession: NextPage = () => {
     (currentSession?.zip || "");
 
   const { data: currentUser } = api.userAPI.currentUser.useQuery();
+
   const currentUserType = currentUser?.type;
 
   return (
@@ -38,8 +39,10 @@ const CareSession: NextPage = () => {
         <div className="flex flex-col md:flex-row">
           <div className="w-full">
             <div className="space-y-0.5">
-              <h2 className="text-center text-2xl font-semibold tracking-tight ">
-                {currentSession?.sessionType}:
+              <h2 className="text-center text-2xl font-semibold tracking-tight">
+                <span className="capitalize">
+                  {currentSession?.sessionType}:
+                </span>
                 <span className=""> {currentSession?.title}</span>
               </h2>
             </div>
