@@ -69,6 +69,15 @@ export const columns: ColumnDef<SessionSchema>[] = [
     },
   },
   {
+    accessorKey: "title",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Title" />
+    ),
+    cell: ({ row }) => <div className="w-[150px]">{row.getValue("title")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+  },
+  {
     accessorKey: "description",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Description" />

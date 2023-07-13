@@ -91,15 +91,15 @@ export const careSessionRouter = createTRPCRouter({
       if (findCareSession?.userId !== userId) {
         throw new Error("You are not authorized to cancel this care session");
       }
-      const cancelledCareSession = await ctx.prisma.hC_CareSession.update({
+      const canceledCareSession = await ctx.prisma.hC_CareSession.update({
         where: {
           id: id,
         },
         data: {
-          status: "cancelled",
+          status: "canceled",
         },
       });
-      return cancelledCareSession;
+      return canceledCareSession;
     }),
 
   activateCareSession: protectedProcedure
@@ -135,6 +135,7 @@ export const careSessionRouter = createTRPCRouter({
       select: {
         id: true,
         sessionType: true,
+        title: true,
         description: true,
         status: true,
         city: true,
@@ -206,6 +207,7 @@ export const careSessionRouter = createTRPCRouter({
         select: {
           id: true,
           sessionType: true,
+          title: true,
           description: true,
           status: true,
           city: true,
@@ -244,7 +246,7 @@ export const careSessionRouter = createTRPCRouter({
 
       if (
         findSessionApplication &&
-        findSessionApplication.applicationStatus === "cancelled"
+        findSessionApplication.applicationStatus === "canceled"
       ) {
         const newSessionApplication =
           await ctx.prisma.hC_SessionApplication.update({
@@ -287,16 +289,16 @@ export const careSessionRouter = createTRPCRouter({
         throw new Error("You have not applied to this care session");
       }
 
-      const cancelledSessionApplication =
+      const canceledSessionApplication =
         await ctx.prisma.hC_SessionApplication.update({
           where: {
             id: findSessionApplication.id,
           },
           data: {
-            applicationStatus: "cancelled",
+            applicationStatus: "canceled",
           },
         });
-      return cancelledSessionApplication;
+      return canceledSessionApplication;
     }),
 
   hasCaregiverApplied: protectedProcedure
@@ -352,5 +354,57 @@ export const careSessionRouter = createTRPCRouter({
         }
       );
       return sessionApplicationsWithUsers;
+    }),
+
+  acceptCaregiver: protectedProcedure
+    .input(z.object({ applicationId: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { applicationId, userId } = input;
+      const acceptedCaregiver = await ctx.prisma.hC_SessionApplication.update({
+        where: {
+          id: applicationId,
+        },
+        data: {
+          applicationStatus: "accepted",
+        },
+      });
+      return acceptedCaregiver;
+    }),
+
+  cancelOtherApplications: protectedProcedure
+    .input(z.object({ applicationId: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { applicationId, userId } = input;
+      const canceledApplications =
+        await ctx.prisma.hC_SessionApplication.updateMany({
+          where: {
+            id: {
+              not: applicationId,
+            },
+            userId: {
+              not: userId,
+            },
+          },
+          data: {
+            applicationStatus: "canceled",
+          },
+        });
+      return canceledApplications;
+    }),
+
+  updateCareSessionStatus: protectedProcedure
+    .input(z.object({ sessionId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { sessionId } = input;
+
+      const updatedCareSession = await ctx.prisma.hC_CareSession.update({
+        where: {
+          id: sessionId,
+        },
+        data: {
+          status: "scheduled",
+        },
+      });
+      return updatedCareSession;
     }),
 });
