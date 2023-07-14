@@ -71,18 +71,18 @@ export function MessageContent() {
 
     pusherChannel.bind("my-event", function (data: Messages) {
       console.log(data);
-      setAllMessagesForChannel(
-        (prev) =>
-          [
-            ...prev,
-            {
-              id: data.id,
-              content: input,
-              senderId: currentUser?.id as string,
-              receiverId: contactId,
-            },
-          ] as Messages[]
-      );
+      // setAllMessagesForChannel(
+      //   (prev) =>
+      //     [
+      //       ...prev,
+      //       {
+      //         // id: data.id,
+      //         content: input,
+      //         senderId: currentUser?.id as string,
+      //         receiverId: contactId,
+      //       },
+      //     ] as Messages[]
+      // );
     });
 
     return () => {
