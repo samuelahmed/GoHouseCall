@@ -40,10 +40,34 @@ export const messagesRouter = createTRPCRouter({
         ],
       },
     });
-    return allContacts;
+    const allContactsForUserWithNames = await Promise.all(
+      allContacts.map(async (contact) => {
+        const caregiver = await ctx.prisma.hC_Account.findUnique({
+          where: {
+            userId: contact.caregiverId || undefined,
+          },
+        });
+        const patient = await ctx.prisma.hC_Account.findUnique({
+          where: {
+            userId: contact.patientId || undefined,
+          },
+        });
+        return {
+          id: caregiver?.userId,
+          caregiverName: caregiver?.name,
+          patientName: patient?.name,
+          caregiverId: caregiver?.id,
+          patientId: patient?.id,
+
+          pusherChannelName: contact.pusherChannelName,
+        };
+      })
+    );
+    return allContactsForUserWithNames;
   }),
 
-  
+
+
 
 
 

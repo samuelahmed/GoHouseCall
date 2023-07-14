@@ -53,8 +53,8 @@ export function ContactsNav() {
                     }}
                   >
                     {me?.type === "caregiver"
-                      ? contact.patientId
-                      : contact.caregiverId
+                      ? contact.patientName
+                      : contact.caregiverName
                       }
                   </Button>
                 </Card>
