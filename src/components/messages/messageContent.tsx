@@ -31,7 +31,6 @@ type Messages = z.infer<typeof Messages>;
 export function MessageContent({ passSelectedUser }: ContactsNavProps) {
   const [input, setInput] = useState<string>("");
   const [messages, setMessages] = useState<Messages[]>([]);
-
   const { data: currentUser } = api.messagesAPI.me.useQuery();
   const { mutate } = api.messagesAPI.createMessage.useMutation();
   const { data: readMessages } = api.messagesAPI.readMessagesByChannel.useQuery(
@@ -40,28 +39,21 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   );
 
-  //WHY IS THIS BACKWARDS
   let friendId = "";
-
   if (currentUser?.id === passSelectedUser.patientId) {
     friendId = passSelectedUser.caregiverId;
   } else if (currentUser?.id === passSelectedUser.caregiverId) {
     friendId = passSelectedUser.patientId;
-  } else {
-    // console.log("not patient or caregiver");
   }
 
-  //check user is patient or caregiver
-
   const userImg = currentUser?.image || "";
-
   const friendImg = api.messagesAPI.getUserImage.useQuery({
     userId: friendId,
   });
-
   const friendName = api.messagesAPI.getUserName.useQuery({
     userId: friendId,
   });
+
 
   useEffect(() => {
     if (readMessages) {
@@ -69,13 +61,19 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     }
   }, [readMessages]);
 
+
+
+
+
   const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
     cluster: "us3",
   });
 
+
+
+
   useEffect(() => {
     pusherClient.subscribe(passSelectedUser.pusherChannelName);
-
     const messageHandler = () => {
       setMessages((prev) => [
         ...prev,
@@ -86,15 +84,16 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
         },
       ]);
     };
-
     pusherClient.bind("my-event", messageHandler);
-
     // console.log("connected");
     return () => {
       pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
       pusherClient.unbind("my-event", messageHandler);
     };
   }, [passSelectedUser.pusherChannelName]);
+
+
+
 
   const sendMessage = () => {
     //sets it in the state right away
@@ -114,6 +113,14 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
     });
     setInput("");
   };
+
+
+
+
+
+
+
+
 
   return (
     <>
