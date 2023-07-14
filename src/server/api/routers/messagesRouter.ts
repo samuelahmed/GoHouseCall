@@ -52,7 +52,7 @@ export const messagesRouter = createTRPCRouter({
           },
         });
         return {
-          id: caregiver?.userId,
+          id: contact.id,
           caregiverName: caregiver?.name,
           patientName: patient?.name,
           caregiverId: caregiver?.id,

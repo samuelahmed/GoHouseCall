@@ -11,6 +11,8 @@ export function ContactsNav() {
     api.messagesAPI.allContactsForUser.useQuery();
   const { data: me } = api.messagesAPI.me.useQuery();
 
+  console.log(currentMessages)
+
   const router = useRouter();
   const [selectedUserBgColor, setSelectedUserBgColor] = useState(0);
 
