@@ -13,9 +13,6 @@ const Messages = z.object({
   content: z.string().nonempty(),
   senderId: z.string(),
   receiverId: z.string(),
-  // createdAt: z.string(),
-  // updatedAt: z.string(),
-  // pusherChannelName: z.string(),
 });
 type Messages = z.infer<typeof Messages>;
 
@@ -33,13 +30,16 @@ export function MessageContent() {
     api.messagesAPI.getContactChannelInfo.useQuery({
       channelName: id as string,
     });
+
   const caregiverId = currentChannel?.caregiverId;
   const patientId = currentChannel?.patientId;
+
   let contactId = "";
-  if (caregiverId !== currentUser?.id) {
-    contactId = caregiverId as string;
-  } else {
+
+  if (caregiverId === currentUser?.userId) {
     contactId = patientId as string;
+  } else if (patientId === currentUser?.userId) {
+    contactId = caregiverId as string;
   }
   const { data: contactInfo } = api.messagesAPI.getContactInfo.useQuery({
     userId: contactId,
@@ -71,21 +71,18 @@ export function MessageContent() {
 
     pusherChannel.bind("my-event", function (data: Messages) {
       console.log(data);
-      setAllMessagesForChannel(
-        (prev) =>
-          [
-            ...prev,
-            {
-              id: data.id,
-              content: input,
-              senderId: currentUser?.id as string,
-              receiverId: contactId,
-            },
-          ] as Messages[]
-      );
-      // setAllMessagesForChannel((prev) => {
-      //   return [...prev, data as Messages];
-      // });
+      // setAllMessagesForChannel(
+      //   (prev) =>
+      //     [
+      //       ...prev,
+      //       {
+      //         // id: data.id,
+      //         content: input,
+      //         senderId: currentUser?.id as string,
+      //         receiverId: contactId,
+      //       },
+      //     ] as Messages[]
+      // );
     });
 
     return () => {
@@ -131,7 +128,6 @@ export function MessageContent() {
             <Card className="min-h-65vh w-full rounded-none border border-t-0 py-4">
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
-                  {/* {readMessages.pusherChannelName && ( */}
                   <>
                     {allMessagesForChannel.map((message) => {
                       return (
@@ -144,12 +140,9 @@ export function MessageContent() {
                               </Avatar>
                               <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
                                 <div>{message.content}</div>
-
-                                {/* <div>{allMessagesForChannel}</div> */}
                               </div>
                             </div>
                           )}
-
                           {message.senderId !== currentUser?.id && (
                             <div className="flex flex-row items-center justify-start space-y-2  text-start ">
                               <Avatar className="mx-1 mt-1">
@@ -165,7 +158,6 @@ export function MessageContent() {
                       );
                     })}
                   </>
-                  {/* )} */}
                 </div>
               </CardContent>
             </Card>
