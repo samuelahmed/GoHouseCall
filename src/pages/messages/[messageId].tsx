@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { ContactsNav } from "~/components/messages/contactsNav";
-import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
 export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/messages");
@@ -11,8 +10,7 @@ export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/messages")
 
 const Messages: NextPage = () => {
 
-  const router = useRouter();
-  const id = router.query.profileId;
+
 
   //id = room id
   //check to make sure user is allowed to access this page
@@ -39,6 +37,7 @@ const Messages: NextPage = () => {
 
       <div className="h-screen">
         <ContactsNav
+
           // me={me}
           // friendList={currentMessages}
         

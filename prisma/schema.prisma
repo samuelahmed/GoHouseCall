@@ -70,6 +70,7 @@ model VerificationToken {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([identifier, token])
+    @@index([userId])
 }
 
 //END ONLY FOR AUTHENTICATION & SESSIONS

@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
 import { z } from "zod";
+import { useRouter } from "next/router";
+
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
@@ -26,9 +28,16 @@ const Messages = z.object({
 
 type Messages = z.infer<typeof Messages>;
 
-
 export function MessageContent() {
   // { passSelectedUser }: ContactsNavProps
+
+
+  const router = useRouter();
+  const id = router.query.messageId
+
+  console.log(id)
+
+
 
   const passSelectedUser = {
     name: "test",
@@ -38,100 +47,45 @@ export function MessageContent() {
     pusherChannelName: "test",
   };
 
-
-
   const [input, setInput] = useState<string>("");
-  const [messages, setMessages] = useState<Messages[]>([]);
+  // const [messages, setMessages] = useState<Messages[]>([]);
+
   const { data: currentUser } = api.messagesAPI.me.useQuery();
-  const { mutate } = api.messagesAPI.createMessage.useMutation();
+  // const { mutate } = api.messagesAPI.createMessage.useMutation();
+
   const { data: readMessages } = api.messagesAPI.readMessagesByChannel.useQuery(
     {
-      channelName: passSelectedUser.pusherChannelName,
+      channelName: id as string,
     }
   );
 
-  let friendId = "";
-  if (currentUser?.id === passSelectedUser.patientId) {
-    friendId = passSelectedUser.caregiverId;
-  } else if (currentUser?.id === passSelectedUser.caregiverId) {
-    friendId = passSelectedUser.patientId;
-  }
-
-  const userImg = currentUser?.image || "";
-  const friendImg = api.messagesAPI.getUserImage.useQuery({
-    userId: friendId,
-  });
-  const friendName = api.messagesAPI.getUserName.useQuery({
-    userId: friendId,
-  });
-
-
-  useEffect(() => {
-    if (readMessages) {
-      setMessages(readMessages);
-    }
-  }, [readMessages]);
-
-
-
-
-
-  const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
-    cluster: "us3",
-  });
-
-
-
+  // console.log(readMessages)
 
   // useEffect(() => {
-  //   pusherClient.subscribe(passSelectedUser.pusherChannelName);
-  //   const messageHandler = () => {
-  //     setMessages((prev) => [
-  //       ...prev,
-  //       {
-  //         content: input,
-  //         senderId: currentUser?.id || "",
-  //         id: new Date().toISOString(),
-  //       },
-  //     ]);
-  //   };
-  //   pusherClient.bind("my-event", messageHandler);
-  //   // console.log("connected");
-  //   return () => {
-  //     pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
-  //     pusherClient.unbind("my-event", messageHandler);
-  //   };
-  // }, [passSelectedUser.pusherChannelName]);
+  //   if (readMessages) {
+  //     setMessages(readMessages);
+  //   }
+  // }, [readMessages]);
 
 
 
+  // const sendMessage = () => {
+  //   setMessages((prev) => [
+  //     ...prev,
+  //     {
+  //       content: input,
+  //       senderId: currentUser?.id || "",
+  //       id: new Date().toISOString(),
+  //     },
+  //   ]);
 
-  const sendMessage = () => {
-    //sets it in the state right away
-    setMessages((prev) => [
-      ...prev,
-      {
-        content: input,
-        senderId: currentUser?.id || "",
-        id: new Date().toISOString(),
-      },
-    ]);
-
-    mutate({
-      receiverId: passSelectedUser.id,
-      pusherChannelName: passSelectedUser.pusherChannelName,
-      content: input,
-    });
-    setInput("");
-  };
-
-
-
-
-
-
-
-
+  //   mutate({
+  //     receiverId: passSelectedUser.id,
+  //     pusherChannelName: passSelectedUser.pusherChannelName,
+  //     content: input,
+  //   });
+  //   setInput("");
+  // };
 
   return (
     <>
@@ -140,7 +94,7 @@ export function MessageContent() {
           <div className="w-full pr-2">
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
-                {friendName?.data?.name}
+                {/* {friendName?.data?.name} */}
               </CardTitle>
             </Card>
 
@@ -149,7 +103,7 @@ export function MessageContent() {
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
                   {passSelectedUser.pusherChannelName && (
                     <>
-                      {messages?.map((message) => {
+                      {readMessages?.map((message) => {
                         return (
                           <>
                             {message.senderId === currentUser?.id && (
@@ -158,7 +112,9 @@ export function MessageContent() {
                                 key={message.id}
                               >
                                 <Avatar className="mx-1 mt-1">
-                                  <AvatarImage src={userImg} />
+                                  <AvatarImage
+                                  // src={userImg}
+                                  />
                                   <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                                 <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
@@ -174,7 +130,7 @@ export function MessageContent() {
                               >
                                 <Avatar className="mx-1 mt-1">
                                   <AvatarImage
-                                    src={friendImg.data?.image || ""}
+                                  // src={friendImg.data?.image || ""}
                                   />
                                   <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
@@ -198,7 +154,7 @@ export function MessageContent() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
-                    sendMessage();
+                    // sendMessage();
                   }
                 }}
                 onChange={(e) => {
@@ -212,7 +168,7 @@ export function MessageContent() {
               <div className="flex h-16 items-center justify-end ">
                 <Button
                   onClick={() => {
-                    sendMessage();
+                    // sendMessage();
                   }}
                   variant="outline"
                 >
