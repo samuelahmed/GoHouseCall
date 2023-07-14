@@ -13,22 +13,24 @@ const Messages = z.object({
   content: z.string().nonempty(),
   senderId: z.string(),
   receiverId: z.string(),
+  message: z.string(),
+  createdAt: z.string(),
 });
 type Messages = z.infer<typeof Messages>;
 
 export function MessageContent() {
   const router = useRouter();
-  const id = router.query.messageId;
+  const channelName = router.query.messageId;
   const [input, setInput] = useState<string>("");
   const { data: currentUser } = api.messagesAPI.me.useQuery();
   const { data: readMessages } = api.messagesAPI.readMessagesByChannel.useQuery(
     {
-      channelName: id as string,
+      channelName: channelName as string,
     }
   );
   const { data: currentChannel } =
     api.messagesAPI.getContactChannelInfo.useQuery({
-      channelName: id as string,
+      channelName: channelName as string,
     });
 
   const caregiverId = currentChannel?.caregiverId;
@@ -49,7 +51,7 @@ export function MessageContent() {
     if (!readMessages) {
       return;
     }
-    setAllMessagesForChannel(readMessages);
+    setAllMessagesForChannel(readMessages as unknown as Messages[]);
   }, [readMessages]);
 
   const [allMessagesForChannel, setAllMessagesForChannel] = useState<
@@ -58,37 +60,47 @@ export function MessageContent() {
 
   const currentChannelName = currentChannel?.pusherChannelName;
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
+  //     cluster: "us3",
+  //   });
+
+  //   if (!currentChannelName) {
+  //     return;
+  //   }
+
+  //   const pusherChannel = pusher.subscribe(`${currentChannelName}`);
+
+  //   pusherChannel.bind("my-event", function (data: Messages) {
+  //     console.log(data);
+
+  //   });
+
+  //   return () => {
+  //     pusher.unsubscribe(`${currentChannelName}`);
+  //   };
+  // }, [currentChannelName]);
+
+  const subscribeToChannel = (channelName: string) => {
     const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    if (!currentChannelName) {
-      return;
-    }
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    const channel = pusher.subscribe(`${currentChannelName}`);
 
-    const pusherChannel = pusher.subscribe(`${currentChannelName}`);
-
-    pusherChannel.bind("my-event", function (data: Messages) {
-      console.log(data);
-      // setAllMessagesForChannel(
-      //   (prev) =>
-      //     [
-      //       ...prev,
-      //       {
-      //         // id: data.id,
-      //         content: input,
-      //         senderId: currentUser?.id as string,
-      //         receiverId: contactId,
-      //       },
-      //     ] as Messages[]
-      // );
+    channel.bind("my-event", function (data: any) {
+      setAllMessagesForChannel((prev) => {
+        return [...prev, data] as Messages[];
+      });
     });
+  };
 
-    return () => {
-      pusher.unsubscribe(`${currentChannelName}`);
-    };
-  }, [currentChannelName]);
+  useEffect(() => {
+    if (channelName !== "noContactSelected") {
+      subscribeToChannel(channelName as string);
+    }
+  }, [channelName]);
 
   const sendMessage = api.messagesAPI.createMessage.useMutation();
 
@@ -114,6 +126,9 @@ export function MessageContent() {
     setInput("");
   };
 
+  console.log(allMessagesForChannel);
+
+  console.log(allMessagesForChannel.map((message) => message.message));
   return (
     <>
       <div className="flex flex-col">
@@ -131,7 +146,7 @@ export function MessageContent() {
                   <>
                     {allMessagesForChannel.map((message) => {
                       return (
-                        <div key={message.id}>
+                        <div key={message.createdAt}>
                           {message.senderId === currentUser?.id && (
                             <div className="flex flex-row-reverse items-center justify-start space-y-2 text-end ">
                               <Avatar className="mx-1 mt-1">
@@ -151,6 +166,7 @@ export function MessageContent() {
                               </Avatar>
                               <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
                                 <div>{message.content}</div>
+                                <div>{message.message}</div>
                               </div>
                             </div>
                           )}
