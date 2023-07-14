@@ -14,25 +14,35 @@ const Messages: NextPage = () => {
   const router = useRouter();
   const id = router.query.profileId;
 
-  // const { data: currentMessages } = api
+  //id = room id
+  //check to make sure user is allowed to access this page
+
+  // const { data: me } = api.messagesAPI.me.useQuery();
+  // const { data: currentMessages } = api.messagesAPI.allContactsForUser.useQuery();
 
 
-  
+  // console.log(currentMessages)
+
+  // if (!currentMessages) {
+  //   return <div>Loading...</div>;
+  // }
+
+
 
 
   return (
     <>
       <Head>
         <title>Messages</title>
-        <meta name="description" content="Edit your House Call account" />
+        <meta name="description" content="Send messages to your contacts" />
       </Head>
 
-
-
-
-
       <div className="h-screen">
-        <ContactsNav />
+        <ContactsNav
+          // me={me}
+          // friendList={currentMessages}
+        
+        />
       </div>
     </>
   );

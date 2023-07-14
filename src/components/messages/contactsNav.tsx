@@ -1,23 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState } from "react";
 import { MessageContent } from "./messageContent";
 import { Card } from "~/components/ui/card";
 import { Button } from "../ui/button";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 export function ContactsNav() {
+  // const { data: friendList } = api.messagesAPI.getFriends.useQuery();
+
+  // console.log("FRIEND LIST", friendList);
+  const { data: currentMessages } = api.messagesAPI.allContactsForUser.useQuery();
 
   const { data: me } = api.messagesAPI.me.useQuery();
-  const { data: friendList } = api.messagesAPI.getFriends.useQuery();
 
-  const [selectedUser, setSelectedUser] = useState({
-    name: "",
-    id: "",
-    patientId: "",
-    caregiverId: "",
-    pusherChannelName: "",
-  });
+  const router = useRouter();
+  const [selectedUserBgColor, setSelectedUserBgColor] = useState(0);
 
-  const [state, setState] = useState(0);
+
 
 
   return (
@@ -28,23 +28,19 @@ export function ContactsNav() {
             Chat
           </h2>
           <nav className="mx-2 mt-2 flex flex-col space-y-2">
-            {friendList?.map((friendList, index) => (
+            {currentMessages?.map((contact, index) => (
+
               <div
-                key={friendList.id}
-                onClick={() =>
-                  setSelectedUser({
-                    name: friendList.caregiverName || "",
-                    id: friendList.id || "",
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    patientId: friendList.patientId || "",
-                    caregiverId: friendList.caregiverId || "",
-                    pusherChannelName: friendList.pusherChannelName || "",
-                  })
-                }
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                key={contact.id}
+                onClick={() => {
+                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
+                 void router.push(`/messages/${contact.pusherChannelName}`);
+                }}
               >
                 <Card
                   className={
-                    state === index
+                    selectedUserBgColor === index
                       ? " h-14 w-14  bg-gray-100 md:w-44"
                       : " h-14 w-14  md:w-44"
                   }
@@ -53,12 +49,13 @@ export function ContactsNav() {
                     variant="ghost"
                     className="h-full w-full text-sm"
                     onClick={() => {
-                      setState(index);
+                      setSelectedUserBgColor(index);
                     }}
                   >
                     {me?.type === "caregiver"
-                      ? friendList.patientName
-                      : friendList.caregiverName}
+                      ? contact.patientId
+                      : contact.caregiverId
+                      }
                   </Button>
                 </Card>
               </div>
@@ -66,7 +63,9 @@ export function ContactsNav() {
           </nav>
         </aside>
         <div className="flex-1">
-          <MessageContent passSelectedUser={selectedUser} />
+          <MessageContent 
+          // passSelectedUser={selectedUser} 
+          />
         </div>
       </div>
     </>

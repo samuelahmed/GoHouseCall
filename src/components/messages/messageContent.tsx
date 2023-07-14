@@ -6,9 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import PusherClient from "pusher-js";
 import { api } from "~/utils/api";
-import { useRef } from "react";
 import { z } from "zod";
-import { set } from "date-fns";
 
 interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
   passSelectedUser: {
@@ -28,7 +26,20 @@ const Messages = z.object({
 
 type Messages = z.infer<typeof Messages>;
 
-export function MessageContent({ passSelectedUser }: ContactsNavProps) {
+
+export function MessageContent() {
+  // { passSelectedUser }: ContactsNavProps
+
+  const passSelectedUser = {
+    name: "test",
+    id: "test",
+    patientId: "test",
+    caregiverId: "test",
+    pusherChannelName: "test",
+  };
+
+
+
   const [input, setInput] = useState<string>("");
   const [messages, setMessages] = useState<Messages[]>([]);
   const { data: currentUser } = api.messagesAPI.me.useQuery();
@@ -72,25 +83,25 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
 
 
 
-  useEffect(() => {
-    pusherClient.subscribe(passSelectedUser.pusherChannelName);
-    const messageHandler = () => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          content: input,
-          senderId: currentUser?.id || "",
-          id: new Date().toISOString(),
-        },
-      ]);
-    };
-    pusherClient.bind("my-event", messageHandler);
-    // console.log("connected");
-    return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
-      pusherClient.unbind("my-event", messageHandler);
-    };
-  }, [passSelectedUser.pusherChannelName]);
+  // useEffect(() => {
+  //   pusherClient.subscribe(passSelectedUser.pusherChannelName);
+  //   const messageHandler = () => {
+  //     setMessages((prev) => [
+  //       ...prev,
+  //       {
+  //         content: input,
+  //         senderId: currentUser?.id || "",
+  //         id: new Date().toISOString(),
+  //       },
+  //     ]);
+  //   };
+  //   pusherClient.bind("my-event", messageHandler);
+  //   // console.log("connected");
+  //   return () => {
+  //     pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
+  //     pusherClient.unbind("my-event", messageHandler);
+  //   };
+  // }, [passSelectedUser.pusherChannelName]);
 
 
 

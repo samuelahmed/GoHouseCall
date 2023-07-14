@@ -45,7 +45,7 @@ model User {
     HC_Notifications      HC_Notifications[]
     verificationTokens    VerificationToken[]
     HC_Message            HC_Message[]
-    HC_FriendList         HC_FriendList[]
+    ContactList         ContactList[]
     HC_CareSession        HC_CareSession[]
     HC_SessionApplication HC_SessionApplication[]
 }
@@ -106,7 +106,7 @@ model HC_Notifications {
     // @@index([userId])
 }
 
-model HC_FriendList {
+model ContactList {
     id                String   @id @default(cuid())
     caregiverId       String?
     patientId         String?
