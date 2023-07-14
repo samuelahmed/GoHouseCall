@@ -15,7 +15,7 @@ export function Header() {
   const router = useRouter();
   return (
     <header className="">
-      <div className="flex h-14 w-full items-center  bg-blue12 px-1 md:px-4 overflow-auto">
+      <div className="flex h-14 w-full items-center  overflow-auto bg-blue12 px-1 md:px-4">
         <div
           className="flex min-w-fit items-center space-x-2 px-2 text-xl text-olive1 hover:cursor-pointer"
           onClick={() => {
@@ -23,8 +23,6 @@ export function Header() {
           }}
         >
           <text className="font-robotoSlab">Go</text>
-
-          
           <Image
             src="/faviconLarge.png"
             alt="HC Logo"
@@ -37,17 +35,17 @@ export function Header() {
         </div>
 
         <div className="flex w-full items-center  justify-center px-4 text-olive1 ">
-          <Input placeholder="Search" className="max-w-lg hidden md:block" />
+          <Input placeholder="Search" className="hidden max-w-lg md:block" />
         </div>
         <div className="min-w-fit px-2">
           <SignInOutTrigger />
         </div>
       </div>
-      <div className="flex h-12 w-full items-center justify-start border-b border-blue12 bg-blue11 px-1 md:px-4 overflow-auto">
+      <div className="flex h-12 w-full items-center justify-start overflow-auto border-b border-blue12 bg-blue11 px-1 md:px-4">
         <div className="min-w-fit text-olive1">
           <NavigationMenu>
             <NavigationMenuList>
-            <NavigationMenuItem>
+              <NavigationMenuItem>
                 <Link href="/dashboard" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Dashboard
@@ -62,7 +60,7 @@ export function Header() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/messages" legacyBehavior passHref>
+                <Link href="/messages/noContactSelected" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Messages
                   </NavigationMenuLink>

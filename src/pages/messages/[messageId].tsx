@@ -2,20 +2,24 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { ContactsNav } from "~/components/messages/contactsNav";
+import { api } from "~/utils/api";
 
 export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/messages");
 
 
 
 const Messages: NextPage = () => {
+
   return (
     <>
       <Head>
         <title>Messages</title>
-        <meta name="description" content="Edit your House Call account" />
+        <meta name="description" content="Send messages to your contacts" />
       </Head>
+
       <div className="h-screen">
-        <ContactsNav />
+        <ContactsNav
+        />
       </div>
     </>
   );

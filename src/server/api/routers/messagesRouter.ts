@@ -3,7 +3,6 @@ import { z } from "zod";
 import Pusher from "pusher";
 import { env } from "~/env.mjs";
 
-
 const pusher = new Pusher({
   appId: env.APP_ID,
   key: env.APP_KEY,
@@ -13,7 +12,7 @@ const pusher = new Pusher({
 });
 
 export const messagesRouter = createTRPCRouter({
-  //gets user info for the current user
+
   me: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.hC_Account.findUnique({
       where: {
@@ -23,7 +22,67 @@ export const messagesRouter = createTRPCRouter({
     return user;
   }),
 
-  getUserImage: protectedProcedure
+  allContactsForUser: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.hC_Account.findUnique({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const allContacts = await ctx.prisma.contactList.findMany({
+      where: {
+        OR: [
+          { caregiverId: user.userId },
+          { patientId: user.userId },
+        ],
+      },
+    });
+    const allContactsForUserWithNames = await Promise.all(
+      allContacts.map(async (contact) => {
+        const caregiver = await ctx.prisma.hC_Account.findUnique({
+          where: {
+            userId: contact.caregiverId || undefined,
+          },
+        });
+        const patient = await ctx.prisma.hC_Account.findUnique({
+          where: {
+            userId: contact.patientId || undefined,
+          },
+        });
+        return {
+          id: caregiver?.userId,
+          caregiverName: caregiver?.name,
+          patientName: patient?.name,
+          caregiverId: caregiver?.id,
+          patientId: patient?.id,
+
+          pusherChannelName: contact.pusherChannelName,
+        };
+      })
+    );
+    return allContactsForUserWithNames;
+  }),
+
+  getContactChannelInfo: protectedProcedure
+    .input(
+      z.object({
+        channelName: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { channelName } = input;
+      const channelInfo = await ctx.prisma.contactList.findUnique({
+        where: {
+          pusherChannelName: channelName,
+        },
+      });
+      return channelInfo;
+    }),
+
+
+  getContactInfo: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -33,16 +92,17 @@ export const messagesRouter = createTRPCRouter({
       const { userId } = input;
       const user = await ctx.prisma.hC_Account.findUnique({
         where: {
-          id: userId,
+          userId: userId,
         },
         select: {
           image: true,
+          name: true,
         },
       });
       return user;
     }),
 
-    getUserName: protectedProcedure
+  getUserName: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -60,9 +120,7 @@ export const messagesRouter = createTRPCRouter({
       });
       return user;
     }),
-    
 
-    
   //Add to friend_list
   createNewFriend: protectedProcedure
     .input(
@@ -72,10 +130,9 @@ export const messagesRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-
       const { caregiverId } = input;
 
-      const existingChannel = await ctx.prisma.hC_FriendList.findFirst({
+      const existingChannel = await ctx.prisma.contactList.findFirst({
         where: {
           pusherChannelName: `${ctx.session.user.id}-${caregiverId}`,
         },
@@ -85,19 +142,16 @@ export const messagesRouter = createTRPCRouter({
         throw new Error("Channel already exists");
       }
 
-      const createFriendListItem = await ctx.prisma.hC_FriendList.create({
+      const createFriendListItem = await ctx.prisma.contactList.create({
         data: {
           userId: ctx.session.user.id,
           caregiverId: caregiverId,
           patientId: ctx.session.user.id,
           pusherChannelName: `${ctx.session.user.id}-${caregiverId}`,
         },
-
       });
       return createFriendListItem;
     }),
-
-
 
   //get all friends by name
   getFriends: protectedProcedure.query(async ({ ctx }) => {
@@ -111,7 +165,7 @@ export const messagesRouter = createTRPCRouter({
       throw new Error("User not found");
     }
 
-    const friendList = await ctx.prisma.hC_FriendList.findMany({
+    const friendList = await ctx.prisma.contactList.findMany({
       where: {
         OR: [
           { userId: user.id },
@@ -165,7 +219,7 @@ export const messagesRouter = createTRPCRouter({
       }
 
       const { content, receiverId, pusherChannelName } = input;
-      
+
       const createMessage = await ctx.prisma.hC_Message.create({
         data: {
           senderId: user.id,
@@ -215,9 +269,7 @@ export const messagesRouter = createTRPCRouter({
       return readAllMessages;
     }),
 
-
-
-    readMessagesByChannel: protectedProcedure
+  readMessagesByChannel: protectedProcedure
     .input(
       z.object({
         channelName: z.string(),
@@ -245,7 +297,6 @@ export const messagesRouter = createTRPCRouter({
       );
       return messagesWithSenderNames;
     }),
-
 
   //read all current user pusher channels
   //read messages by channel

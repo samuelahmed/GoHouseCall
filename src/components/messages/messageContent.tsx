@@ -2,120 +2,117 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { useState } from "react";
-import { useEffect } from "react";
-import PusherClient from "pusher-js";
+import { useState, useEffect, use } from "react";
 import { api } from "~/utils/api";
-import { useRef } from "react";
+import { useRouter } from "next/router";
+import PusherClient from "pusher-js";
 import { z } from "zod";
-import { set } from "date-fns";
-
-interface ContactsNavProps extends React.HTMLAttributes<HTMLElement> {
-  passSelectedUser: {
-    name: string;
-    id: string;
-    patientId: string;
-    caregiverId: string;
-    pusherChannelName: string;
-  };
-}
 
 const Messages = z.object({
   id: z.string(),
   content: z.string().nonempty(),
   senderId: z.string(),
+  receiverId: z.string(),
+  // createdAt: z.string(),
+  // updatedAt: z.string(),
+  // pusherChannelName: z.string(),
 });
-
 type Messages = z.infer<typeof Messages>;
 
-export function MessageContent({ passSelectedUser }: ContactsNavProps) {
+export function MessageContent() {
+  const router = useRouter();
+  const id = router.query.messageId;
   const [input, setInput] = useState<string>("");
-  const [messages, setMessages] = useState<Messages[]>([]);
-
   const { data: currentUser } = api.messagesAPI.me.useQuery();
-  const { mutate } = api.messagesAPI.createMessage.useMutation();
   const { data: readMessages } = api.messagesAPI.readMessagesByChannel.useQuery(
     {
-      channelName: passSelectedUser.pusherChannelName,
+      channelName: id as string,
     }
   );
-
-  //WHY IS THIS BACKWARDS
-  let friendId = "";
-
-  if (currentUser?.id === passSelectedUser.patientId) {
-    friendId = passSelectedUser.caregiverId;
-  } else if (currentUser?.id === passSelectedUser.caregiverId) {
-    friendId = passSelectedUser.patientId;
+  const { data: currentChannel } =
+    api.messagesAPI.getContactChannelInfo.useQuery({
+      channelName: id as string,
+    });
+  const caregiverId = currentChannel?.caregiverId;
+  const patientId = currentChannel?.patientId;
+  let contactId = "";
+  if (caregiverId !== currentUser?.id) {
+    contactId = caregiverId as string;
   } else {
-    console.log("not patient or caregiver");
+    contactId = patientId as string;
   }
-
-
-  //check user is patient or caregiver
-
-  const userImg = currentUser?.image || "";
-
-  const friendImg = api.messagesAPI.getUserImage.useQuery({
-    userId: friendId,
+  const { data: contactInfo } = api.messagesAPI.getContactInfo.useQuery({
+    userId: contactId,
   });
-
-  const friendName = api.messagesAPI.getUserName.useQuery({
-    userId: friendId,
-  });
-
-
-
-  // console.log(friendId)
-  console.log(friendImg.data?.image);
-  // const friendId = passSelectedUser.caregiverId || passSelectedUser.patientId;
-  // const friendImg = api.messagesAPI.getUserImage.useQuery();
-
 
   useEffect(() => {
-    if (readMessages) {
-      setMessages(readMessages);
+    if (!readMessages) {
+      return;
     }
+    setAllMessagesForChannel(readMessages);
   }, [readMessages]);
 
+  const [allMessagesForChannel, setAllMessagesForChannel] = useState<
+    Messages[]
+  >([]);
+
+  const currentChannelName = currentChannel?.pusherChannelName;
+
   useEffect(() => {
-    const pusherClient = new PusherClient("bcf89bc8d5be9acb07da", {
+    const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    pusherClient.subscribe(passSelectedUser.pusherChannelName);
+    if (!currentChannelName) {
+      return;
+    }
 
-    const messageHandler = () => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          content: input,
-          senderId: currentUser?.id || "",
-          id: new Date().toISOString(),
-        },
-      ]);
-    };
-    pusherClient.bind("my-event", messageHandler);
+    const pusherChannel = pusher.subscribe(`${currentChannelName}`);
+
+    pusherChannel.bind("my-event", function (data: Messages) {
+      console.log(data);
+      setAllMessagesForChannel(
+        (prev) =>
+          [
+            ...prev,
+            {
+              id: data.id,
+              content: input,
+              senderId: currentUser?.id as string,
+              receiverId: contactId,
+            },
+          ] as Messages[]
+      );
+      // setAllMessagesForChannel((prev) => {
+      //   return [...prev, data as Messages];
+      // });
+    });
+
     return () => {
-      pusherClient.unsubscribe(passSelectedUser.pusherChannelName);
-      pusherClient.unbind("my-event", messageHandler);
+      pusher.unsubscribe(`${currentChannelName}`);
     };
-  }, []);
+  }, [currentChannelName]);
 
-  const sendMessage = () => {
-    //sets it in the state right away
-    setMessages((prev) => [
-      ...prev,
-      {
-        content: input,
-        senderId: currentUser?.id || "",
-        id: new Date().toISOString(),
-      },
-    ]);
-    mutate({
-      receiverId: passSelectedUser.id,
-      pusherChannelName: passSelectedUser.pusherChannelName,
+  const sendMessage = api.messagesAPI.createMessage.useMutation();
+
+  const sendMessageFunction = () => {
+    // sendMessage();
+    console.log(input);
+    setAllMessagesForChannel(
+      (prev) =>
+        [
+          ...prev,
+          {
+            content: input,
+            senderId: currentUser?.id as string,
+            receiverId: contactId,
+          },
+        ] as Messages[]
+    );
+    sendMessage.mutate({
       content: input,
+      receiverId: contactId,
+      pusherChannelName: currentChannelName as string,
     });
     setInput("");
   };
@@ -127,52 +124,48 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
           <div className="w-full pr-2">
             <Card className="w-full rounded-none border  border-t-0 py-4">
               <CardTitle className="flex h-6 items-center justify-center text-center">
-                {friendName?.data?.name}
+                {contactInfo?.name}
               </CardTitle>
             </Card>
 
             <Card className="min-h-65vh w-full rounded-none border border-t-0 py-4">
               <CardContent className="-p-1 px-1">
                 <div className="flex max-h-60vh flex-col space-y-2 overflow-auto">
-                  {passSelectedUser.pusherChannelName && (
-                    <>
-                      {messages?.map((message) => {
-                        return (
-                          <>
-                            {message.senderId === currentUser?.id && (
-                              <div
-                                className="flex flex-row-reverse items-center justify-start space-y-2 text-end "
-                                key={message.id}
-                              >
-                                <Avatar className="mx-1 mt-1">
-                                  <AvatarImage src={userImg} />
-                                  <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
-                                  <div>{message.content}</div>
-                                </div>
-                              </div>
-                            )}
+                  {/* {readMessages.pusherChannelName && ( */}
+                  <>
+                    {allMessagesForChannel.map((message) => {
+                      return (
+                        <div key={message.id}>
+                          {message.senderId === currentUser?.id && (
+                            <div className="flex flex-row-reverse items-center justify-start space-y-2 text-end ">
+                              <Avatar className="mx-1 mt-1">
+                                <AvatarImage src={currentUser?.image || ""} />
+                                <AvatarFallback></AvatarFallback>
+                              </Avatar>
+                              <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
+                                <div>{message.content}</div>
 
-                            {message.senderId !== currentUser?.id && (
-                              <div
-                                className="flex flex-row items-center justify-start space-y-2  text-start "
-                                key={message.id}
-                              >
-                                <Avatar className="mx-1 mt-1">
-                                  <AvatarImage src={friendImg.data?.image || ""} />
-                                  <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
-                                  <div>{message.content}</div>
-                                </div>
+                                {/* <div>{allMessagesForChannel}</div> */}
                               </div>
-                            )}
-                          </>
-                        );
-                      })}
-                    </>
-                  )}
+                            </div>
+                          )}
+
+                          {message.senderId !== currentUser?.id && (
+                            <div className="flex flex-row items-center justify-start space-y-2  text-start ">
+                              <Avatar className="mx-1 mt-1">
+                                <AvatarImage src={contactInfo?.image || ""} />
+                                <AvatarFallback></AvatarFallback>
+                              </Avatar>
+                              <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
+                                <div>{message.content}</div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </>
+                  {/* )} */}
                 </div>
               </CardContent>
             </Card>
@@ -183,7 +176,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
-                    sendMessage();
+                    sendMessageFunction();
                   }
                 }}
                 onChange={(e) => {
@@ -197,7 +190,7 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
               <div className="flex h-16 items-center justify-end ">
                 <Button
                   onClick={() => {
-                    sendMessage();
+                    sendMessageFunction();
                   }}
                   variant="outline"
                 >
@@ -211,11 +204,11 @@ export function MessageContent({ passSelectedUser }: ContactsNavProps) {
           <div className="hidden w-72 lg:block">
             <div className="flex items-center justify-center pt-4">
               <Avatar>
-                <AvatarImage src="https://lh3.googleusercontent.com/a/AAcHTtc4YvX9jKd0aR3FDN0GrP848CYTjuZgb7Yicq6K=s96-c" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={contactInfo?.image || ""} />
+                <AvatarFallback></AvatarFallback>
               </Avatar>
             </div>
-            <div className="py-2 text-center">{passSelectedUser.name}</div>
+            <div className="py-2 text-center">{contactInfo?.name}</div>
             <div className="flex flex-row items-center justify-center space-x-1 px-4 text-lg">
               <Button variant="outline" size="sm">
                 Profile
