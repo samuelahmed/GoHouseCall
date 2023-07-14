@@ -7,18 +7,11 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 
 export function ContactsNav() {
-  // const { data: friendList } = api.messagesAPI.getFriends.useQuery();
-
-  // console.log("FRIEND LIST", friendList);
-  const { data: currentMessages } = api.messagesAPI.allContactsForUser.useQuery();
-
+  const { data: currentMessages } =
+    api.messagesAPI.allContactsForUser.useQuery();
   const { data: me } = api.messagesAPI.me.useQuery();
-
   const router = useRouter();
   const [selectedUserBgColor, setSelectedUserBgColor] = useState(0);
-
-
-
 
   return (
     <>
@@ -29,13 +22,10 @@ export function ContactsNav() {
           </h2>
           <nav className="mx-2 mt-2 flex flex-col space-y-2">
             {currentMessages?.map((contact, index) => (
-
               <div
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 key={contact.id}
                 onClick={() => {
-                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
-                 void router.push(`/messages/${contact.pusherChannelName}`);
+                  void router.push(`/messages/${contact.pusherChannelName || ""}`);
                 }}
               >
                 <Card
@@ -54,8 +44,7 @@ export function ContactsNav() {
                   >
                     {me?.type === "caregiver"
                       ? contact.patientName
-                      : contact.caregiverName
-                      }
+                      : contact.caregiverName}
                   </Button>
                 </Card>
               </div>
@@ -63,9 +52,7 @@ export function ContactsNav() {
           </nav>
         </aside>
         <div className="flex-1">
-          <MessageContent 
-          // passSelectedUser={selectedUser} 
-          />
+          <MessageContent />
         </div>
       </div>
     </>
