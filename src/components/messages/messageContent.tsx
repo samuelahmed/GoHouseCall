@@ -69,16 +69,53 @@ export function MessageContent() {
 
     const pusherChannel = pusher.subscribe(`${currentChannelName}`);
 
-    pusherChannel.bind("my-event", function (data: any) {
-      setAllMessagesForChannel((prev) => {
-        return [...prev, data as Messages];
-      });
+    pusherChannel.bind("my-event", function (data: Messages) {
+      console.log(data);
+      setAllMessagesForChannel(
+        (prev) =>
+          [
+            ...prev,
+            {
+              id: data.id,
+              content: input,
+              senderId: currentUser?.id as string,
+              receiverId: contactId,
+            },
+          ] as Messages[]
+      );
+      // setAllMessagesForChannel((prev) => {
+      //   return [...prev, data as Messages];
+      // });
     });
 
     return () => {
       pusher.unsubscribe(`${currentChannelName}`);
     };
   }, [currentChannelName]);
+
+  const sendMessage = api.messagesAPI.createMessage.useMutation();
+
+  const sendMessageFunction = () => {
+    // sendMessage();
+    console.log(input);
+    setAllMessagesForChannel(
+      (prev) =>
+        [
+          ...prev,
+          {
+            content: input,
+            senderId: currentUser?.id as string,
+            receiverId: contactId,
+          },
+        ] as Messages[]
+    );
+    sendMessage.mutate({
+      content: input,
+      receiverId: contactId,
+      pusherChannelName: currentChannelName as string,
+    });
+    setInput("");
+  };
 
   return (
     <>
@@ -139,7 +176,7 @@ export function MessageContent() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
-                    // sendMessage();
+                    sendMessageFunction();
                   }
                 }}
                 onChange={(e) => {
@@ -153,21 +190,7 @@ export function MessageContent() {
               <div className="flex h-16 items-center justify-end ">
                 <Button
                   onClick={() => {
-                    // sendMessage();
-                    console.log(input);
-                    setAllMessagesForChannel(
-                      (prev) =>
-                        [
-                          ...prev,
-                          {
-                            id: "1",
-                            content: input,
-                            senderId: currentUser?.id as string,
-                            receiverId: contactId,
-                          },
-                        ] as Messages[]
-                    );
-                    setInput("");
+                    sendMessageFunction();
                   }}
                   variant="outline"
                 >
