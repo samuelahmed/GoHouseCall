@@ -105,11 +105,14 @@ export function MessageContent() {
                     <>
                       {readMessages?.map((message) => {
                         return (
-                          <>
+                          <div 
+                                                          key={message.id}
+
+                          >
                             {message.senderId === currentUser?.id && (
                               <div
                                 className="flex flex-row-reverse items-center justify-start space-y-2 text-end "
-                                key={message.id}
+                                // key={message.id}
                               >
                                 <Avatar className="mx-1 mt-1">
                                   <AvatarImage
@@ -126,7 +129,7 @@ export function MessageContent() {
                             {message.senderId !== currentUser?.id && (
                               <div
                                 className="flex flex-row items-center justify-start space-y-2  text-start "
-                                key={message.id}
+                                // key={message.id}
                               >
                                 <Avatar className="mx-1 mt-1">
                                   <AvatarImage
@@ -139,7 +142,7 @@ export function MessageContent() {
                                 </div>
                               </div>
                             )}
-                          </>
+                          </div>
                         );
                       })}
                     </>
