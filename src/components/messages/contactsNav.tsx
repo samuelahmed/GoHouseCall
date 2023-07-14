@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState } from "react";
 import { MessageContent } from "./messageContent";
 import { Card } from "~/components/ui/card";

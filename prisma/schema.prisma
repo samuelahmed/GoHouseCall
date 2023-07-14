@@ -112,8 +112,8 @@ model ContactList {
     caregiverId       String?
     patientId         String?
     createdAt         DateTime @default(now())
-    pusherChannelName String?
-    userId            String   @unique //this is whoever created the channel
+    pusherChannelName String? @unique
+    userId            String  //@unique //this is whoever created the channel
 
     User User? @relation(fields: [userId], references: [id])
 

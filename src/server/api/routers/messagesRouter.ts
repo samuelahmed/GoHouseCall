@@ -34,7 +34,6 @@ export const messagesRouter = createTRPCRouter({
     const allContacts = await ctx.prisma.contactList.findMany({
       where: {
         OR: [
-          // { userId: user.userId },
           { caregiverId: user.userId },
           { patientId: user.userId },
         ],
@@ -66,67 +65,24 @@ export const messagesRouter = createTRPCRouter({
     return allContactsForUserWithNames;
   }),
 
+  getContactChannelInfo: protectedProcedure
+    .input(
+      z.object({
+        channelName: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { channelName } = input;
+      const channelInfo = await ctx.prisma.contactList.findUnique({
+        where: {
+          pusherChannelName: channelName,
+        },
+      });
+      return channelInfo;
+    }),
 
 
-
-
-
-
-
-
-
-
-    // let allContacts: any[] | PromiseLike<any[]> = [];
-
-    // if (user.type !== "caregiver") {
-    //    allContacts = await ctx.prisma.contactList.findMany({
-    //     where: {
-    //       caregiverId: user.id,
-    //     },
-    //   });
-    // }
-    // if (user.type !== "patient") {
-    //    allContacts = await ctx.prisma.contactList.findMany({
-    //     where: {
-    //       patientId: user.id,
-    //     },
-    //   });
-    // }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    // return allContacts;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  //OLD CODE
-  //gets user info for the current user
-
-
-  getUserImage: protectedProcedure
+  getContactInfo: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -136,10 +92,11 @@ export const messagesRouter = createTRPCRouter({
       const { userId } = input;
       const user = await ctx.prisma.hC_Account.findUnique({
         where: {
-          id: userId,
+          userId: userId,
         },
         select: {
           image: true,
+          name: true,
         },
       });
       return user;
