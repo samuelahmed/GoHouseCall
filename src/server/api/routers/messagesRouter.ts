@@ -232,7 +232,7 @@ export const messagesRouter = createTRPCRouter({
 
       await pusher.trigger(pusherChannelName, "my-event", {
         message: content,
-        senderId: user.userId,
+        senderId: user.id,
         channelName: pusherChannelName,
         createdAt: new Date(),
         // senderName: senderName,

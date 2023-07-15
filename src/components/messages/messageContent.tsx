@@ -7,13 +7,14 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import PusherClient from "pusher-js";
 import { z } from "zod";
+import { set } from "date-fns";
 
 const Messages = z.object({
   id: z.string(),
-  content: z.string().nonempty(),
+  content: z.string().nonempty().nonempty(),
   senderId: z.string(),
   receiverId: z.string(),
-  message: z.string(),
+  message: z.string().nonempty(),
   createdAt: z.string(),
 });
 type Messages = z.infer<typeof Messages>;
@@ -47,6 +48,10 @@ export function MessageContent() {
     userId: contactId,
   });
 
+  const [allMessagesForChannel, setAllMessagesForChannel] = useState<
+    Messages[]
+  >([]);
+
   useEffect(() => {
     if (!readMessages) {
       return;
@@ -54,71 +59,78 @@ export function MessageContent() {
     setAllMessagesForChannel(readMessages as unknown as Messages[]);
   }, [readMessages]);
 
-  const [allMessagesForChannel, setAllMessagesForChannel] = useState<
-    Messages[]
-  >([]);
-
   const currentChannelName = currentChannel?.pusherChannelName;
 
-  // useEffect(() => {
-  //   const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
-  //     cluster: "us3",
-  //   });
-
-  //   if (!currentChannelName) {
-  //     return;
-  //   }
-
-  //   const pusherChannel = pusher.subscribe(`${currentChannelName}`);
-
-  //   pusherChannel.bind("my-event", function (data: Messages) {
-  //     console.log(data);
-
-  //   });
-
-  //   return () => {
-  //     pusher.unsubscribe(`${currentChannelName}`);
-  //   };
-  // }, [currentChannelName]);
-
-  const subscribeToChannel = (channelName: string) => {
+  useEffect(() => {
     const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const channel = pusher.subscribe(`${currentChannelName}`);
+    if (!currentChannelName) {
+      return;
+    }
 
-    channel.bind("my-event", function (data: any) {
+    const pusherChannel = pusher.subscribe(`${currentChannelName}`);
+
+    pusherChannel.bind("my-event", function (data: Messages) {
+      console.log(data);
+
       setAllMessagesForChannel((prev) => {
         return [...prev, data] as Messages[];
       });
     });
-  };
 
-  useEffect(() => {
-    if (channelName !== "noContactSelected") {
-      subscribeToChannel(channelName as string);
-    }
-  }, [channelName]);
+    return () => {
+      pusher.unsubscribe(`${currentChannelName}`);
+    };
+  }, [currentChannelName]);
+  // const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
+  //   cluster: "us3",
+  // });
+
+  // console.log(pusher)
+
+  // const subscribeToChannel = (channelName: string) => {
+
+  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  //   const channel = pusher.subscribe(`${currentChannelName}`);
+  //   console.log('subscribed to channel' + channelName)
+
+  //   channel.bind("my-event", function (data: any) {
+  //     // setAllMessagesForChannel((prev) => {
+
+  //       console.log(data)
+  //     //   return [...prev, data] as Messages[];
+  //     // });
+  //   });
+  // };
+
+  // useEffect(() => {
+  //     subscribeToChannel(channelName as string);
+
+  // }, []);
 
   const sendMessage = api.messagesAPI.createMessage.useMutation();
 
   const sendMessageFunction = () => {
     // sendMessage();
-    console.log(input);
-    setAllMessagesForChannel(
-      (prev) =>
-        [
-          ...prev,
-          {
-            content: input,
-            senderId: currentUser?.id as string,
-            receiverId: contactId,
-          },
-        ] as Messages[]
-    );
+    // console.log(input);
+    // setAllMessagesForChannel(
+    //   (prev) =>
+    //     [
+    //       ...prev,
+    //       {
+    //         message: input,
+    //         content: input,
+    //         senderId: currentUser?.id as string,
+    //         receiverId: contactId,
+    //       },
+    //     ] as Messages[]
+    // );
+
     sendMessage.mutate({
+      // message: input,
+      // userId: currentUser?.userId as string,
       content: input,
       receiverId: contactId,
       pusherChannelName: currentChannelName as string,
@@ -126,9 +138,9 @@ export function MessageContent() {
     setInput("");
   };
 
-  console.log(allMessagesForChannel);
+  // console.log(allMessagesForChannel);
 
-  console.log(allMessagesForChannel.map((message) => message.message));
+  // console.log(allMessagesForChannel.map((message) => message.message));
   return (
     <>
       <div className="flex flex-col">
@@ -154,7 +166,12 @@ export function MessageContent() {
                                 <AvatarFallback></AvatarFallback>
                               </Avatar>
                               <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
-                                <div>{message.content}</div>
+                              <div>{message.content}</div>
+                                <div>{message.message}</div>
+
+                                {/* <div>{message.content || messag e.message}</div> */}
+                                {/* <div>{message.message}</div> */}
+
                               </div>
                             </div>
                           )}
