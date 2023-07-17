@@ -101,7 +101,7 @@ export function DataTableCaregiver<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="overflow-auto whitespace-nowrap px-4 py-2"
+                      className="overflow-hidden whitespace-nowrap px-4 py-2"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
