@@ -7,6 +7,7 @@ import {
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "../ui/button";
+import { useRouter } from "next/router";  
 
 export function CaregiverInfo({
   name,
@@ -21,6 +22,9 @@ export function CaregiverInfo({
   city: string;
   bio: string;
 }) {
+
+  const router = useRouter();
+
   return (
     <>
       <div className="px-4 py-4">
@@ -48,7 +52,7 @@ export function CaregiverInfo({
           <Button
             onClick={() => {
               //route to the message page w/ this user id open in the chat
-              <> </>;
+              // router.push(`/messages/${}`);
             }}
             variant="outline"
             size="sm"

@@ -23,16 +23,25 @@ import {
 } from "~/components/ui/alertDialog";
 import { toast } from "../ui/useToast";
 
-export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
+export function PotentialCaregiverTable({
+  sessionId,
+  currentUserId,
+}: {
+  sessionId: string;
+  currentUserId: string;
+}) {
   const router = useRouter();
+
   const { data: careSessionApplications } =
     api.careSessionAPI.careSessionApplications.useQuery({
       sessionId: sessionId,
     });
 
   const acceptCaregiver = api.careSessionAPI.acceptCaregiver.useMutation({});
+
   const cancelOtherApplications =
     api.careSessionAPI.cancelOtherApplications.useMutation({});
+
   const updateCareSessionStatus =
     api.careSessionAPI.updateCareSessionStatus.useMutation({});
 
@@ -83,20 +92,10 @@ export function PotentialCaregiverTable({ sessionId }: { sessionId: string }) {
                     onClick={() => {
                       console.log(sessionApplicant);
                       createNewFriend.mutate({
-                        // patientId: sessionApplicant.userId
                         caregiverId: sessionApplicant.userId as string,
                       });
-                    
-                      //can add channel name here /messages/${pusherChannelName}
-                      void router.push("/messages")
-                    
-                      //how to pass the selected user to the contact nav when coming from the session page
-                      //how to set the state of the contact nav to the selected user
-
-
-
-
-
+                      void router.push(`/messages/${currentUserId + "-" + (sessionApplicant.userId as string)}`);
+                      //need to also update the messages state to highlight the correct contact
                     }}
                     size="sm"
                   >
