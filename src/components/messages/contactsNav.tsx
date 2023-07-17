@@ -6,12 +6,11 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 
 export function ContactsNav() {
-  
   const { data: currentMessages } =
     api.messagesAPI.allContactsForUser.useQuery();
   const { data: me } = api.messagesAPI.me.useQuery();
 
-  console.log(currentMessages)
+  console.log(currentMessages);
 
   const router = useRouter();
   const [selectedUserBgColor, setSelectedUserBgColor] = useState(0);
@@ -28,7 +27,9 @@ export function ContactsNav() {
               <div
                 key={contact.id}
                 onClick={() => {
-                  void router.push(`/messages/${contact.pusherChannelName || ""}`);
+                  void router.push(
+                    `/messages/${contact.pusherChannelName || ""}`
+                  );
                 }}
               >
                 <Card

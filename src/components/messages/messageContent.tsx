@@ -7,7 +7,6 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import PusherClient from "pusher-js";
 import { z } from "zod";
-import { set } from "date-fns";
 
 const Messages = z.object({
   id: z.string(),
@@ -62,6 +61,7 @@ export function MessageContent() {
   const currentChannelName = currentChannel?.pusherChannelName;
 
   useEffect(() => {
+    //If I want to user pusher for other purposes, I need to move the create pusher isntance to earlier in the program
     const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
       cluster: "us3",
     });
@@ -81,56 +81,15 @@ export function MessageContent() {
     });
 
     return () => {
+      pusher.disconnect();
       pusher.unsubscribe(`${currentChannelName}`);
     };
   }, [currentChannelName]);
-  // const pusher = new PusherClient("bcf89bc8d5be9acb07da", {
-  //   cluster: "us3",
-  // });
-
-  // console.log(pusher)
-
-  // const subscribeToChannel = (channelName: string) => {
-
-  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  //   const channel = pusher.subscribe(`${currentChannelName}`);
-  //   console.log('subscribed to channel' + channelName)
-
-  //   channel.bind("my-event", function (data: any) {
-  //     // setAllMessagesForChannel((prev) => {
-
-  //       console.log(data)
-  //     //   return [...prev, data] as Messages[];
-  //     // });
-  //   });
-  // };
-
-  // useEffect(() => {
-  //     subscribeToChannel(channelName as string);
-
-  // }, []);
 
   const sendMessage = api.messagesAPI.createMessage.useMutation();
 
   const sendMessageFunction = () => {
-    // sendMessage();
-    // console.log(input);
-    // setAllMessagesForChannel(
-    //   (prev) =>
-    //     [
-    //       ...prev,
-    //       {
-    //         message: input,
-    //         content: input,
-    //         senderId: currentUser?.id as string,
-    //         receiverId: contactId,
-    //       },
-    //     ] as Messages[]
-    // );
-
     sendMessage.mutate({
-      // message: input,
-      // userId: currentUser?.userId as string,
       content: input,
       receiverId: contactId,
       pusherChannelName: currentChannelName as string,
@@ -138,9 +97,6 @@ export function MessageContent() {
     setInput("");
   };
 
-  // console.log(allMessagesForChannel);
-
-  // console.log(allMessagesForChannel.map((message) => message.message));
   return (
     <>
       <div className="flex flex-col">
@@ -166,12 +122,8 @@ export function MessageContent() {
                                 <AvatarFallback></AvatarFallback>
                               </Avatar>
                               <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
-                              <div>{message.content}</div>
+                                <div>{message.content}</div>
                                 <div>{message.message}</div>
-
-                                {/* <div>{message.content || messag e.message}</div> */}
-                                {/* <div>{message.message}</div> */}
-
                               </div>
                             </div>
                           )}
@@ -205,7 +157,6 @@ export function MessageContent() {
                   }
                 }}
                 onChange={(e) => {
-                  // setMessagesMeow(e.target.value);
                   setInput(e.target.value);
                 }}
                 value={input}
