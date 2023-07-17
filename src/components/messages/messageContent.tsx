@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useRef } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import PusherClient from "pusher-js";
@@ -97,6 +97,22 @@ export function MessageContent() {
     setInput("");
   };
 
+  const bottomEl = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+
+    function scrollToBottom() {
+      if (bottomEl.current) {
+        bottomEl.current.scrollIntoView({
+          behavior: "instant",
+          block: "end",
+          inline: "nearest",
+        });
+      }
+    }
+  }, [allMessagesForChannel]);
+
   return (
     <>
       <div className="flex flex-col">
@@ -121,7 +137,7 @@ export function MessageContent() {
                                 <AvatarImage src={currentUser?.image || ""} />
                                 <AvatarFallback></AvatarFallback>
                               </Avatar>
-                              <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-blue-300 p-1 text-sm">
+                              <div className="-p-6 flex h-full w-40 overflow-auto rounded bg-blue-300 p-1 text-sm md:w-96">
                                 <div>{message.content}</div>
                                 <div>{message.message}</div>
                               </div>
@@ -133,12 +149,13 @@ export function MessageContent() {
                                 <AvatarImage src={contactInfo?.image || ""} />
                                 <AvatarFallback></AvatarFallback>
                               </Avatar>
-                              <div className="-p-6 flex h-full w-48 overflow-auto rounded bg-gray-300 p-1 text-sm">
+                              <div className="-p-6 flex h-full w-40 overflow-auto rounded bg-gray-300 p-1 text-sm md:w-96">
                                 <div>{message.content}</div>
                                 <div>{message.message}</div>
                               </div>
                             </div>
                           )}
+                          <div ref={bottomEl} />
                         </div>
                       );
                     })}
