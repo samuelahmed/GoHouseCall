@@ -105,7 +105,7 @@ export function MessageContent() {
     function scrollToBottom() {
       if (bottomEl.current) {
         bottomEl.current.scrollIntoView({
-          behavior: 'instant',
+          behavior: 'auto',
           block: "end",
           inline: "nearest",
         });
