@@ -11,7 +11,29 @@ export default function Dashboardinfo() {
             <CardHeader>
               <CardTitle>Scheduled Sessions</CardTitle>
             </CardHeader>
-            <CardContent>meow list of upcoming sessions</CardContent>
+            {/* doing some strange pb-20 because h-full is making the content go beyond the card */}
+            <CardContent className="h-full pb-20">
+              <div className="h-full bg-yellow-100">
+                <div className="space-y-2">
+
+
+                <div className="rounded-sm border flex space-x-4 bg-blue-100 h-12 items-center text-center justify-center">
+                  <div> Session Title </div>
+                  <div> Session Date </div>
+                  <div> Session Start Time </div>
+                </div>
+
+                <div className="rounded-sm border flex space-x-4 bg-blue-100 h-12 items-center text-center justify-center">
+                  <div> Session Title </div>
+                  <div> Session Date </div>
+                  <div> Session Start Time </div>
+                </div>
+                
+
+                </div>
+
+              </div>
+            </CardContent>
           </Card>
         </div>
 
