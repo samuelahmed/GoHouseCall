@@ -2,14 +2,13 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { ContactsNav } from "~/components/messages/contactsNav";
-import { api } from "~/utils/api";
 
-export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/messages");
+export const getServerSideProps =
+  RouteSignedOutAndNewUsers("/offline/messages");
 
-
+//maybe connect to pusher here
 
 const Messages: NextPage = () => {
-
   return (
     <>
       <Head>
@@ -18,8 +17,7 @@ const Messages: NextPage = () => {
       </Head>
 
       <div className="h-screen">
-        <ContactsNav
-        />
+        <ContactsNav />
       </div>
     </>
   );

@@ -14,7 +14,6 @@ const CaregiverProfile: NextPage = () => {
     id: id as string,
   });
 
-
   return (
     <>
       <Head>
