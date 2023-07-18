@@ -1,7 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 export default function Dashboardinfo() {
+  const { data: userData } = api.userAPI.currentUser.useQuery();
+  const { data: scheduledSessions } =
+    api.careSessionAPI.getScheduledCareSessionsByUserId.useQuery();
+  const { data: earnings } = api.careSessionAPI.getMonthyEarnings.useQuery();
+  const { data: hoursOfCare } =
+    api.careSessionAPI.getTotalMonthlyHoursOfCare.useQuery();
+  const { data: monthlySessionInfo } =
+    api.careSessionAPI.getMonthlySessionInfo.useQuery();
+
+  console.log(monthlySessionInfo);
+  const today = new Date(); // Get today's date
+
   const router = useRouter();
   return (
     <>
@@ -9,29 +22,48 @@ export default function Dashboardinfo() {
         <div className="h-screen max-h-50vh min-h-50vh w-full">
           <Card className="h-full shadow">
             <CardHeader>
-              <CardTitle>Scheduled Sessions</CardTitle>
+              <CardTitle>Upcoming Sessions</CardTitle>
             </CardHeader>
             {/* doing some strange pb-20 because h-full is making the content go beyond the card */}
             <CardContent className="h-full pb-20">
-              <div className="h-full bg-yellow-100">
+              <div className="h-full overflow-auto">
                 <div className="space-y-2">
-
-
-                <div className="rounded-sm border flex space-x-4 bg-blue-100 h-12 items-center text-center justify-center">
-                  <div> Session Title </div>
-                  <div> Session Date </div>
-                  <div> Session Start Time </div>
+                  {scheduledSessions
+                    ?.filter(
+                      (session) =>
+                        session.date &&
+                        session.date.getTime() >= today.setHours(0, 0, 0, 0)
+                    )
+                    .sort(
+                      (a, b) =>
+                        (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0)
+                    )
+                    .map((session) => (
+                      <div
+                        key={session.id}
+                        className="flex h-12 items-center justify-around space-x-4 rounded-sm border px-2 text-center"
+                      >
+                        <div
+                          onClick={() => {
+                            void router.push(`/careSession/${session.id}`);
+                          }}
+                          className="underline hover:cursor-pointer"
+                        >
+                          {" "}
+                          {session.title}{" "}
+                        </div>
+                        <div>
+                          {session.date
+                            ? session.date.toLocaleDateString("en-US", {
+                                month: "numeric",
+                                day: "numeric",
+                              })
+                            : ""}
+                        </div>
+                        <div> {session.startTime} </div>
+                      </div>
+                    ))}
                 </div>
-
-                <div className="rounded-sm border flex space-x-4 bg-blue-100 h-12 items-center text-center justify-center">
-                  <div> Session Title </div>
-                  <div> Session Date </div>
-                  <div> Session Start Time </div>
-                </div>
-                
-
-                </div>
-
               </div>
             </CardContent>
           </Card>
@@ -43,8 +75,27 @@ export default function Dashboardinfo() {
               <CardTitle>Monthly Overview</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="pb-2 text-lg">
-                Earnings: <span className="">$532</span>
+              {userData?.type === "caregiver" && (
+                <p className="pb-2 text-lg">
+                  Earned: <span className="">${earnings?.earnings}</span>
+                </p>
+              )}
+              {userData?.type === "patient" && (
+                <p className="pb-2 text-lg">
+                  Care Received:{" "}
+                  <span className="">{hoursOfCare?.hoursOfCare} Hours</span>
+                </p>
+              )}
+
+              <p
+                onClick={() => {
+                  //add filter to only show completed sessions
+                  void router.push("/sessions");
+                }}
+                className=" hover:cursor-pointer"
+              >
+                <span className="underline">Completed Sessions</span>:{" "}
+                {monthlySessionInfo?.completedSessions}
               </p>
               <p
                 onClick={() => {
@@ -53,7 +104,8 @@ export default function Dashboardinfo() {
                 }}
                 className=" hover:cursor-pointer"
               >
-                <span className="underline">Completed Sessions</span>: 5
+                <span className="underline">Created Sessions</span>:{" "}
+                {monthlySessionInfo?.createdSessions}
               </p>
               <p
                 onClick={() => {
@@ -62,16 +114,8 @@ export default function Dashboardinfo() {
                 }}
                 className=" hover:cursor-pointer"
               >
-                <span className="underline">Applied Sessions</span>: 9
-              </p>
-              <p
-                onClick={() => {
-                  //add filter to only show completed sessions
-                  void router.push("/sessions");
-                }}
-                className=" hover:cursor-pointer"
-              >
-                <span className="underline">Canceled Sessions</span>: 2
+                <span className="underline">Scheduled Sessions</span>:{" "}
+                {monthlySessionInfo?.scheduledSessions}
               </p>
             </CardContent>
           </Card>
