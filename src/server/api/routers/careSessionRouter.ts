@@ -1,5 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import { stat } from "fs";
 
 export const careSessionRouter = createTRPCRouter({
   me: protectedProcedure.query(async ({ ctx }) => {
@@ -219,6 +220,162 @@ export const careSessionRouter = createTRPCRouter({
       });
       return careSessions;
     }),
+
+  getScheduledCareSessionsByUserId: protectedProcedure.query(
+    async ({ ctx }) => {
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          status: "scheduled",
+        },
+
+        select: {
+          id: true,
+          sessionType: true,
+          title: true,
+          description: true,
+          status: true,
+          city: true,
+          date: true,
+          startTime: true,
+          duration: true,
+          total: true,
+        },
+      });
+      return careSessions;
+    }
+  ),
+
+  getMonthyEarnings: protectedProcedure.query(async ({ ctx }) => {
+    const careSessions = await ctx.prisma.hC_CareSession.findMany({
+      where: {
+        userId: ctx.session.user.id,
+        status: "completed",
+      },
+      select: {
+        total: true,
+      },
+    });
+
+    const earnings = careSessions.reduce((acc, curr) => {
+      if (!curr.total) return acc;
+
+      return acc + curr.total;
+    }, 0);
+
+    return {
+      earnings,
+    };
+  }),
+
+  getTotalMonthlyHoursOfCare: protectedProcedure.query(async ({ ctx }) => {
+    const careSessions = await ctx.prisma.hC_CareSession.findMany({
+      where: {
+        userId: ctx.session.user.id,
+        status: "completed",
+      },
+      select: {
+        duration: true,
+      },
+    });
+
+    const hoursOfCare = careSessions.reduce((acc, curr) => {
+      if (!curr.duration) return acc;
+
+      return acc + curr.duration;
+    }, 0);
+
+    return {
+      hoursOfCare,
+    };
+  }),
+  
+
+  // getMonthyEarnings: protectedProcedure.query(async ({ ctx }) => {
+  //   const careSessions = await ctx.prisma.hC_CareSession.findMany({
+  //     where: {
+  //       userId: ctx.session.user.id,
+  //       status: "completed",
+  //     },
+  //     select: {
+  //       total: true,
+  //     },
+  //   });
+  
+  //   const completedSessions = careSessions.length;
+  //   const appliedSessions = /* Retrieve count of applied sessions */;
+  //   const createdSessions = /* Retrieve count of created sessions */;
+  
+  //   const earnings = careSessions.reduce((acc, curr) => {
+  //     if (!curr.total) return acc;
+  
+  //     return acc + curr.total;
+  //   }, 0);
+  
+  //   return {
+  //     earnings,
+  //     completedSessions,
+  //     appliedSessions,
+  //     createdSessions,
+  //   };
+  // }),
+
+  getMonthlySessionInfo: protectedProcedure.query(async ({ ctx }) => {
+    const thisMonth = new Date().getMonth();
+
+    const careSessions = await ctx.prisma.hC_CareSession.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        date: true,
+        status: true,
+      },
+    });
+
+    const completedSession = careSessions.filter((session) => {
+      if (session.date && session.date.getMonth() === thisMonth && session.status === "completed") {
+        return true;
+      }
+      return false;
+    });
+
+      const scheduledSession = careSessions.filter((session) => {
+        if (session.date && session.date.getMonth() === thisMonth && session.status === "scheduled") {
+          return true;
+        }
+        return false;
+      });
+
+      const createdSession = careSessions.filter((session) => {
+        if (session.date && session.date.getMonth()) {
+          return true;
+        }
+        return false;
+      });
+
+      const completedSessions = completedSession.length;
+      const scheduledSessions = scheduledSession.length;
+      const createdSessions = createdSession.length;
+
+      return {
+        completedSessions,
+        scheduledSessions,
+        createdSessions,
+      };
+  }),
+
+
+
+
+
+  // getMonthlyCompletedSessions: protectedProcedure.query(async ({ ctx }) => {
+  //   const careSessions = await ctx.prisma.hC_CareSession.findMany({
+  //     where: {
+  //       userId: ctx.session.user.id,
+  //       status: "completed",
+  //     },
+  //   });
 
   getCareSessionById: protectedProcedure
     .input(z.object({ id: z.string() }))

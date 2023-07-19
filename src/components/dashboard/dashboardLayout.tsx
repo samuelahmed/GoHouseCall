@@ -1,5 +1,6 @@
 import { Separator } from "~/components/ui/separator";
 import { useSession } from "next-auth/react";
+import { api } from "~/utils/api";
 
 
 interface DashboardProps {
@@ -7,14 +8,17 @@ interface DashboardProps {
 }
 
 export default function DashboardLayout({ children }: DashboardProps) {
-    const { data: sessionData } = useSession();
+    // const { data: sessionData } = useSession();
+    const { data: userData } = api.userAPI.me.useQuery();
+
+
 
   return (
     <>
       <div className="min-h-screen overflow-auto  ">
         <div className="-mb-3 space-y-0.5 ">
           <h2 className="justify-start text-2xl font-bold tracking-tight">
-            {sessionData?.user?.name}&apos;s Dashboard
+            {userData?.name}&apos;s Dashboard
           </h2>
         </div>
         <Separator className="my-6" />
