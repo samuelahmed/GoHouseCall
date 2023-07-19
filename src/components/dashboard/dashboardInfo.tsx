@@ -14,6 +14,10 @@ export default function Dashboardinfo() {
 
   console.log(monthlySessionInfo);
   const today = new Date(); // Get today's date
+  const thisMonthName = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+  }).format(today); // Get month name
+  // console.log(thisMonthName.format(today))
 
   const router = useRouter();
   return (
@@ -47,7 +51,7 @@ export default function Dashboardinfo() {
                           onClick={() => {
                             void router.push(`/careSession/${session.id}`);
                           }}
-                          className="underline hover:cursor-pointer"
+                          className="hover:cursor-pointer hover:font-bold"
                         >
                           {" "}
                           {session.title}{" "}
@@ -72,51 +76,62 @@ export default function Dashboardinfo() {
         <div className="h-screen max-h-50vh min-h-50vh w-full">
           <Card className="h-full shadow">
             <CardHeader>
-              <CardTitle>Monthly Overview</CardTitle>
+              <CardTitle>{thisMonthName} Overview</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-2">
               {userData?.type === "caregiver" && (
-                <p className="pb-2 text-lg">
-                  Earned: <span className="">${earnings?.earnings}</span>
+                <p className="pb-2 text-lg hover:cursor-pointer hover:font-bold">
+                  Total Earnings:{" "}
+                  <span className="">${earnings?.earnings}</span>
                 </p>
               )}
+              {/* onClick route to all completed sessions for month */}
               {userData?.type === "patient" && (
-                <p className="pb-2 text-lg">
-                  Care Received:{" "}
+                <p className="pb-2 text-lg hover:cursor-pointer hover:font-bold">
+                  Total Care:{" "}
                   <span className="">{hoursOfCare?.hoursOfCare} Hours</span>
                 </p>
               )}
 
               <p
                 onClick={() => {
-                  //add filter to only show completed sessions
                   void router.push("/sessions");
                 }}
-                className=" hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
               >
-                <span className="underline">Completed Sessions</span>:{" "}
+                <span className="">Completed Sessions</span>:{" "}
                 {monthlySessionInfo?.completedSessions}
               </p>
+
               <p
                 onClick={() => {
                   //add filter to only show completed sessions
                   void router.push("/sessions");
                 }}
-                className=" hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
               >
-                <span className="underline">Created Sessions</span>:{" "}
-                {monthlySessionInfo?.createdSessions}
-              </p>
-              <p
-                onClick={() => {
-                  //add filter to only show completed sessions
-                  void router.push("/sessions");
-                }}
-                className=" hover:cursor-pointer"
-              >
-                <span className="underline">Scheduled Sessions</span>:{" "}
+                <span className="">Scheduled Sessions</span>:{" "}
                 {monthlySessionInfo?.scheduledSessions}
               </p>
+
+
+              {userData?.type === "patient" && (
+                <p
+                  onClick={() => {
+                    void router.push("/sessions");
+                  }}
+                  className="hover:cursor-pointer hover:font-bold"
+                >
+                  Created Session:{" "}
+                  <span className="  hover:cursor-pointer">
+                    {monthlySessionInfo?.createdSessions}{" "}
+                  </span>
+                </p>
+              )}
+
+              {/* add caregiver verison - applied session */}
+
+              
             </CardContent>
           </Card>
         </div>
@@ -125,12 +140,12 @@ export default function Dashboardinfo() {
             <CardHeader>
               <CardTitle>Account</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-2">
               <p
                 onClick={() => {
                   void router.push("/messages/noContactSelected");
                 }}
-                className="underline hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
               >
                 Messages
               </p>
@@ -138,7 +153,7 @@ export default function Dashboardinfo() {
                 onClick={() => {
                   void router.push("/sessions");
                 }}
-                className="underline hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
               >
                 Sessions
               </p>
@@ -146,12 +161,12 @@ export default function Dashboardinfo() {
                 onClick={() => {
                   void router.push("/settings/profile");
                 }}
-                className="underline hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
               >
                 Manage Account
               </p>
               <p
-                className="underline hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
                 onClick={() => {
                   void router.push("/settings/notifications");
                 }}
@@ -159,7 +174,7 @@ export default function Dashboardinfo() {
                 Notifications
               </p>
               <p
-                className="underline hover:cursor-pointer"
+                className="hover:cursor-pointer hover:font-bold"
                 onClick={() => {
                   void router.push("/settings/payments");
                 }}
