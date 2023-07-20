@@ -246,6 +246,30 @@ export const careSessionRouter = createTRPCRouter({
     }
   ),
 
+  getScheduledCareSessionByCaregiverId: protectedProcedure
+    .query(async ({ ctx }) => {
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          HC_SessionApplication: {
+            some: {
+              userId: ctx.session.user.id,
+              applicationStatus: "accepted",
+              HC_CareSession: {
+                status: "scheduled",
+              },
+            },
+          }
+        },
+      })
+      return careSessions;
+
+    }),
+
+
+
+
+
+
   getMonthyEarnings: protectedProcedure.query(async ({ ctx }) => {
     const careSessions = await ctx.prisma.hC_CareSession.findMany({
       where: {

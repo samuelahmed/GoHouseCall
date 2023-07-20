@@ -6,6 +6,12 @@ export default function Dashboardinfo() {
   const { data: userData } = api.userAPI.currentUser.useQuery();
   const { data: scheduledSessions } =
     api.careSessionAPI.getScheduledCareSessionsByUserId.useQuery();
+
+  const { data: caregiverScheduledSessions } =
+    api.careSessionAPI.getScheduledCareSessionByCaregiverId.useQuery();
+
+  console.log(caregiverScheduledSessions);
+
   const { data: earnings } = api.careSessionAPI.getMonthyEarnings.useQuery();
   const { data: hoursOfCare } =
     api.careSessionAPI.getTotalMonthlyHoursOfCare.useQuery();
@@ -32,41 +38,86 @@ export default function Dashboardinfo() {
             <CardContent className="h-full pb-20">
               <div className="h-full overflow-auto">
                 <div className="space-y-2">
-                  {scheduledSessions
-                    ?.filter(
-                      (session) =>
-                        session.date &&
-                        session.date.getTime() >= today.setHours(0, 0, 0, 0)
-                    )
-                    .sort(
-                      (a, b) =>
-                        (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0)
-                    )
-                    .map((session) => (
-                      <div
-                        key={session.id}
-                        className="flex h-12 items-center justify-around space-x-4 rounded-sm border px-2 text-center"
-                      >
-                        <div
-                          onClick={() => {
-                            void router.push(`/careSession/${session.id}`);
-                          }}
-                          className="hover:cursor-pointer hover:font-bold"
-                        >
-                          {" "}
-                          {session.title}{" "}
-                        </div>
-                        <div>
-                          {session.date
-                            ? session.date.toLocaleDateString("en-US", {
-                                month: "numeric",
-                                day: "numeric",
-                              })
-                            : ""}
-                        </div>
-                        <div> {session.startTime} </div>
-                      </div>
-                    ))}
+                  {userData?.type === "patient" && (
+                    <>
+                      {scheduledSessions
+                        ?.filter(
+                          (session) =>
+                            session.date &&
+                            session.date.getTime() >= today.setHours(0, 0, 0, 0)
+                        )
+                        .sort(
+                          (a, b) =>
+                            (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0)
+                        )
+                        .map((session) => (
+                          <div
+                            key={session.id}
+                            className="flex h-12 items-center justify-around space-x-4 rounded-sm border px-2 text-center"
+                          >
+                            <div
+                              onClick={() => {
+                                void router.push(`/careSession/${session.id}`);
+                              }}
+                              className="hover:cursor-pointer hover:font-bold"
+                            >
+                              {" "}
+                              {session.title}{" "}
+                            </div>
+                            <div>
+                              {session.date
+                                ? session.date.toLocaleDateString("en-US", {
+                                    month: "numeric",
+                                    day: "numeric",
+                                  })
+                                : ""}
+                            </div>
+                            <div> {session.startTime} </div>
+                            <div> {session.duration} hours</div>{" "}
+                          </div>
+                        ))}
+                    </>
+                  )}
+                  {userData?.type === "caregiver" && (
+                    <>
+                      {caregiverScheduledSessions
+                        ?.filter(
+                          (session) =>
+                            session.date &&
+                            session.date.getTime() >= today.setHours(0, 0, 0, 0)
+                        )
+                        .sort(
+                          (a, b) =>
+                            (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0)
+                        )
+                        .map((session) => (
+                          <div
+                            key={session.id}
+                            className="flex h-14 items-center justify-around space-x-4 rounded-sm border px-2 text-center"
+                          >
+                            <div
+                              onClick={() => {
+                                void router.push(`/careSession/${session.id}`);
+                              }}
+                              className="hover:cursor-pointer hover:font-bold overflow-hidden"
+                            >
+                              {session.title}{" "}
+                            </div>
+                            <div>
+                              {session.date
+                                ? session.date.toLocaleDateString("en-US", {
+                                    month: "numeric",
+                                    day: "numeric",
+                                  })
+                                : ""}
+                            </div>
+                            <div> {session.startTime} </div>
+                            <div className="hidden md:block"> {session.duration} hours</div>
+                            <div className="hidden md:block"> ${session.total} </div>
+                          </div>
+                        ))}
+                    </>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -114,7 +165,6 @@ export default function Dashboardinfo() {
                 {monthlySessionInfo?.scheduledSessions}
               </p>
 
-
               {userData?.type === "patient" && (
                 <p
                   onClick={() => {
@@ -130,8 +180,6 @@ export default function Dashboardinfo() {
               )}
 
               {/* add caregiver verison - applied session */}
-
-              
             </CardContent>
           </Card>
         </div>
