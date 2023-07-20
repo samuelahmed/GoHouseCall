@@ -6,24 +6,27 @@ export default function Dashboardinfo() {
   const { data: userData } = api.userAPI.currentUser.useQuery();
   const { data: scheduledSessions } =
     api.careSessionAPI.getScheduledCareSessionsByUserId.useQuery();
-
   const { data: caregiverScheduledSessions } =
     api.careSessionAPI.getScheduledCareSessionByCaregiverId.useQuery();
-
-  console.log(caregiverScheduledSessions);
-
-  const { data: earnings } = api.careSessionAPI.getMonthyEarnings.useQuery();
   const { data: hoursOfCare } =
     api.careSessionAPI.getTotalMonthlyHoursOfCare.useQuery();
   const { data: monthlySessionInfo } =
     api.careSessionAPI.getMonthlySessionInfo.useQuery();
+    const { data: caregiverMonthlyEarnings} = api.careSessionAPI.getCaregiverMonthlyEarnings.useQuery();
 
-  console.log(monthlySessionInfo);
+    const { data: caregiverMonthlyCompletedSessions } = api.careSessionAPI.getCaregiverMonthlyCompletedSessions.useQuery();
+    const { data: caregiverMonthlyAppliedSessions } = api.careSessionAPI.getCaregiverMonthlyAppliedSessions.useQuery();
+    const { data: caregiverMonthlyScheduledSessions } = api.careSessionAPI.getCaregiverMonthlyScheduledSessions.useQuery();
+
+    console.log(caregiverMonthlyScheduledSessions)
+
+
+
   const today = new Date(); // Get today's date
   const thisMonthName = new Intl.DateTimeFormat("en-US", {
     month: "long",
   }).format(today); // Get month name
-  // console.log(thisMonthName.format(today))
+
 
   const router = useRouter();
   return (
@@ -130,19 +133,62 @@ export default function Dashboardinfo() {
               <CardTitle>{thisMonthName} Overview</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
+
+
+              {/* Caregiver Monthly Info */}
               {userData?.type === "caregiver" && (
+                <>
+                {/* //need to create route/ */}
                 <p className="pb-2 text-lg hover:cursor-pointer hover:font-bold">
                   Total Earnings:{" "}
-                  <span className="">${earnings?.earnings}</span>
+                  <span className="">${caregiverMonthlyEarnings?.earnings}</span>
                 </p>
+
+              <p
+                onClick={() => {
+                  void router.push("/sessions");
+                }}
+                className="hover:cursor-pointer hover:font-bold"
+              >
+                <span className="">Completed Sessions</span>:{" "}
+                {caregiverMonthlyCompletedSessions}
+              </p>
+
+              <p
+                onClick={() => {
+                  //add filter to only show completed sessions
+                  void router.push("/sessions");
+                }}
+                className="hover:cursor-pointer hover:font-bold"
+              >
+                <span className="">Scheduled Sessions</span>:{" "}
+                {caregiverMonthlyScheduledSessions}
+              </p>
+
+                <p
+                  onClick={() => {
+                    void router.push("/sessions");
+                  }}
+                  className="hover:cursor-pointer hover:font-bold"
+                >
+                  Applied Sessions:{" "}
+                  <span className="  hover:cursor-pointer">
+                    {caregiverMonthlyAppliedSessions}{" "}
+                  </span>
+                </p>
+                </>
               )}
-              {/* onClick route to all completed sessions for month */}
+
+
+
+
+              {/* Patient Monthly Info */}
               {userData?.type === "patient" && (
+                <>
                 <p className="pb-2 text-lg hover:cursor-pointer hover:font-bold">
                   Total Care:{" "}
                   <span className="">{hoursOfCare?.hoursOfCare} Hours</span>
                 </p>
-              )}
 
               <p
                 onClick={() => {
@@ -165,7 +211,6 @@ export default function Dashboardinfo() {
                 {monthlySessionInfo?.scheduledSessions}
               </p>
 
-              {userData?.type === "patient" && (
                 <p
                   onClick={() => {
                     void router.push("/sessions");
@@ -177,6 +222,7 @@ export default function Dashboardinfo() {
                     {monthlySessionInfo?.createdSessions}{" "}
                   </span>
                 </p>
+                </>
               )}
 
               {/* add caregiver verison - applied session */}

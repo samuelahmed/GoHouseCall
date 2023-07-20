@@ -197,6 +197,7 @@ export const careSessionRouter = createTRPCRouter({
       return careSessionsWithApplicationStatus;
     }),
 
+  //for patient
   getCareSessionsByUserId: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -221,6 +222,7 @@ export const careSessionRouter = createTRPCRouter({
       return careSessions;
     }),
 
+  //for patient
   getScheduledCareSessionsByUserId: protectedProcedure.query(
     async ({ ctx }) => {
       const careSessions = await ctx.prisma.hC_CareSession.findMany({
@@ -246,8 +248,9 @@ export const careSessionRouter = createTRPCRouter({
     }
   ),
 
-  getScheduledCareSessionByCaregiverId: protectedProcedure
-    .query(async ({ ctx }) => {
+  //for caregiver
+  getScheduledCareSessionByCaregiverId: protectedProcedure.query(
+    async ({ ctx }) => {
       const careSessions = await ctx.prisma.hC_CareSession.findMany({
         where: {
           HC_SessionApplication: {
@@ -258,18 +261,14 @@ export const careSessionRouter = createTRPCRouter({
                 status: "scheduled",
               },
             },
-          }
+          },
         },
-      })
+      });
       return careSessions;
+    }
+  ),
 
-    }),
-
-
-
-
-
-
+  //for patient
   getMonthyEarnings: protectedProcedure.query(async ({ ctx }) => {
     const careSessions = await ctx.prisma.hC_CareSession.findMany({
       where: {
@@ -292,6 +291,7 @@ export const careSessionRouter = createTRPCRouter({
     };
   }),
 
+  //for patient
   getTotalMonthlyHoursOfCare: protectedProcedure.query(async ({ ctx }) => {
     const careSessions = await ctx.prisma.hC_CareSession.findMany({
       where: {
@@ -313,37 +313,136 @@ export const careSessionRouter = createTRPCRouter({
       hoursOfCare,
     };
   }),
-  
 
-  // getMonthyEarnings: protectedProcedure.query(async ({ ctx }) => {
-  //   const careSessions = await ctx.prisma.hC_CareSession.findMany({
-  //     where: {
-  //       userId: ctx.session.user.id,
-  //       status: "completed",
-  //     },
-  //     select: {
-  //       total: true,
-  //     },
-  //   });
-  
-  //   const completedSessions = careSessions.length;
-  //   const appliedSessions = /* Retrieve count of applied sessions */;
-  //   const createdSessions = /* Retrieve count of created sessions */;
-  
-  //   const earnings = careSessions.reduce((acc, curr) => {
-  //     if (!curr.total) return acc;
-  
-  //     return acc + curr.total;
-  //   }, 0);
-  
-  //   return {
-  //     earnings,
-  //     completedSessions,
-  //     appliedSessions,
-  //     createdSessions,
-  //   };
-  // }),
+  //for caregiver
+  getCaregiverMonthlyEarnings: protectedProcedure.query(async ({ ctx }) => {
+    const thisMonth = new Date().getMonth();
 
+    const careSessions = await ctx.prisma.hC_CareSession.findMany({
+      where: {
+        HC_SessionApplication: {
+          some: {
+            userId: ctx.session.user.id,
+            applicationStatus: "accepted",
+            HC_CareSession: {
+              status: "completed",
+            },
+          },
+        },
+      },
+      select: {
+        total: true,
+        date: true,
+      },
+    });
+
+    const completedSession = careSessions.filter((session) => {
+      if (session.date && session.date.getMonth() === thisMonth) {
+        return true;
+      }
+      return false;
+    });
+
+    const earnings = completedSession.reduce((acc, curr) => {
+      if (!curr.total) return acc;
+
+      return acc + curr.total;
+    }, 0);
+
+    return {
+      earnings,
+    };
+  }),
+
+  //for caregiver
+  getCaregiverMonthlyCompletedSessions: protectedProcedure.query(
+    async ({ ctx }) => {
+      const thisMonth = new Date().getMonth();
+
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          HC_SessionApplication: {
+            some: {
+              userId: ctx.session.user.id,
+              applicationStatus: "accepted",
+              HC_CareSession: {
+                status: "completed",
+              },
+            },
+          },
+        },
+      });
+
+      const completedSession = careSessions.filter((session) => {
+        if (
+          session.date &&
+          session.date.getMonth() === thisMonth &&
+          session.status === "completed"
+        ) {
+          return true;
+        }
+        return false;
+      });
+      return completedSession.length;
+    }
+  ),
+
+  //for caregiver
+  getCaregiverMonthlyScheduledSessions: protectedProcedure.query(
+    async ({ ctx }) => {
+      const thisMonth = new Date().getMonth();
+
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          HC_SessionApplication: {
+            some: {
+              userId: ctx.session.user.id,
+              applicationStatus: "accepted",
+              HC_CareSession: {
+                status: "scheduled",
+              },
+            },
+          },
+        },
+      });
+
+      const scheduledSession = careSessions.filter((session) => {
+        if (session.date && session.date.getMonth() === thisMonth) {
+          return true;
+        }
+        return false;
+      });
+      return scheduledSession.length;
+    }
+  ),
+
+  //for caregiver
+  getCaregiverMonthlyAppliedSessions: protectedProcedure.query(
+    async ({ ctx }) => {
+      const thisMonth = new Date().getMonth();
+
+      const careSessions = await ctx.prisma.hC_CareSession.findMany({
+        where: {
+          HC_SessionApplication: {
+            some: {
+              userId: ctx.session.user.id,
+              applicationStatus: "pending",
+            },
+          },
+        },
+      });
+
+      const appliedSessions = careSessions.filter((session) => {
+        if (session.date && session.date.getMonth() === thisMonth) {
+          return true;
+        }
+        return false;
+      });
+      return appliedSessions.length;
+    }
+  ),
+
+  //for patient
   getMonthlySessionInfo: protectedProcedure.query(async ({ ctx }) => {
     const thisMonth = new Date().getMonth();
 
@@ -358,48 +457,44 @@ export const careSessionRouter = createTRPCRouter({
     });
 
     const completedSession = careSessions.filter((session) => {
-      if (session.date && session.date.getMonth() === thisMonth && session.status === "completed") {
+      if (
+        session.date &&
+        session.date.getMonth() === thisMonth &&
+        session.status === "completed"
+      ) {
         return true;
       }
       return false;
     });
 
-      const scheduledSession = careSessions.filter((session) => {
-        if (session.date && session.date.getMonth() === thisMonth && session.status === "scheduled") {
-          return true;
-        }
-        return false;
-      });
+    const scheduledSession = careSessions.filter((session) => {
+      if (
+        session.date &&
+        session.date.getMonth() === thisMonth &&
+        session.status === "scheduled"
+      ) {
+        return true;
+      }
+      return false;
+    });
 
-      const createdSession = careSessions.filter((session) => {
-        if (session.date && session.date.getMonth()) {
-          return true;
-        }
-        return false;
-      });
+    const createdSession = careSessions.filter((session) => {
+      if (session.date && session.date.getMonth()) {
+        return true;
+      }
+      return false;
+    });
 
-      const completedSessions = completedSession.length;
-      const scheduledSessions = scheduledSession.length;
-      const createdSessions = createdSession.length;
+    const completedSessions = completedSession.length;
+    const scheduledSessions = scheduledSession.length;
+    const createdSessions = createdSession.length;
 
-      return {
-        completedSessions,
-        scheduledSessions,
-        createdSessions,
-      };
+    return {
+      completedSessions,
+      scheduledSessions,
+      createdSessions,
+    };
   }),
-
-
-
-
-
-  // getMonthlyCompletedSessions: protectedProcedure.query(async ({ ctx }) => {
-  //   const careSessions = await ctx.prisma.hC_CareSession.findMany({
-  //     where: {
-  //       userId: ctx.session.user.id,
-  //       status: "completed",
-  //     },
-  //   });
 
   getCareSessionById: protectedProcedure
     .input(z.object({ id: z.string() }))
