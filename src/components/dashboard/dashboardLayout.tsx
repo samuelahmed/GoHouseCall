@@ -9,8 +9,7 @@ interface DashboardProps {
 
 export default function DashboardLayout({ children }: DashboardProps) {
     // const { data: sessionData } = useSession();
-    const { data: userData } = api.userAPI.me.useQuery();
-
+    const { data: userData } = api.userAPI.currentUser.useQuery();
 
 
   return (
