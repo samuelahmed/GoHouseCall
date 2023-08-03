@@ -3,7 +3,7 @@ import Head from "next/head";
 import SettingsLayout from "~/components/settings/settingsLayout";
 import { Separator } from "~/components/ui/separator";
 import { PatientProfileForm } from "~/components/settings/patientProfileForm";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNewUsers";
 import { CaregiverProfileForm } from "~/components/settings/caregiverProfileForm";
 import { api } from "~/utils/api";
@@ -12,10 +12,9 @@ import { ImageUpload } from "~/components/s3/imageUpload";
 export const getServerSideProps = RouteSignedOutAndNewUsers("/offline/settings");
 
 const Profile: NextPage = () => {
-  const { data: sessionData } = useSession();
-  console.log(sessionData);
+
+  // const { data: sessionData } = useSession();
   const { data: user } = api.settingsAPI.userHC_Account.useQuery();
-  console.log(user?.type);
 
   return (
     <>
