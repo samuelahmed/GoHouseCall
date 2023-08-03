@@ -8,6 +8,7 @@ import { RouteSignedOutAndNewUsers } from "~/components/auth/routeSignedOutAndNe
 export const getServerSideProps = RouteSignedOutAndNewUsers("/");
 
 const Dashboard: NextPage = () => {
+
   const { data: sessionData } = useSession();
 
   return (

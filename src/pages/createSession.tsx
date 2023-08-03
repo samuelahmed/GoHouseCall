@@ -3,19 +3,17 @@ import Head from "next/head";
 import { CreateSessionForm } from "~/components/createSession/createSessionForm";
 import CreateSessionLayout from "~/components/createSession/createSessionLayout";
 import GoogleMaps from "~/components/maps/map";
-
 import { useState } from "react";
+
 //Who should be able to access this page?
 
-const Sessions: NextPage = () => {
+const CreateSessions: NextPage = () => {
+  
   const [loadedAddress, setLoadedAddress] = useState("");
 
   function CallBack(address: string) {
     setLoadedAddress(address);
-    console.log(loadedAddress, " from callback")
   }
-
-  console.log(loadedAddress, " from create session page")
 
   return (
     <>
@@ -33,13 +31,11 @@ const Sessions: NextPage = () => {
           </CreateSessionLayout>
         </div>
         <div className="flex h-screen max-h-60vh w-full items-center justify-center px-4 py-4 ">
-          <GoogleMaps
-            googleAddress={loadedAddress}
-          />
+          <GoogleMaps googleAddress={loadedAddress} />
         </div>
       </div>
     </>
   );
 };
 
-export default Sessions;
+export default CreateSessions;

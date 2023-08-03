@@ -11,8 +11,6 @@ export const getServerSideProps = RouteSignedInUser("/");
 const Register: NextPage = () => {
   const [imgLoaded, setImgLoaded] = useState(false);
 
-  // console.log(imgLoaded);
-
   return (
     <>
       <Head>
