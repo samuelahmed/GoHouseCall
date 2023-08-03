@@ -26,7 +26,7 @@ const CareSession: NextPage = () => {
 
   const currentUserType = currentUser?.type;
   const currentUserId = currentUser?.userId;
-  console.log(currentUserId)
+
   return (
     <>
       <Head>
@@ -70,8 +70,9 @@ const CareSession: NextPage = () => {
               <div className="w-full">
                 <div className="px-4 py-4">
                   <PotentialCaregiverTable
-                  currentUserId={currentUserId as string}
-                  sessionId={currentSession?.id} />
+                    currentUserId={currentUserId as string}
+                    sessionId={currentSession?.id}
+                  />
                 </div>
               </div>
             )}
