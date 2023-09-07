@@ -11,7 +11,7 @@ Marketplace to connect patients and caregivers for home care services.
 - MySQL db hosted by planetscale
 - Node.js with TRPC for internal APIs
 - Live messaging with Pusher websockets
-- Login with Google OAuth or credentials with bcrypt hashing
+- Login with Google OAuth or credentials hashed with bcrypt lib
 
 ## Features
 App 
