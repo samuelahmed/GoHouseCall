@@ -18,7 +18,7 @@ Patients
 - [x] Use Google Maps API to get address
 - [x] Accept caregivers
 - [x] Message caregivers
-- [ ] Mark care sessions as complete
+- [ ] Set care sessions as complete
 - [ ] Pay caregivers
 - [ ] Rate caregivers
 
@@ -29,6 +29,6 @@ Caregivers
 - [x] Apply to care sessions
 - [x] View patient profile
 - [x] Message patients
-- [ ] Mark care sessions as complete
+- [ ] Set care sessions as complete
 - [ ] Receive payments
 - [ ] Receive ratings
