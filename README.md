@@ -5,11 +5,11 @@ Marketplace to connect patients and caregivers for home care services.
 - TypeScript
 - Next.js React build
 - Hosted on Vercel
-- Node.js with TRPC APIs 
 - Google Maps APIs 
 - AWS S3 for image storage
 - Tailwind CSS for styling
 - MySQL db hosted by planetscale
+- Node.js with TRPC for internal APIs
 - Live messaging with Pusher websockets
 - Login with Google OAuth or credentials with bcrypt hashing
 
