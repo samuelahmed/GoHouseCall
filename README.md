@@ -2,8 +2,8 @@
 Marketplace to connect patients and caregivers for home care services.
 ## Features
 App 
-- [x] Create account 
-- [x] Login with credentials 
+- [] Create account 
+- [] Login with credentials 
 - [x] Login with Google OAuth
 - [x] Landing pages explaining the app
 - [x] Contact us page
