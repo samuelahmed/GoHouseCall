@@ -28,10 +28,11 @@ App
 - [x] Privacy policy page
 - [x] Terms of service page
 - [x] Login / logout on header 
+- [x] Email verification with Nodemailer
 
 Patients
 - [x] Create & update profile
-- [x] Upload profile picture (AWS S3)
+- [x] Upload profile picture 
 - [x] Create care sessions
 - [x] Use Google Maps API to get address
 - [x] Accept caregivers
@@ -43,7 +44,7 @@ Patients
 Caregivers
 - [x] Create account
 - [x] Create & update profile
-- [x] Upload profile picture (AWS S3)
+- [x] Upload profile picture 
 - [x] Search through patient created care sessions
 - [x] Apply to care sessions
 - [x] View patient profile
