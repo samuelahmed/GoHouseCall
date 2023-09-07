@@ -2,8 +2,8 @@
 Marketplace to connect patients and caregivers for home care services.
 ## Features
 App 
-- [] Create account 
-- [] Login with credentials 
+- [x] Create account 
+- [x] Login with credentials 
 - [x] Login with Google OAuth
 - [x] Landing pages explaining the app
 - [x] Contact us page
@@ -18,6 +18,9 @@ Patients
 - [x] Use Google Maps API to get address
 - [x] Accept caregivers
 - [x] Message caregivers
+- [ ] Mark care sessions as complete
+- [ ] Pay caregivers
+- [ ] Rate caregivers
 
 Caregivers
 - [x] Create account
@@ -26,3 +29,6 @@ Caregivers
 - [x] Apply to care sessions
 - [x] View patient profile
 - [x] Message patients
+- [ ] Mark care sessions as complete
+- [ ] Receive payments
+- [ ] Receive ratings
