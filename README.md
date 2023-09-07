@@ -1,28 +1,28 @@
-# Create T3 App
+# Go House Call
+Marketplace to connect patients and caregivers for home care services.
+## Features
+App 
+- [x] Create account 
+- [x] Login with credentials 
+- [x] Login with Google OAuth
+- [x] Landing pages explaining the app
+- [x] Contact us page
+- [x] About us page
+- [x] Privacy policy page
+- [x] Terms of service page
+- [x] Login / logout on header 
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Patients
+- [x] Create & update profile
+- [x] Create care sessions
+- [x] Use Google Maps API to get address
+- [x] Accept caregivers
+- [x] Message caregivers
 
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Caregivers
+- [x] Create account
+- [x] Create & update profile
+- [x] Search through patient created care sessions
+- [x] Apply to care sessions
+- [x] View patient profile
+- [x] Message patients
